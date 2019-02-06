@@ -29,6 +29,7 @@ import model.ui.RiskSubScene;
 * @version 1.0.0
 *
 */
+//aravind commmmmmmmmmit
 public class MainMenuViewManager
 {
 	private final static int WIDTH = 1024;
