@@ -2,6 +2,8 @@ package com.risk.model;
 
 import java.util.ArrayList;
 
+import com.risk.utility.Utilities;
+
 /**
  * This Country represents each country in the game. These countries are owned
  * by at most 1 player at a time. Some countries are interlinked with other
@@ -97,5 +99,34 @@ public class Country {
 	 */
 	public void setArmies(int armies) {
 		this.armies = armies;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+
+		// checking if both the object references to the same object.
+		if (this == obj)
+			return true;
+
+		// it checks if the argument is of the
+		// type country
+		if (obj == null || obj.getClass() != this.getClass())
+			return false;
+
+		// type casting of the argument.
+		Country country = (Country) obj;
+
+		// comparing the state of argument with
+		// the state of 'this' Object.
+		return (country.name == this.name);
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		Integer value = Utilities.getIntegerValue(this.name);
+		result = prime * result + ((value == null) ? 0 : value);
+		return result;
 	}
 }
