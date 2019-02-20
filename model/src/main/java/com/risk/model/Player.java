@@ -2,6 +2,8 @@ package com.risk.model;
 
 import java.util.ArrayList;
 
+import com.risk.utility.Utilities;
+
 /**
  * This class represents each player in the game. The players have a number of
  * armies with which they can participate in battles. Each player also has a set
@@ -138,5 +140,35 @@ public class Player {
 	 */
 	public void setContinents(ArrayList<Continent> continents) {
 		this.continents = continents;
+	}
+	
+	@Override
+	public boolean equals(Object obj) 
+	{ 
+	          
+	 // checking if both the object references refer to the same object. 
+	    if(this == obj) 
+	            return true; 
+	          
+	        // it checks if the argument is of the  
+	        // type player
+	        if(obj == null || obj.getClass()!= this.getClass()) 
+	            return false; 
+	          
+	        // type casting of the argument.  
+	        Player player = (Player) obj; 
+	          
+	        // comparing the state of argument with  
+	        // the state of 'this' Object. 
+	        return (player.name == this.name); 
+	    }
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		Integer value = Utilities.getIntegerValue(this.name);
+		result = prime * result + ((value == null) ? 0 : value);
+		return result;
 	}
 }

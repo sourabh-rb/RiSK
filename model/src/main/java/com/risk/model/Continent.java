@@ -2,6 +2,8 @@ package com.risk.model;
 
 import java.util.ArrayList;
 
+import com.risk.utility.Utilities;
+
 /**
  * This class represents the continents in the game. Each continent has a set of
  * countries that make up the continent. Each country should be a part of only
@@ -104,5 +106,34 @@ public class Continent {
 	 */
 	public void setControlValue(int controlValue) {
 		this.controlValue = controlValue;
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+
+		// checking if both the object references to the same object.
+		if (this == obj)
+			return true;
+
+		// it checks if the argument is of the
+		// type country
+		if (obj == null || obj.getClass() != this.getClass())
+			return false;
+
+		// type casting of the argument.
+		Continent continent = (Continent) obj;
+
+		// comparing the state of argument with
+		// the state of 'this' Object.
+		return (continent.name == this.name);
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		Integer value = Utilities.getIntegerValue(this.name);
+		result = prime * result + ((value == null) ? 0 : value);
+		return result;
 	}
 }
