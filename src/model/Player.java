@@ -20,12 +20,20 @@ public class Player {
 	private String name;
 	// Number of armies owned by the player
 	private int armies;
+	private int numberOfArmiesLeft;
+	public int getNumberOfArmiesLeft() {
+		return numberOfArmiesLeft;
+	}
+
+	public void setNumberOfArmiesLeft(int numberOfArmiesLeft) {
+		this.numberOfArmiesLeft = numberOfArmiesLeft;
+	}
 	// Number of cards owned by the player
 	private int cardExchangeCount;
 	// Types of cards owned by the player
 	private ArrayList<Card> cards;
 	// The countries that the player owns
-	private ArrayList<Country> countries;
+	private ArrayList<Country> countries =new ArrayList<Country>();
 	// The continents that the player owns
 	private ArrayList<Continent> continents;
 
