@@ -1,7 +1,7 @@
 /**
  * 
  */
-package controller.reinforcement;
+package controller.initialization;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -107,7 +107,6 @@ public class StartUpPhase {
 		setRandomCountriesForEach(listOfAllCountries, continentList, noOfPlayers,playerList);
 		
 		//Assigning an army to each of the countries of a particular player and calculating the remaining armies under each player
-		
 			for(int j=0;j<playerList.size();j++) {
 				 playerList.get(j).setNumberOfArmiesLeft(numberOfArmiesEach);
 				System.out.println("Player name: "+playerList.get(j).getName());
