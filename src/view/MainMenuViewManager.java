@@ -184,7 +184,7 @@ public class MainMenuViewManager
 			@Override
 			public void handle(ActionEvent event)
 			{
-				fileChooser.setTitle("Choose map to edit");
+				fileChooser.setTitle("Choose a map to edit");
 		        fileChooser.setInitialDirectory(new File(System.getProperty("user.dir")));
 		        fileChooser.getExtensionFilters().addAll(
 		        	     new FileChooser.ExtensionFilter("MAP Files", "*.map")
@@ -198,10 +198,10 @@ public class MainMenuViewManager
 			}
 		});
 		
-		
+		// Create a new map button to allow user create a new map file from scratch.
 		RiskButton createMapButton = new RiskButton("NEW MAP");
 		
-		HBox buttonBox = new HBox(20, createMapButton, editMapButton);
+		HBox buttonBox = new HBox(20, editMapButton, createMapButton);
 		buttonBox.setLayoutX(100);
 		buttonBox.setLayoutY(150);
 		
@@ -209,10 +209,12 @@ public class MainMenuViewManager
 		mapEditorSubScene.getPane().getChildren().add(buttonBox);
 	}
 	
+	/**
+	 * This method initiates the map editor view.
+	 * 
+	 */
 	private void openMapEditFile(File file)
 	{
-		System.out.println("File selected: " + file.getName());
-		
 		MapFileViewManager fileView = new MapFileViewManager(file);
 	}
 		 
