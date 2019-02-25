@@ -21,16 +21,16 @@ public class Fortification{
 	 * country that he owns to another if they are connected.
 	 *   
 	 * @param player Contains the details of the player.
-	 * @param fromcountry The country from which the army will be moved.
-	 * @param tocountry Thecountry to which the army will be moved.
+	 * @param fromCountry The country from which the army will be moved.
+	 * @param toCountry Thecountry to which the army will be moved.
 	 * @return true if the fortification was successful, else false.
 	 */
-	public boolean fortifyArmies(Player player, Country fromcountry,Country tocountry) {
+	public boolean fortifyArmies(Player player, Country fromCountry,Country toCountry) {
 		ArrayList<Country> playercountries = player.getCountries();
-		if(playercountries != null && playercountries.contains(fromcountry) && playercountries.contains(tocountry)) {
+		if(playercountries != null && playercountries.contains(fromCountry) && playercountries.contains(toCountry)) {
 			//Get the index of the countries that the user wants to involve in the fortification phase.
-			int i = playercountries.indexOf(fromcountry);
-			int j = playercountries.indexOf(tocountry);
+			int i = playercountries.indexOf(fromCountry);
+			int j = playercountries.indexOf(toCountry);
 			//Reduce one army from the country the user chose.
 			Country country1 = playercountries.get(i);
 			country1.setArmies(country1.getArmies()-1);
@@ -48,5 +48,4 @@ public class Fortification{
 		}
 		return false;
 	}
-	
 }
