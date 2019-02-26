@@ -22,7 +22,7 @@ import model.Player;
  *
  */
 public class StartUpPhase {
-	static int noOfPlayers = 3;
+	static int noOfPlayers = 2;
 
 	/**
 	 * 
@@ -32,14 +32,17 @@ public class StartUpPhase {
 		Player player1 = new Player();
 		Player player2 = new Player();
 		Player player3 = new Player();
+		Player player4 = new Player();
 		player1.setName("Aravind");
 		player2.setName("charan");
 		player3.setName("shivani");
-		
+		player4.setName("Sourabh");
+
 		ArrayList<Player> playerList = new ArrayList<Player>();
 		playerList.add(player1);
 		playerList.add(player2);
 		playerList.add(player3);
+		// playerList.add(player4);
 
 		Continent continent1 = new Continent();
 		Country country1 = new Country();
@@ -50,6 +53,10 @@ public class StartUpPhase {
 		country3.setName("pakistan");
 		Country country7 = new Country();
 		country7.setName("japan");
+		Country country8 = new Country();
+		country8.setName("Iran");
+		Country country9 = new Country();
+		country9.setName("Iraq");
 
 		Continent continent2 = new Continent();
 		Country country4 = new Country();
@@ -66,6 +73,8 @@ public class StartUpPhase {
 		countryList.add(country2);
 		countryList.add(country3);
 		countryList.add(country7);
+		countryList.add(country8);
+		countryList.add(country9);
 		continent1.setCountriesComprised(countryList);
 
 		ArrayList<Country> europeCountryList = new ArrayList<Country>();
@@ -73,7 +82,7 @@ public class StartUpPhase {
 		europeCountryList.add(country5);
 		europeCountryList.add(country6);
 		continent2.setCountriesComprised(europeCountryList);
-		
+
 		continentList.add(continent1);
 		continentList.add(continent2);
 
@@ -82,55 +91,66 @@ public class StartUpPhase {
 	}
 
 	/**
+	 * This function takes care of initial setup of the game based on the input given by the user. It provides certain number of armies to each player and certain countries in the selected map.
+	 * 
+	 * 
+	 * @param playerList player object has all the player details
 	 * @param player player object has all the player details
+	 * @param player player object has all the player details
+	 * 
+	 * 
 	 */
-	public void initialSetUp(int noOfPlayers, ArrayList<Player> playerList, ArrayList<Continent> continentList,ArrayList<Country> countryList) {
+	public void initialSetUp(int noOfPlayers, ArrayList<Player> playerList, ArrayList<Continent> continentList,
+			ArrayList<Country> countryList) {
 		noOfPlayers = playerList.size();
 		int numberOfArmiesEach = 0;
 		int noOfTotalCountries = 0;
 		ArrayList<Country> listOfAllCountries = new ArrayList<Country>();
-		System.out.println("Number of continents: "+continentList.size());
-		for(int i=0;i<continentList.size();i++) {
-			for(int j=0;j<continentList.get(i).getCountriesComprised().size();j++) {
+		System.out.println("Number of continents: " + continentList.size());
+		for (int i = 0; i < continentList.size(); i++) {
+			for (int j = 0; j < continentList.get(i).getCountriesComprised().size(); j++) {
 				listOfAllCountries.add(continentList.get(i).getCountriesComprised().get(j));
-				noOfTotalCountries = noOfTotalCountries+1;
+				noOfTotalCountries = noOfTotalCountries + 1;
 			}
 		}
-		System.out.println("No Of total Countries"+noOfTotalCountries);
-		 numberOfArmiesEach = calculateNoOfArmies(noOfPlayers);
-		 //looping through all players to give equal number of armies
-		 for (int i = 0; i < playerList.size(); i++) {
-			 playerList.get(i).setArmies(numberOfArmiesEach);
-			 System.out.println(playerList.get(i).getArmies());
-		 }
-	
-		setRandomCountriesForEach(listOfAllCountries, continentList, noOfPlayers,playerList);
-		
-		//Assigning an army to each of the countries of a particular player and calculating the remaining armies under each player
-			for(int j=0;j<playerList.size();j++) {
-				 playerList.get(j).setNumberOfArmiesLeft(numberOfArmiesEach);
-				System.out.println("Player name: "+playerList.get(j).getName());
-				System.out.println(playerList.get(j).getName()+" is assigned with " +numberOfArmiesEach +" armies" );
-				for(int k=0;k<playerList.get(j).getCountries().size();k++) {
-					playerList.get(j).getCountries().get(k).setArmies(1);
-					System.out.println("1 army given to "+playerList.get(j).getCountries().get(k).getName());
-					int previousNumberOfArmiesLeft = playerList.get(j).getNumberOfArmiesLeft();
-					playerList.get(j).setNumberOfArmiesLeft(--previousNumberOfArmiesLeft);
-					System.out.println("No of armies left"+playerList.get(j).getNumberOfArmiesLeft());
-				}
-				
-			}
-			
+		System.out.println("No Of total Countries" + noOfTotalCountries);
+		numberOfArmiesEach = calculateNoOfArmies(noOfPlayers);
+		// looping through all players to give equal number of armies
+		for (int i = 0; i < playerList.size(); i++) {
+			playerList.get(i).setArmies(numberOfArmiesEach);
+			System.out.println(playerList.get(i).getArmies());
 		}
-		
+
+		setRandomCountriesForEach(listOfAllCountries, continentList, noOfPlayers, playerList);
+
+		// Assigning an army to each of the countries of a particular player and
+		// calculating the remaining armies under each player
+		for (int j = 0; j < playerList.size(); j++) {
+			playerList.get(j).setNumberOfArmiesLeft(numberOfArmiesEach);
+			System.out.println("Player name: " + playerList.get(j).getName());
+			System.out.println(playerList.get(j).getName() + " is assigned with " + numberOfArmiesEach + " armies");
+			for (int k = 0; k < playerList.get(j).getCountries().size(); k++) {
+				playerList.get(j).getCountries().get(k).setArmies(1);
+				System.out.println("1 army given to " + playerList.get(j).getCountries().get(k).getName());
+				int previousNumberOfArmiesLeft = playerList.get(j).getNumberOfArmiesLeft();
+				playerList.get(j).setNumberOfArmiesLeft(--previousNumberOfArmiesLeft);
+				System.out.println("No of armies left" + playerList.get(j).getNumberOfArmiesLeft());
+			}
+
+		}
+
+	}
 
 	/**
-	 * @param noOfPlayers
+	 * This function is used to calculate number of armies each player gets and it
+	 * is dependent on number of players wants to play the game
+	 * 
+	 * @param noOfPlayers Number of players playing the game
 	 *
 	 */
 	public int calculateNoOfArmies(int noOfPlayers) {
 		int noOfArmies = 0;
-		
+
 		if (noOfPlayers == 2)
 			noOfArmies = 10;
 		else if (noOfPlayers == 3)
@@ -144,48 +164,64 @@ public class StartUpPhase {
 		return noOfArmies;
 	}
 
-	public void setRandomCountriesForEach(ArrayList<Country> listOfAllCountries,ArrayList<Continent> continentList, int noOfPlayers,ArrayList<Player> playerList) {
-	
-		for(int j=0;j<listOfAllCountries.size();j++) {
-			ArrayList<Country> randomCountryList = new ArrayList<Country>();
-			int randomPlayer = (int) (Math.random() * playerList.size());
-			System.out.println("Random Number: "+randomPlayer);
-			//System.out.println(playerList.get(randomPlayer).getCountries());
-			 playerList.get(randomPlayer).getCountries().add(listOfAllCountries.get(j));
-			playerList.get(randomPlayer).setCountries(playerList.get(randomPlayer).getCountries());
-		}
-		/*
-		for(int i=0;i<noOfPlayers-1;i++) {
-			for(int j=0;j<listOfAllCountries.size()/noOfPlayers-1;j++) {
+	public void setRandomCountriesForEach(ArrayList<Country> listOfAllCountries, ArrayList<Continent> continentList,
+			int noOfPlayers, ArrayList<Player> playerList) {
 		
-				int randomCountry = (int) (Math.random() * listOfAllCountries.size());
-				
+		/*
+		 * for(int j=0;j<listOfAllCountries.size();j++) { ArrayList<Country>
+		 * randomCountryList = new ArrayList<Country>(); int randomPlayer = (int)
+		 * (Math.random() * playerList.size());
+		 * System.out.println("Random Number: "+randomPlayer);
+		 * //System.out.println(playerList.get(randomPlayer).getCountries());
+		 * playerList.get(randomPlayer).getCountries().add(listOfAllCountries.get(j));
+		 * playerList.get(randomPlayer).setCountries(playerList.get(randomPlayer).
+		 * getCountries()); }
+		 */
+		 
+		ArrayList<Integer> allCountryIndices = new ArrayList<Integer>();
+		for (Integer i = 0; i < listOfAllCountries.size(); i++) {
+			allCountryIndices.add(i);
+		}
+		ArrayList<Integer> randomCountryIndices = new ArrayList<Integer>();
+		for (int i = 0; i < noOfPlayers; i++) {
+			int noOfEqualCountries = listOfAllCountries.size() / noOfPlayers;
+			Integer randomCountry;
+			for (int j = 0; j < noOfEqualCountries; j++) {
+				int countryPresent;
+				do {
+					countryPresent = 0;
+					randomCountry = (int) (Math.random() * listOfAllCountries.size());
+					System.out.println("Random Country index: " + randomCountry);
+					if (randomCountryIndices.contains(randomCountry)) {
+						countryPresent = 1;
+					}
+				} while (countryPresent == 1);
+				randomCountryIndices.add(randomCountry);
+				System.out.println("Random countries assigned - " + randomCountryIndices.toString());
+				allCountryIndices.remove(randomCountry);
+				System.out.println("countries yet to be assigned - " + allCountryIndices.toString());
 				playerList.get(i).getCountries().add(listOfAllCountries.get(randomCountry));
 				playerList.get(i).setCountries(playerList.get(i).getCountries());
 			}
 		}
-	
-		HashSet hs=new HashSet();
-		while(hs.size()<listOfAllCountries.size()){
-		int randomCountry=(int)(Math.random()*listOfAllCountries.size());
-		hs.add(randomCountry);
+		//Assigning left over countries to random players
+		for (int i = 0; i < allCountryIndices.size(); i++) {
+			int randomPlayer = (int) (Math.random() * playerList.size());
+			System.out.println("Random Player: " + randomPlayer);
+			playerList.get(randomPlayer).getCountries().add(listOfAllCountries.get(allCountryIndices.get(i)));
+			playerList.get(randomPlayer).setCountries(playerList.get(randomPlayer).getCountries());
 		}
-		Iterator it=hs.iterator();
-		while(it.hasNext()){
-		System.out.println(it.next());
-		}
-		*/
-		for(int i=0;i<playerList.size();i++) {
-			System.out.println("Player Name: "+playerList.get(i).getName()+" and his countries below");
-			for(int j=0;j<playerList.get(i).getCountries().size();j++) {
+
+		// Display owned countries of each player including player name
+		for (int i = 0; i < playerList.size(); i++) {
+			System.out.println("Player Name: " + playerList.get(i).getName() + " and his countries below");
+			for (int j = 0; j < playerList.get(i).getCountries().size(); j++) {
 				System.out.println(playerList.get(i).getCountries().get(j).getName());
 			}
 		}
-		
-		
-	
+
 	}
-   
+
 	/**
 	 * @param args
 	 */
