@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import model.Country;
 import model.Player;
+import utilities.Utilities;
 
 /**
  * This class represents the reinforcement phase of the game. It contains methods that will be required by the 
@@ -41,6 +42,7 @@ public class Reinforcement{
 		}
 		// Update the number of armies the player owns.
 		player.setArmies(player.getArmies()+armies);
+		Utilities.gameLog("Player: "+player.getName()+" || Stage: Reinforcement Start || Number of armies given: "+armies);
 		return armies;
 	}
 	
@@ -52,6 +54,7 @@ public class Reinforcement{
 	 * @return returns true if the number of armies is successfully updated else false.
 	 */
 	public boolean reinforceArmies(Player player,Country country) {
+		Utilities.gameLog("Player: "+player.getName()+"|| Stage: Reinforcement || Country reinforced: "+ country.getName());
 		ArrayList<Country> countries = player.getCountries();
 		if(countries != null && countries.contains(country)) {
 			int i = countries.indexOf(country);
@@ -60,8 +63,10 @@ public class Reinforcement{
 			countries.remove(i);
 			countries.add(country1);
 			player.setCountries(countries);
+			Utilities.gameLog("Player: "+player.getName()+"|| Country reinforced");
 			return true;
 		}else {
+			Utilities.gameLog("Player: "+player.getName()+"|| Country could not be reinforced");
 		return false;
 		}
 	}

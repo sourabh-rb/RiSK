@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import model.Country;
 import model.Player;
+import utilities.Utilities;
 
 /**
  * This class represents the fortification phase of the game. It contains methods that will be required by the 
@@ -26,6 +27,8 @@ public class Fortification{
 	 * @return true if the fortification was successful, else false.
 	 */
 	public boolean fortifyArmies(Player player, Country fromCountry,Country toCountry) {
+		
+		Utilities.gameLog("Player: "+player.getName()+"|| Stage: Fortification || Countries involved: "+fromCountry+","+toCountry);
 		ArrayList<Country> playercountries = player.getCountries();
 		if(playercountries != null && playercountries.contains(fromCountry) && playercountries.contains(toCountry)) {
 			//Get the index of the countries that the user wants to involve in the fortification phase.
@@ -44,8 +47,10 @@ public class Fortification{
 			playercountries.add(country2);
 			//Update the player with the new values.
 			player.setCountries(playercountries);
+			Utilities.gameLog("Player: "+player.getName()+"|| Countries fortified");
 			return true;
 		}
+		Utilities.gameLog("Player: "+player.getName()+"|| Countries could not be fortified");
 		return false;
 	}
 }
