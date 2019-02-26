@@ -18,6 +18,9 @@ public class Country {
 	private String name;
 	// Name of player that owns the country
 	private Player owner;
+	
+
+
 	// List of all the adjacent connected countries
 	private ArrayList<Country> neighborCounties;
 	// Number of armies that occupy the country
@@ -120,12 +123,9 @@ public class Country {
 		return (country.name == this.name);
 	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		Integer value = Utilities.getIntegerValue(this.name);
-		result = prime * result + ((value == null) ? 0 : value);
-		return result;
-	}
+	
+	  @Override public int hashCode() { final int prime = 31; int result = 1;
+	  Integer value = Utilities.getIntegerValue(this.name); result = prime * result
+	  + ((value == null) ? 0 : value); return result; }
+	 
 }
