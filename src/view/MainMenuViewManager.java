@@ -218,6 +218,7 @@ public class MainMenuViewManager
 		MapFileViewManager fileView = new MapFileViewManager(file);
 	}
 		 
+	
 	/**
 	 * This method creates and initializes PLAY Button.
 	 * 

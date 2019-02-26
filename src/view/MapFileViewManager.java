@@ -7,6 +7,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Optional;
 
+import controller.Graph_test;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -95,8 +96,8 @@ public class MapFileViewManager
 		addCancelButton();
 		
 		HBox  hButtonBox = new HBox(20, saveButton, cancelButton);
-		hButtonBox.setLayoutX(WIDTH - 250);
-		hButtonBox.setLayoutY(HEIGHT - 50);
+		hButtonBox.setLayoutX(500);
+		hButtonBox.setLayoutY(500);
 		
 		mapFilePane.getChildren().add(hButtonBox);
 	}
@@ -140,6 +141,17 @@ public class MapFileViewManager
 			@Override
 			public void handle(ActionEvent event)
 			{
+				Graph_test gt=new Graph_test();
+				System.out.println("going to graph checking ");
+				try {
+					System.out.println(gt.initiate_check(displayArea.getText()));
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				System.out.println("came out from  graph checking ");
+				
+				
 				FileChooser fileChooser = new FileChooser();
 	             
 	            //Set extension filter
@@ -152,7 +164,12 @@ public class MapFileViewManager
 	            File file = fileChooser.showSaveDialog(mapFileStage);
 	             
 	            if(file != null){
-	                saveFile(file, displayArea.getText());
+	                try {
+						saveFile(file, displayArea.getText());
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 	                
 	            }
 				mapFileStage.close();
@@ -185,10 +202,13 @@ public class MapFileViewManager
 	/**
 	 * This method writes the contents of display area 
 	 * into a specified file.
+	 * @throws IOException 
 	 * 
 	 */
-	private void saveFile(File file, String content)
+	private void saveFile(File file, String content) throws IOException
 	{
+		
+		
 		try {
             FileWriter fileWriter;
               
