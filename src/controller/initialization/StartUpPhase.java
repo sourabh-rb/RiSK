@@ -22,7 +22,7 @@ import model.Player;
  *
  */
 public class StartUpPhase {
-	static int noOfPlayers = 3;
+	static int noOfPlayers = 4;
 
 	/**
 	 * 
