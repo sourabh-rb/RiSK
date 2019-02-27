@@ -30,9 +30,9 @@ public class Utilities {
 	 * @param reply
 	 */
 	public static void gameLog(String message) {
-		String FilePath = "D:\\RiskLogs";
+		String FilePath = "D:\\RiskLogs\\GAME-LOG";
 		try {
-			Utilities.createDirectoryIfNotExist(FilePath);
+			Utilities.createDirectoryIfNotExist("D:\\RiskLogs");
 			File logFile = new File(FilePath);
 			logFile.createNewFile();
 			BufferedWriter wr = new BufferedWriter(new FileWriter(logFile, true));

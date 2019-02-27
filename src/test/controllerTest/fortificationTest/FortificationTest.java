@@ -17,6 +17,7 @@ public class FortificationTest {
 	Country toCountry;
 	Player player;
 	Fortification f;
+	private ArrayList<Country> countries;
 	
 	@Before
 	public void set() {
@@ -32,7 +33,7 @@ public class FortificationTest {
 		player.setName("Shivani");
 		player.setArmies(9);
 		player.setCardExchangeCount(0);
-		ArrayList<Country> countries = null;
+		countries = null;
 		countries.add(fromCountry);
 		countries.add(toCountry);
 		player.setCountries(countries);

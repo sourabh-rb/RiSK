@@ -14,47 +14,47 @@ import model.Player;
 
 public class ReinforcementTest {
 	
-	Country country;
+	Country country1,country2;
 	Player player;
-	Continent continent;
+	Continent continent1,continent2;
 	Reinforcement r;
+	private ArrayList<Country> countries;
+	private ArrayList<Continent> continents;
 	
 	@Before
 	public void set() {
-		country = new Country();
+		country1 = new Country();
 		player = new Player();
-		continent=new Continent();
+		continent1=new Continent();
+		continent2=new Continent();
+		country2 = new Country();
+		countries = new ArrayList<>();
+		continents = new ArrayList<>();
+	
+		country1.setArmies(10);
+		country1.setName("Canada");
+				
+		countries.add(country1);
 		
-		country.setArmies(10);
-		country.setName("Canada");
+		continent1.setName("Asia");
+		continent1.setControlValue(3);
+		continents.add(continent1);
+		continent2.setName("Australia");
+		continent2.setControlValue(1);
+		continents.add(continent2);
 		
 		player.setName("Shivani");
 		player.setArmies(9);
-		
-		ArrayList<Country> countries = null;
-		countries.add(country);
 		player.setCountries(countries);
-		
-		ArrayList<Continent> continents = null;
-		continent.setName("Asia");
-		continent.setControlValue(3);
-		continents.add(continent);
-		continent.setName("Australia");
-		continent.setControlValue(1);
-		continents.add(continent);
 		player.setContinents(continents);
 		
 		r = new Reinforcement();
-	}
+}
 
 	@Test
 	public void positiveTest1() {
 		//To test if the getReinforcementArmies() method returns correct number of armies.
 		int b = r.getReinforcementArmies(player);
-		assertTrue(b==1);
-		
+		assertTrue(b==4);
 	}
-	
-	
-
 }
