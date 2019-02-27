@@ -1,18 +1,20 @@
 package view;
 
+import java.awt.Desktop;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
-
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -148,14 +150,12 @@ public class MainMenuViewManager
 	private void addSubScenes()
 	{
 		addPlaySubscene();
+		
 		addMapEditorSubScene();
 		
-		helpSubScene = new RiskSubScene();
-		mainPane.getChildren().add(helpSubScene);
+		addHelpSubScene();
 		
-		creditsSubScene = new RiskSubScene();
-		mainPane.getChildren().add(creditsSubScene);
-		
+		addCreditsSubScene();
 	}
 	
 	/**
@@ -290,6 +290,51 @@ public class MainMenuViewManager
 		
 		mapEditorSubScene.getPane().getChildren().add(mapEditorLabel);
 		mapEditorSubScene.getPane().getChildren().add(buttonBox);
+	}
+	
+	private void addHelpSubScene()
+	{
+		helpSubScene = new RiskSubScene();
+		mainPane.getChildren().add(helpSubScene);
+		
+		RiskLabel helpLabel = new RiskLabel("Game Help");
+		helpLabel.setLayoutX(250);
+		helpLabel.setLayoutY(20);
+		
+		Hyperlink helpLink = new Hyperlink("Game Instructions");
+		helpLink.setLayoutX(20);
+		helpLink.setLayoutY(100);
+		helpLink.setOnAction(new EventHandler<ActionEvent>()
+		{
+
+			@Override
+			public void handle(ActionEvent event)
+			{
+				try {
+				    Desktop.getDesktop().browse(new URL("https://www.hasbro.com/common/instruct/risk.pdf").toURI());
+				} catch (IOException e) {
+				    e.printStackTrace();
+				} catch (URISyntaxException e) {
+				    e.printStackTrace();
+				}
+				
+			}
+		});
+		
+		helpSubScene.getPane().getChildren().add(helpLabel);
+		helpSubScene.getPane().getChildren().add(helpLink);
+		
+	}
+	
+	private void addCreditsSubScene()
+	{
+		creditsSubScene = new RiskSubScene();
+		mainPane.getChildren().add(creditsSubScene);
+		
+		RiskLabel creditsLabel = new RiskLabel("\t\t\t\tDeveloped by\n Aravind,Arvind,Charan,Shivani,Sourabh");
+		creditsLabel.setLayoutX(10);
+		creditsLabel.setLayoutY(180);
+		creditsSubScene.getPane().getChildren().add(creditsLabel);
 	}
 	
 	/**

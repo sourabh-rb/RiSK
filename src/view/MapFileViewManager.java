@@ -21,7 +21,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import view.ui_elements.RiskLabel;
 /**
 * <h1>MapFileViewManager</h1>
 * The MapFileViewManager is responsible for loading
