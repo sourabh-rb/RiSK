@@ -21,7 +21,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import view.ui_elements.RiskLabel;
 /**
 * <h1>MapFileViewManager</h1>
 * The MapFileViewManager is responsible for loading
@@ -96,8 +95,8 @@ public class MapFileViewManager
 		addCancelButton();
 		
 		HBox  hButtonBox = new HBox(20, saveButton, cancelButton);
-		hButtonBox.setLayoutX(500);
-		hButtonBox.setLayoutY(500);
+		hButtonBox.setLayoutX(WIDTH - 250);
+		hButtonBox.setLayoutY(HEIGHT - 50);
 		
 		mapFilePane.getChildren().add(hButtonBox);
 	}
@@ -164,12 +163,7 @@ public class MapFileViewManager
 	            File file = fileChooser.showSaveDialog(mapFileStage);
 	             
 	            if(file != null){
-	                try {
 						saveFile(file, displayArea.getText());
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
 	                
 	            }
 				mapFileStage.close();
@@ -202,13 +196,10 @@ public class MapFileViewManager
 	/**
 	 * This method writes the contents of display area 
 	 * into a specified file.
-	 * @throws IOException 
 	 * 
 	 */
-	private void saveFile(File file, String content) throws IOException
+	private void saveFile(File file, String content)
 	{
-		
-		
 		try {
             FileWriter fileWriter;
               
