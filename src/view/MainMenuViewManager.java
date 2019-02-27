@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import controller.Graph_test;
+import controller.initialization.StartUpPhase;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -238,8 +239,8 @@ public class MainMenuViewManager
                 	
     				
                 	try {
-	                		HashMap<String,Integer> continent_hashMap = new HashMap<String,Integer>();
-	                		HashMap<String,ArrayList<String>> territory_hashMap = new HashMap<String,ArrayList<String>>();
+	                		HashMap<String,Integer> continentHashMap = new HashMap<String,Integer>();
+	                		HashMap<String,ArrayList<String>> territoryHashMap = new HashMap<String,ArrayList<String>>();
 	                		String errorMessage;
 	                		int players;
 	                		Alert alertDialog;
@@ -248,8 +249,8 @@ public class MainMenuViewManager
 	                		errorMessage = mapValidation.get(0).toString();
 	                		if(errorMessage.equals("Success"))
 	                		{
-	                			continent_hashMap = (HashMap<String,Integer>)mapValidation.get(1);
-	                			territory_hashMap = (HashMap<String,ArrayList<String>>)mapValidation.get(2);
+	                			continentHashMap = (HashMap<String,Integer>)mapValidation.get(1);
+	                			territoryHashMap = (HashMap<String,ArrayList<String>>)mapValidation.get(2);
 	                			players = playerCount.getValue();
 	                			mapLabel.setText(file.getName());
 	                			alertDialog = new Alert(AlertType.INFORMATION);
@@ -257,6 +258,9 @@ public class MainMenuViewManager
 	                			alertDialog.setHeaderText(null);
 	                			alertDialog.setContentText("Map Valid! Click START to play game.");
 	                			alertDialog.showAndWait();
+	                			
+	                			StartUpPhase startPhase = new StartUpPhase();
+	                			startPhase.mappingElements(continentHashMap, territoryHashMap, players);
 	                			startButton.setDisable(false);
 	                		}
 	                		else

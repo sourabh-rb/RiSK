@@ -87,7 +87,7 @@ public class StartUpPhase {
 		continentList.add(continent1);
 		continentList.add(continent2);
 
-		initialSetUp(playerList, continentList, countryList);
+		//initialSetUp(playerList, continentList, countryList);
 
 	}
 
