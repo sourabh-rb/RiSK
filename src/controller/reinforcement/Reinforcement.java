@@ -32,7 +32,7 @@ public class Reinforcement{
 		
 		// If the player owns continents then the number of armies 
 		//given to him is the sum of the control values
-		if(player.getContinents()!=null) {
+		if(player.getContinents()!=null & player.getContinents().size()!=0) {
 			for(int i=0;i<player.getContinents().size();i++) {
 			controlvalue=player.getContinents().get(i).getControlValue();
 			armies=armies+controlvalue;
