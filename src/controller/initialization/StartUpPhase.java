@@ -87,7 +87,7 @@ public class StartUpPhase {
 		continentList.add(continent1);
 		continentList.add(continent2);
 
-		initialSetUp(playerList, continentList, countryList);
+		//initialSetUp(playerList, continentList, countryList);
 
 	}
 
@@ -144,6 +144,7 @@ public class StartUpPhase {
 	 * This function takes care of initial setup of the game based on the input
 	 * given by the user. It provides certain number of armies to each player and
 	 * certain countries in the selected map.
+	 * 
 	 * 
 	 * 
 	 * @param playerList    This contains all the player objects
