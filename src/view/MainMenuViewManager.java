@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -15,6 +16,8 @@ import controller.Graph_test;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.effect.DropShadow;
@@ -194,9 +197,15 @@ public class MainMenuViewManager
 		mapButton.setLayoutX(200);
 		mapButton.setLayoutY(220);
 		
+		RiskButton startButton = new RiskButton("START");
+		startButton.setLayoutX(350);
+		startButton.setLayoutY(300);
+		startButton.setDisable(true);
+		//Map Button Handler
 		mapButton.setOnAction(new EventHandler<ActionEvent>()
 		{
 
+			@SuppressWarnings("unchecked")
 			@Override
 			public void handle(ActionEvent event)
 			{
@@ -209,42 +218,67 @@ public class MainMenuViewManager
 		        	);
 		        File file = fileChooser.showOpenDialog(null);
                 if (file != null) {
-                    //Validate file ..Charan see this
+                    //Validate file
                 	List<Object> mapValidation;
                 	StringBuffer contents = new StringBuffer();
                 	Graph_test gt=new Graph_test();
                 	
+                	//Read file
                 	try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
 
             	        String line;
             	        while ((line = reader.readLine()) != null)
             	            //System.out.println(line);
-            	        	contents.append(line).append(System.getProperty("line.separator"));
+            	        	contents.append(line).append("\n");
 
             	    } catch (IOException e) {
             	        e.printStackTrace();
             	    }
                 	
                 	
-    				System.out.println("going to graph checking ");
-    				try {
-    					System.out.println(contents.toString());
-    					mapValidation = gt.initiate_check(contents.toString());
-    					System.out.println(mapValidation.toString());
-    				} catch (IOException e1) {
-    					// TODO Auto-generated catch block
-    					e1.printStackTrace();
-    				}
-    				System.out.println("came out from  graph checking ");
+    				
+                	try {
+	                		HashMap<String,Integer> continent_hashMap = new HashMap<String,Integer>();
+	                		HashMap<String,ArrayList<String>> territory_hashMap = new HashMap<String,ArrayList<String>>();
+	                		String errorMessage;
+	                		int players;
+	                		Alert alertDialog;
+	                		
+	                		mapValidation = gt.initiate_check(contents.toString());
+	                		errorMessage = mapValidation.get(0).toString();
+	                		if(errorMessage.equals("Success"))
+	                		{
+	                			continent_hashMap = (HashMap<String,Integer>)mapValidation.get(1);
+	                			territory_hashMap = (HashMap<String,ArrayList<String>>)mapValidation.get(2);
+	                			players = playerCount.getValue();
+	                			mapLabel.setText(file.getName());
+	                			alertDialog = new Alert(AlertType.INFORMATION);
+	                			alertDialog.setTitle("Information Dialog");
+	                			alertDialog.setHeaderText(null);
+	                			alertDialog.setContentText("Map Valid! Click START to play game.");
+	                			alertDialog.showAndWait();
+	                			startButton.setDisable(false);
+	                		}
+	                		else
+	                		{
+	                			alertDialog = new Alert(AlertType.ERROR);
+	                			alertDialog.setTitle("Error Dialog");
+	                			alertDialog.setHeaderText("Invalid Map Selection");
+	                			alertDialog.setContentText("ERROR: " + errorMessage.toString());
+	                			alertDialog.showAndWait();	
+	                		}
+                		} catch (IOException e1)
+                			{
+                				// TODO Auto-generated catch block
+                				e1.printStackTrace();
+                			}
                 }
 				
 			}
 		});
 		
-		RiskButton startButton = new RiskButton("START");
-		startButton.setLayoutX(350);
-		startButton.setLayoutY(300);
 		
+		//Start Button Handler
 		startButton.setOnAction(new EventHandler<ActionEvent>()
 		{
 

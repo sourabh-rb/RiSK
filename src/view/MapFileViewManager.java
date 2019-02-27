@@ -5,6 +5,9 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Optional;
 
 import controller.Graph_test;
@@ -141,14 +144,36 @@ public class MapFileViewManager
 			public void handle(ActionEvent event)
 			{
 				Graph_test gt=new Graph_test();
-				System.out.println("going to graph checking ");
+				
 				try {
-					System.out.println(gt.initiate_check(displayArea.getText()));
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				System.out.println("came out from  graph checking ");
+						List<Object> mapValidation;
+	            		String errorMessage;
+	            		Alert alertDialog;
+	            		mapValidation = gt.initiate_check(displayArea.getText());
+	            		errorMessage = mapValidation.get(0).toString();
+	            		if(errorMessage.equals("Success"))
+	            		{
+	
+	            			alertDialog = new Alert(AlertType.INFORMATION);
+	            			alertDialog.setTitle("Information Dialog");
+	            			alertDialog.setHeaderText(null);
+	            			alertDialog.setContentText("Map Valid! Choose location to save file.");
+	            			alertDialog.showAndWait();
+	            		}
+	            		else
+	            		{
+	            			alertDialog = new Alert(AlertType.ERROR);
+	            			alertDialog.setTitle("Error Dialog");
+	            			alertDialog.setHeaderText("Invalid Map Creation");
+	            			alertDialog.setContentText("ERROR: " + errorMessage.toString());
+	            			alertDialog.showAndWait();
+	            			return;
+	            		}
+        			} catch (IOException e1)
+        				{
+        					// TODO Auto-generated catch block
+        					e1.printStackTrace();
+        				}
 				
 				
 				FileChooser fileChooser = new FileChooser();
