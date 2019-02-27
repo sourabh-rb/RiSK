@@ -40,7 +40,7 @@ public  class Graph_test
      * @throws IOException 
      */
     
-    public String initiate_check(String file_contents) throws IOException
+    public List<Object>  initiate_check(String file_contents) throws IOException
     {
     	int continent_start=0;
     	int territory_start=0;
@@ -67,7 +67,8 @@ public  class Graph_test
     	{
     	continent_start=lines.indexOf("[Continents]");
     	}
-    	else  return "Wrong heading format for continents";
+    	else  
+    		return Arrays.asList("Wrong heading format for continents",continent_hashMap , territory_hashMap) ;
     	
     	//HEADING FORMAT CHECK FOR TERRITORIES
     	
@@ -75,18 +76,23 @@ public  class Graph_test
     	{
     	territory_start=lines.indexOf("[Territories]");
     	}
-    	else  return "Wrong heading format for territories";
+    	else  
+    		return Arrays.asList("Wrong heading format for territories",continent_hashMap , territory_hashMap);
     	
     	//CONTINENT FORMAT CHECKING AND DATA EXTRACTION
     	
     	for(int i=continent_start+1;i<territory_start;i++)
     	{
     		if(lines.get(i).length()==0) continue;
-    		if(!Pattern.matches("^[a-zA-Z0-9_ ]+=[0-9]+$", lines.get(i))) return "wrong continent line format";
+    		if(!Pattern.matches("^[a-zA-Z0-9_ ]+=[0-9]+$", lines.get(i))) 
+    			return Arrays.asList("wrong continent line format",continent_hashMap , territory_hashMap);
     		continent_dissected = lines.get(i).split("=");
-    		if(!Pattern.matches("^[a-zA-Z0-9_ ]+$", continent_dissected[0])) return "wrong continent format";
-    		if(!Pattern.matches("^[0-9]+$", continent_dissected[1])) return "wrong continent score format";
-    		if(continent_hashMap.containsKey(continent_dissected[0])) return "Continent repeated";
+    		if(!Pattern.matches("^[a-zA-Z0-9_ ]+$", continent_dissected[0])) 
+    			return Arrays.asList("wrong continent format",continent_hashMap , territory_hashMap);
+    		if(!Pattern.matches("^[0-9]+$", continent_dissected[1])) 
+    			return Arrays.asList("wrong continent score format",continent_hashMap , territory_hashMap);
+    		if(continent_hashMap.containsKey(continent_dissected[0])) 
+    			return Arrays.asList("Continent repeated",continent_hashMap , territory_hashMap);
     		continent_hashMap.put(continent_dissected[0], Integer.parseInt(continent_dissected[1]));
     	}
     	
@@ -97,11 +103,14 @@ public  class Graph_test
     	for(int i=territory_start+1;i<lines.size();i++)
     	{
     		if(lines.get(i).length()==0) continue;
-    		if(!Pattern.matches("^[a-zA-Z0-9_ ]+,[0-9]+,[0-9]+,[a-zA-Z0-9_ ]+(,[a-zA-Z0-9_ ]+)+$", lines.get(i))) return "wrong territory line format";
+    		if(!Pattern.matches("^[a-zA-Z0-9_ ]+,[0-9]+,[0-9]+,[a-zA-Z0-9_ ]+(,[a-zA-Z0-9_ ]+)+$", lines.get(i))) 
+    			return Arrays.asList("wrong territory line format",continent_hashMap , territory_hashMap);
     		territory_dissected = lines.get(i).split(",");
     		
-    		if(territory_list.contains(territory_dissected[0])) return "Territory repeated";
-    		if(!continent_hashMap.containsKey(territory_dissected[3])) return "No continent with the name "+territory_dissected[3];
+    		if(territory_list.contains(territory_dissected[0])) 
+    			return Arrays.asList("Territory repeated",continent_hashMap , territory_hashMap);
+    		if(!continent_hashMap.containsKey(territory_dissected[3])) 
+    		    return Arrays.asList("No continent with the name "+territory_dissected[3],continent_hashMap , territory_hashMap);
     		territory_list.add(territory_dissected[0]);
     		ter_con_list.add(territory_dissected[3]);	
     		for(int j=3;j<territory_dissected.length;j++)
@@ -122,7 +131,8 @@ public  class Graph_test
     		territory_dissected = lines.get(i).split(",");
     		for(int j=4;j<territory_dissected.length;j++)
     		{
-    			if(!territory_list.contains(territory_dissected[j])) return "country "+territory_dissected[j]+" doesn't have an entry in territory list";	
+    			if(!territory_list.contains(territory_dissected[j])) 	
+    			return Arrays.asList("country "+territory_dissected[j]+" doesn't have an entry in territory list",continent_hashMap , territory_hashMap);
     		}
     		g1.graph_populater(territory_dissected);  
     	}
@@ -141,7 +151,7 @@ public  class Graph_test
     			    // access groups found. 
     			 if(!g1.g.containsEdge(m.group(2), m.group(1)))
     			 {
-    				 return m.group(1)+" to "+m.group(2)+" connectivity is mentioned but not vice versa";
+    				 return Arrays.asList(m.group(1)+" to "+m.group(2)+" connectivity is mentioned but not vice versa",continent_hashMap , territory_hashMap) ;
     			 }
     		 }		
     	}
@@ -149,8 +159,11 @@ public  class Graph_test
     	System.out.println(continent_hashMap);
     	
     	g1.visualize();
-		return null;
+		
+		return Arrays.asList("Success",continent_hashMap , territory_hashMap);
      }
+    
+    
     
 }
 
