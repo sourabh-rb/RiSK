@@ -22,7 +22,7 @@ public class Continent {
 	// Control value associated with the continent
 	private int controlValue;
 	// List of all the countries that make up the continent
-	private ArrayList<Country> countriesComprised;
+	private ArrayList<Country> countriesComprised = new ArrayList<Country>();
 
 	/**
 	 * This method gets the list of all the countries that are a part of the
