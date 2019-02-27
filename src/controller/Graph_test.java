@@ -57,7 +57,7 @@ public  class Graph_test
     	
     	graphs g1=new graphs();
     	
-    	Path wiki_path = Paths.get("/home/charan", "map_world.map");
+    	
     
     	//List<String> lines = file_contents.split("\n")
     	List<String> lines = Arrays.asList(file_contents.split("\n"));
@@ -157,7 +157,7 @@ public  class Graph_test
 
 class graphs
 {
-	static DefaultDirectedGraph<String, DefaultEdge> g;
+	 DefaultDirectedGraph<String, DefaultEdge> g;
 	
 	
 	public  graphs() throws IOException {
@@ -177,7 +177,7 @@ class graphs
 	     
 	    BufferedImage image = 
 	      mxCellRenderer.createBufferedImage(graphAdapter, null, 2, Color.WHITE, true, null);
-	    File imgFile = new File("/home/charan/graph.png");
+	    File imgFile = new File("D:\\APPRisk/graph.png");
 	    ImageIO.write(image, "PNG", imgFile);
 	    ConnectivityInspector<String, DefaultEdge> inspector = new ConnectivityInspector<>(g);
 		if(inspector.isConnected())
