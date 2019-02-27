@@ -22,6 +22,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Region;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 /**
@@ -166,6 +167,7 @@ public class MapFileViewManager
 	            			alertDialog.setTitle("Error Dialog");
 	            			alertDialog.setHeaderText("Invalid Map Creation");
 	            			alertDialog.setContentText("ERROR: " + errorMessage.toString());
+	            			alertDialog.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
 	            			alertDialog.showAndWait();
 	            			return;
 	            		}
