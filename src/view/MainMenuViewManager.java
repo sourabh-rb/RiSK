@@ -31,6 +31,8 @@ import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Region;
+import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import view.ui_elements.RiskButton;
@@ -269,6 +271,7 @@ public class MainMenuViewManager
 	                			alertDialog.setTitle("Error Dialog");
 	                			alertDialog.setHeaderText("Invalid Map Selection");
 	                			alertDialog.setContentText("ERROR: " + errorMessage.toString());
+	                			alertDialog.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
 	                			alertDialog.showAndWait();	
 	                		}
                 		} catch (IOException e1)
