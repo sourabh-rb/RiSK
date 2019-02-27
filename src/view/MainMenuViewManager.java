@@ -11,6 +11,7 @@ import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
@@ -146,9 +147,7 @@ public class MainMenuViewManager
 	 */
 	private void addSubScenes()
 	{
-		playSubScene = new RiskSubScene();
-		mainPane.getChildren().add(playSubScene);
-		
+		addPlaySubscene();
 		addMapEditorSubScene();
 		
 		helpSubScene = new RiskSubScene();
@@ -160,7 +159,91 @@ public class MainMenuViewManager
 	}
 	
 	/**
-	 * This method sets up the map editor subscene, 
+	 * This method sets up the play sub-scene, 
+	 * initiated when map play button is clicked.
+	 * 
+	 */
+	private void addPlaySubscene()
+	{
+		playSubScene = new RiskSubScene();
+		mainPane.getChildren().add(playSubScene);
+		
+		// Heading
+		RiskLabel playLabel = new RiskLabel("PLAY");
+		playLabel.setLayoutX(280);
+		playLabel.setLayoutY(50);
+		
+		// Game initial configuration inputs from user
+		RiskLabel countLabel = new RiskLabel("Choose no. of players:");
+		countLabel.setLayoutX(10);
+		countLabel.setLayoutY(150);
+		
+		ComboBox<Integer> playerCount = new ComboBox<>();
+		playerCount.getItems().addAll(3, 4, 5, 6);
+		playerCount.getSelectionModel().select(0);
+		playerCount.setLayoutX(350);
+		playerCount.setLayoutY(155);
+		
+		RiskLabel mapLabel = new RiskLabel("Choose map:");
+		mapLabel.setLayoutX(10);
+		mapLabel.setLayoutY(220);
+		
+		RiskButton mapButton = new RiskButton("CHOOSE MAP");
+		mapButton.setLayoutX(200);
+		mapButton.setLayoutY(220);
+		
+		mapButton.setOnAction(new EventHandler<ActionEvent>()
+		{
+
+			@Override
+			public void handle(ActionEvent event)
+			{
+				FileChooser fileChooser = new FileChooser();
+				fileChooser.setTitle("Choose a map to edit");
+		        fileChooser.setInitialDirectory(new File(System.getProperty("user.dir")));
+		        fileChooser.getExtensionFilters().addAll(
+		        	     new FileChooser.ExtensionFilter("MAP Files", "*.map")
+		        	    ,new FileChooser.ExtensionFilter("Text Files", "*.txt")
+		        	);
+		        File file = fileChooser.showOpenDialog(null);
+                if (file != null) {
+                    //Validate file
+                }
+				
+			}
+		});
+		
+		RiskButton startButton = new RiskButton("START");
+		startButton.setLayoutX(350);
+		startButton.setLayoutY(300);
+		
+		startButton.setOnAction(new EventHandler<ActionEvent>()
+		{
+
+			@Override
+			public void handle(ActionEvent event)
+			{
+				//Initiate start up sequence
+				//Load main game screen
+				
+			}
+		});
+		
+		
+		
+		playSubScene.getPane().getChildren().add(playLabel);
+		playSubScene.getPane().getChildren().add(countLabel);
+		playSubScene.getPane().getChildren().add(playerCount);
+		playSubScene.getPane().getChildren().add(mapLabel);
+		playSubScene.getPane().getChildren().add(mapButton);
+		playSubScene.getPane().getChildren().add(startButton);
+		
+		
+
+	}
+	
+	/**
+	 * This method sets up the map editor sub-scene, 
 	 * initiated when map editor button is clicked.
 	 * 
 	 */
@@ -170,9 +253,9 @@ public class MainMenuViewManager
 		mainPane.getChildren().add(mapEditorSubScene);
 		
 	
-		RiskLabel chooseShipLabel = new RiskLabel("Choose to create/edit a map");
-		chooseShipLabel.setLayoutX(100);
-		chooseShipLabel.setLayoutY(50);
+		RiskLabel mapEditorLabel = new RiskLabel("Choose to create/edit a map");
+		mapEditorLabel.setLayoutX(100);
+		mapEditorLabel.setLayoutY(50);
 	
 		// Create a edit map button and set it up to access the file system to let user choose a map.
 		RiskButton editMapButton = new RiskButton("EDIT MAP");
@@ -205,7 +288,7 @@ public class MainMenuViewManager
 		buttonBox.setLayoutX(100);
 		buttonBox.setLayoutY(150);
 		
-		mapEditorSubScene.getPane().getChildren().add(chooseShipLabel);
+		mapEditorSubScene.getPane().getChildren().add(mapEditorLabel);
 		mapEditorSubScene.getPane().getChildren().add(buttonBox);
 	}
 	
@@ -217,7 +300,6 @@ public class MainMenuViewManager
 	{
 		MapFileViewManager fileView = new MapFileViewManager(file);
 	}
-		 
 	
 	/**
 	 * This method creates and initializes PLAY Button.
