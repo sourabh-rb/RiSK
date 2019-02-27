@@ -5,6 +5,9 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Optional;
 
 import controller.Graph_test;
@@ -21,7 +24,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import view.ui_elements.RiskLabel;
 /**
 * <h1>MapFileViewManager</h1>
 * The MapFileViewManager is responsible for loading
@@ -96,8 +98,8 @@ public class MapFileViewManager
 		addCancelButton();
 		
 		HBox  hButtonBox = new HBox(20, saveButton, cancelButton);
-		hButtonBox.setLayoutX(500);
-		hButtonBox.setLayoutY(500);
+		hButtonBox.setLayoutX(WIDTH - 250);
+		hButtonBox.setLayoutY(HEIGHT - 50);
 		
 		mapFilePane.getChildren().add(hButtonBox);
 	}
@@ -142,14 +144,36 @@ public class MapFileViewManager
 			public void handle(ActionEvent event)
 			{
 				Graph_test gt=new Graph_test();
-				System.out.println("going to graph checking ");
+				
 				try {
-					System.out.println(gt.initiate_check(displayArea.getText()));
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				System.out.println("came out from  graph checking ");
+						List<Object> mapValidation;
+	            		String errorMessage;
+	            		Alert alertDialog;
+	            		mapValidation = gt.initiate_check(displayArea.getText());
+	            		errorMessage = mapValidation.get(0).toString();
+	            		if(errorMessage.equals("Success"))
+	            		{
+	
+	            			alertDialog = new Alert(AlertType.INFORMATION);
+	            			alertDialog.setTitle("Information Dialog");
+	            			alertDialog.setHeaderText(null);
+	            			alertDialog.setContentText("Map Valid! Choose location to save file.");
+	            			alertDialog.showAndWait();
+	            		}
+	            		else
+	            		{
+	            			alertDialog = new Alert(AlertType.ERROR);
+	            			alertDialog.setTitle("Error Dialog");
+	            			alertDialog.setHeaderText("Invalid Map Creation");
+	            			alertDialog.setContentText("ERROR: " + errorMessage.toString());
+	            			alertDialog.showAndWait();
+	            			return;
+	            		}
+        			} catch (IOException e1)
+        				{
+        					// TODO Auto-generated catch block
+        					e1.printStackTrace();
+        				}
 				
 				
 				FileChooser fileChooser = new FileChooser();
@@ -164,12 +188,7 @@ public class MapFileViewManager
 	            File file = fileChooser.showSaveDialog(mapFileStage);
 	             
 	            if(file != null){
-	                try {
 						saveFile(file, displayArea.getText());
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
 	                
 	            }
 				mapFileStage.close();
@@ -202,13 +221,10 @@ public class MapFileViewManager
 	/**
 	 * This method writes the contents of display area 
 	 * into a specified file.
-	 * @throws IOException 
 	 * 
 	 */
-	private void saveFile(File file, String content) throws IOException
+	private void saveFile(File file, String content)
 	{
-		
-		
 		try {
             FileWriter fileWriter;
               
