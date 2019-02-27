@@ -10,6 +10,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
+
+import controller.Graph_test;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -207,7 +209,33 @@ public class MainMenuViewManager
 		        	);
 		        File file = fileChooser.showOpenDialog(null);
                 if (file != null) {
-                    //Validate file
+                    //Validate file ..Charan see this
+                	List<Object> mapValidation;
+                	StringBuffer contents = new StringBuffer();
+                	Graph_test gt=new Graph_test();
+                	
+                	try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+
+            	        String line;
+            	        while ((line = reader.readLine()) != null)
+            	            //System.out.println(line);
+            	        	contents.append(line).append(System.getProperty("line.separator"));
+
+            	    } catch (IOException e) {
+            	        e.printStackTrace();
+            	    }
+                	
+                	
+    				System.out.println("going to graph checking ");
+    				try {
+    					System.out.println(contents.toString());
+    					mapValidation = gt.initiate_check(contents.toString());
+    					System.out.println(mapValidation.toString());
+    				} catch (IOException e1) {
+    					// TODO Auto-generated catch block
+    					e1.printStackTrace();
+    				}
+    				System.out.println("came out from  graph checking ");
                 }
 				
 			}
