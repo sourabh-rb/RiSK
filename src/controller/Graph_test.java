@@ -159,7 +159,7 @@ public  class Graph_test
     	System.out.println(territory_hashMap);
     	System.out.println(continent_hashMap);
     	
-    	g1.visualize();
+    	//g1.visualize();
 		
 		return Arrays.asList("Success",continent_hashMap , territory_hashMap);
      }
