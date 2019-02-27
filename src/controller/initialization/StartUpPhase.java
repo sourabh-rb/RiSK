@@ -75,7 +75,7 @@ public class StartUpPhase {
 		countryList.add(country3);
 		countryList.add(country7);
 		countryList.add(country8);
-		countryList.add(country9);
+		
 		continent1.setCountriesComprised(countryList);
 
 		ArrayList<Country> europeCountryList = new ArrayList<Country>();
@@ -94,15 +94,17 @@ public class StartUpPhase {
 	/**
 	 * 
 	 */
+	ArrayList<Continent> continent_list = new ArrayList<Continent>();
+	ArrayList<Country> neigh_countries = new ArrayList<Country>();
+	ArrayList<Country> countriesInContinent = new ArrayList<Country>();
+	ArrayList<Player> player_List = new ArrayList<Player>();
+	HashMap<String, Country> country_name2obj = new HashMap<String, Country>();
+	HashMap<String, Continent> continent_name2obj = new HashMap<String, Continent>();
+	ArrayList<Country> country_list = new ArrayList<Country>();
 	public void mappingElements(HashMap<String, Integer> continentHashMap,
 			HashMap<String, ArrayList<String>> terrritoryHashMap, int noOfPlayers) {
-		ArrayList<Continent> continent_list = new ArrayList<Continent>();
-		ArrayList<Country> neigh_countries = new ArrayList<Country>();
-		ArrayList<Country> countriesInContinent = new ArrayList<Country>();
-		ArrayList<Player> player_List = new ArrayList<Player>();
-		HashMap<String, Country> country_name2obj = new HashMap<String, Country>();
-		HashMap<String, Continent> continent_name2obj = new HashMap<String, Continent>();
-		ArrayList<Country> country_list = new ArrayList<Country>();
+		System.out.println("Number of players form the screen: "+noOfPlayers);
+		
 		int i = 0;
 		for (String key : continentHashMap.keySet()) {
 			continent_list.add(new Continent());
@@ -132,11 +134,13 @@ public class StartUpPhase {
 			c.setNeighborCounties(neigh_countries);
 		}
 		int playerNumber = 1;
-		for (int k = 0; i < noOfPlayers; i++) {
+		for (int k = 0; k < noOfPlayers; k++) {
+			System.out.println("creating player objects");
 			player_List.add(new Player());
 			player_List.get(k).setName("Player" + playerNumber);
 			playerNumber++;
 		}
+		System.out.println("PLayerlist size: "+player_List.size());
 		initialSetUp(player_List, continent_list, country_list);
 	}
 
@@ -156,6 +160,7 @@ public class StartUpPhase {
 	public void initialSetUp(ArrayList<Player> playerList, ArrayList<Continent> continentList,
 			ArrayList<Country> countryList) {
 		noOfPlayers = playerList.size();
+		System.out.println("Number of players "+noOfPlayers);
 		int numberOfArmiesEach = 0;
 		int noOfTotalCountries = 0;
 		ArrayList<Country> listOfAllCountries = new ArrayList<Country>();
@@ -263,6 +268,8 @@ public class StartUpPhase {
 		for (int i = 0; i < allCountryIndices.size(); i++) {
 			int randomPlayer = (int) (Math.random() * playerList.size());
 			System.out.println("Random Player: " + randomPlayer);
+			listOfAllCountries.get(allCountryIndices.get(i));
+			System.out.println("char");
 			playerList.get(randomPlayer).getCountries().add(listOfAllCountries.get(allCountryIndices.get(i)));
 			playerList.get(randomPlayer).setCountries(playerList.get(randomPlayer).getCountries());
 		}
