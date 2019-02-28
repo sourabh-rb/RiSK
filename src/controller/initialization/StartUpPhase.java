@@ -97,7 +97,7 @@ public class StartUpPhase {
 	ArrayList<Continent> continent_list = new ArrayList<Continent>();
 	ArrayList<Country> neigh_countries = new ArrayList<Country>();
 	ArrayList<Country> countriesInContinent = new ArrayList<Country>();
-	ArrayList<Player> player_List = new ArrayList<Player>();
+	public ArrayList<Player> player_List = new ArrayList<Player>();
 	HashMap<String, Country> country_name2obj = new HashMap<String, Country>();
 	HashMap<String, Continent> continent_name2obj = new HashMap<String, Continent>();
 	ArrayList<Country> country_list = new ArrayList<Country>();
