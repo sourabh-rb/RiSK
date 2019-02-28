@@ -65,6 +65,8 @@ public class MainMenuViewManager
 	private RiskSubScene helpSubScene;
 	private RiskSubScene creditsSubScene;
 	
+	private StartUpPhase startPhase;
+	
 	private RiskSubScene sceneToHide;
 	
 	List<RiskButton> menuButtons;
@@ -261,7 +263,7 @@ public class MainMenuViewManager
 	                			alertDialog.setContentText("Map Valid! Click START to play game.");
 	                			alertDialog.showAndWait();
 	                			
-	                			StartUpPhase startPhase = new StartUpPhase();
+	                			startPhase = new StartUpPhase();
 	                			startPhase.mappingElements(continentHashMap, territoryHashMap, players);
 	                			startButton.setDisable(false);
 	                		}
@@ -294,6 +296,9 @@ public class MainMenuViewManager
 			{
 				//Initiate start up sequence
 				//Load main game screen
+				mainStage.hide();
+				GameScreenViewManager gsvm=new GameScreenViewManager(startPhase);
+				
 				
 			}
 		});
