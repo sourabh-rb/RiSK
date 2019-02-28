@@ -35,6 +35,7 @@ import javafx.scene.layout.Region;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import view.ui_elements.RiskButton;
 import view.ui_elements.RiskLabel;
 import view.ui_elements.RiskSubScene;
@@ -80,6 +81,8 @@ public class MainMenuViewManager
 		mainScene = new Scene(mainPane, WIDTH, HEIGHT);
 		mainStage = new Stage();
 		mainStage.setScene(mainScene);
+		mainStage.setResizable(false);
+		mainStage.initStyle(StageStyle.UNDECORATED);
 		
 		menuButtons = new ArrayList<RiskButton>();
 		
@@ -358,6 +361,16 @@ public class MainMenuViewManager
 		// Create a new map button to allow user create a new map file from scratch.
 		RiskButton createMapButton = new RiskButton("NEW MAP");
 		
+		createMapButton.setOnAction(new EventHandler<ActionEvent>()
+		{
+
+			@Override
+			public void handle(ActionEvent arg0)
+			{
+				File newMapFile = new File(".//Maps//default.map");
+				MapFileViewManager fileView = new MapFileViewManager(newMapFile);
+			}
+		});
 		HBox buttonBox = new HBox(20, editMapButton, createMapButton);
 		buttonBox.setLayoutX(100);
 		buttonBox.setLayoutY(150);
