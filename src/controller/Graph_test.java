@@ -104,7 +104,7 @@ public  class Graph_test
     	for(int i=territory_start+1;i<lines.size();i++)
     	{
     		if(lines.get(i).length()==0) continue;
-    		if(!Pattern.matches("^[a-zA-Z0-9_ ]+,[0-9]+,[0-9]+,[a-zA-Z0-9_ ]+(,[a-zA-Z0-9_ ]+)+$", lines.get(i))) 
+    		if(!Pattern.matches("^[a-zA-Z0-9_ ]+,[0-9]+,[0-9]+,[a-zA-Z0-9_ ]+(,[a-zA-Z0-9_ ]+)*$", lines.get(i))) 
     			return Arrays.asList("wrong territory line format",continent_hashMap , territory_hashMap);
     		territory_dissected = lines.get(i).split(",");
     		
@@ -159,7 +159,18 @@ public  class Graph_test
     	System.out.println(territory_hashMap);
     	System.out.println(continent_hashMap);
     	
-    	//g1.visualize();
+    	
+    	
+    	
+    	if(continent_hashMap.isEmpty() || territory_hashMap.isEmpty())
+    	{
+    		return Arrays.asList("One of the hashmaps is empty",continent_hashMap,territory_hashMap);
+    	}
+    	
+    	if(g1.connectivity_check().contentEquals("graph disconnected"))
+    	{
+    		return Arrays.asList("Map Disconnected",continent_hashMap,territory_hashMap);
+    	}
 		
 		return Arrays.asList("Success",continent_hashMap , territory_hashMap);
      }
@@ -180,26 +191,16 @@ class graphs
 	   
 	 
 	   
-	public void visualize() throws IOException {
+	public String connectivity_check() throws IOException {
 		
-		 
-	    JGraphXAdapter<String, DefaultEdge> graphAdapter = 
-	      new JGraphXAdapter<String, DefaultEdge>(g);
-	    mxIGraphLayout layout = new mxCircleLayout(graphAdapter);
-	    layout.execute(graphAdapter.getDefaultParent());
-	     
-	    BufferedImage image = 
-	      mxCellRenderer.createBufferedImage(graphAdapter, null, 2, Color.WHITE, true, null);
-	    File imgFile = new File("D:\\APPRisk/graph.png");
-	    ImageIO.write(image, "PNG", imgFile);
 	    ConnectivityInspector<String, DefaultEdge> inspector = new ConnectivityInspector<>(g);
 		if(inspector.isConnected())
 		{
-			System.out.println("connected");
+			return "connected";
 		}
 		else
 		{
-			System.out.println("graph disconnected");
+			return "graph disconnected";
 		}
 	 
 	    //assertTrue(imgFile.exists());
