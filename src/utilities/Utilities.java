@@ -38,7 +38,7 @@ public class Utilities {
 			BufferedWriter wr = new BufferedWriter(new FileWriter(logFile, true));
 			
 			
-			System.out.println(message);
+			//System.out.println(message);
 			wr.newLine();
 			wr.write(message);
 			wr.close();
@@ -52,9 +52,9 @@ public class Utilities {
 	 * @param path
 	 */
 	public static void createDirectoryIfNotExist(String path){
-		System.out.println(path);
+		//System.out.println(path);
 		File file = new File(path);
-		System.out.println(file.getAbsolutePath());
+		//System.out.println(file.getAbsolutePath());
 		if (!file.exists()) {
 			System.out.println("Creating dir" + path);
             System.out.println(file.mkdirs());

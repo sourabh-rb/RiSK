@@ -54,6 +54,7 @@ public class Reinforcement{
 	 * @return returns true if the number of armies is successfully updated else false.
 	 */
 	public boolean reinforceArmies(Player player,Country country) {
+		
 		Utilities.gameLog("Player: "+player.getName()+"|| Stage: Reinforcement || Country reinforced: "+ country.getName());
 		ArrayList<Country> countries = player.getCountries();
 		if(countries != null && countries.contains(country)) {
