@@ -11,6 +11,7 @@ import java.util.Iterator;
 import model.Continent;
 import model.Country;
 import model.Player;
+import utilities.Utilities;
 
 /**
  * This class takes care of the initialization part where it decides which
@@ -118,6 +119,7 @@ public class StartUpPhase {
 			int h = continentHashMap.get(key);
 			i++;
 		}
+		Utilities.gameLog("Created continent objects and added their values to the respective objects");
 		int j = 0;
 		for (String key : terrritoryHashMap.keySet()) {
 			ArrayList<Country> countryListInContinent = new ArrayList<Country>();
@@ -145,6 +147,7 @@ public class StartUpPhase {
 			playerNumber++;
 		}
 		System.out.println("PLayerlist size: "+player_List.size());
+		Utilities.gameLog("Number of Player objects created: "+player_List.size());
 		initialSetUp(player_List, continent_list, country_list); 
 	}
 
@@ -165,10 +168,12 @@ public class StartUpPhase {
 			ArrayList<Country> countryList) {
 		noOfPlayers = playerList.size();
 		System.out.println("Number of players "+noOfPlayers);
+		Utilities.gameLog("Total number of Players playing the game "+noOfPlayers);
 		int numberOfArmiesEach = 0;
 		int noOfTotalCountries = 0;
 		ArrayList<Country> listOfAllCountries = new ArrayList<Country>();
 		System.out.println("Number of continents: " + continentList.size());
+		Utilities.gameLog("Total number of continents in the whole map "+continentList.size());
 		for (int i = 0; i < continentList.size(); i++) {
 			for (int j = 0; j < continentList.get(i).getCountriesComprised().size(); j++) {
 				listOfAllCountries.add(continentList.get(i).getCountriesComprised().get(j));
@@ -176,6 +181,7 @@ public class StartUpPhase {
 			}
 		}
 		System.out.println("No Of total Countries" + noOfTotalCountries);
+		Utilities.gameLog("Total number of countries in the whole map "+noOfTotalCountries);
 		numberOfArmiesEach = calculateNoOfArmies(noOfPlayers);
 		// looping through all players to give equal number of armies
 		for (int i = 0; i < playerList.size(); i++) {
@@ -191,12 +197,14 @@ public class StartUpPhase {
 			playerList.get(j).setNumberOfArmiesLeft(numberOfArmiesEach);
 			System.out.println("Player name: " + playerList.get(j).getName());
 			System.out.println(playerList.get(j).getName() + " is assigned with " + numberOfArmiesEach + " armies");
+			Utilities.gameLog("Total number of armies assigned to "+playerList.get(j).getName()+" is "+numberOfArmiesEach);
 			for (int k = 0; k < playerList.get(j).getCountries().size(); k++) {
 				playerList.get(j).getCountries().get(k).setArmies(1);
 				System.out.println("1 army given to " + playerList.get(j).getCountries().get(k).getName());
 				int previousNumberOfArmiesLeft = playerList.get(j).getNumberOfArmiesLeft();
 				playerList.get(j).setNumberOfArmiesLeft(--previousNumberOfArmiesLeft);
 				System.out.println("No of armies left" + playerList.get(j).getNumberOfArmiesLeft());
+				Utilities.gameLog("No of armies left with "+playerList.get(j).getName()+" is "+playerList.get(j).getNumberOfArmiesLeft());
 			}
 
 		}
@@ -223,6 +231,7 @@ public class StartUpPhase {
 			noOfArmies = 25;
 		else if (noOfPlayers == 6)
 			noOfArmies = 20;
+		Utilities.gameLog("Assigned " +noOfArmies+" to each player");
 		return noOfArmies;
 	}
 
@@ -283,6 +292,7 @@ public class StartUpPhase {
 			playerList.get(randomPlayer).getCountries().add(listOfAllCountries.get(allCountryIndices.get(i)));
 			playerList.get(randomPlayer).setCountries(playerList.get(randomPlayer).getCountries());
 		}
+		Utilities.gameLog("Assigned countries randomly to all the players");
 
 		// Display owned countries of each player including player name
 		for (int i = 0; i < playerList.size(); i++) {
