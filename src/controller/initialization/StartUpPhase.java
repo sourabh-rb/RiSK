@@ -91,9 +91,6 @@ public class StartUpPhase {
 
 	}
 
-	/**
-	 * 
-	 */
 	ArrayList<Continent> continent_list = new ArrayList<Continent>();
 	ArrayList<Country> neigh_countries = new ArrayList<Country>();
 	ArrayList<Country> countriesInContinent = new ArrayList<Country>();
@@ -101,6 +98,13 @@ public class StartUpPhase {
 	HashMap<String, Country> country_name2obj = new HashMap<String, Country>();
 	HashMap<String, Continent> continent_name2obj = new HashMap<String, Continent>();
 	ArrayList<Country> country_list = new ArrayList<Country>();
+	/**
+	 * This function creates objects for all the map elements like country, continent, player
+	 * 
+	 * @param continentHashMap This hashmap contains continents and their respective values
+	 * @param terrritoryHashMap This hashmap contains country as the key element and values comprise continent to which it belongs and the countries neighboring countries
+	 * @param noOfPlayers Number of palyers want to paly the game
+	 */
 	public void mappingElements(HashMap<String, Integer> continentHashMap,
 			HashMap<String, ArrayList<String>> terrritoryHashMap, int noOfPlayers) {
 		System.out.println("Number of players form the screen: "+noOfPlayers);
@@ -121,11 +125,10 @@ public class StartUpPhase {
 			country_list.get(j).setName(key);
 			Continent conObj = continent_name2obj.get(terrritoryHashMap.get(key).get(0));
 			conObj.getCountriesComprised().add(country_list.get(j));
-			// conObj.setCountriesComprised(conObj.getCountriesComprised());
 			country_name2obj.put(key, country_list.get(j));
 			j++;
 		}
-
+        //Setting neighboring countries for each country
 		for (Country c : country_list) {
 			for (String neigh_country : terrritoryHashMap.get(c.getName()).subList(1,
 					terrritoryHashMap.get(c.getName()).size())) {
@@ -133,6 +136,7 @@ public class StartUpPhase {
 			}
 			c.setNeighborCounties(neigh_countries);
 		}
+		//Creating player objects
 		int playerNumber = 1;
 		for (int k = 0; k < noOfPlayers; k++) {
 			System.out.println("creating player objects");
@@ -141,7 +145,7 @@ public class StartUpPhase {
 			playerNumber++;
 		}
 		System.out.println("PLayerlist size: "+player_List.size());
-		initialSetUp(player_List, continent_list, country_list);
+		initialSetUp(player_List, continent_list, country_list); 
 	}
 
 	/**
@@ -181,7 +185,7 @@ public class StartUpPhase {
 
 		setRandomCountriesForEach(listOfAllCountries, continentList, noOfPlayers, playerList);
 
-		// Assigning an army to each of the countries of a particular player and
+		// Assigning an army to each of the countries for a particular player and
 		// calculating the remaining armies under each player
 		for (int j = 0; j < playerList.size(); j++) {
 			playerList.get(j).setNumberOfArmiesLeft(numberOfArmiesEach);
@@ -222,11 +226,17 @@ public class StartUpPhase {
 		return noOfArmies;
 	}
 
-	// testing a push
-	// second testing a push
+	/**
+	 * This function is used to set random countries for each player
+	 * 
+	 * @param noOfPlayers Number of players playing the game
+	 *@param listOfAllCountries list all country objects
+	 *@param continentList contains list of all continent objects
+	 *@param playerList contains list of player objects
+	 */
 	public void setRandomCountriesForEach(ArrayList<Country> listOfAllCountries, ArrayList<Continent> continentList,
 			int noOfPlayers, ArrayList<Player> playerList) {
-
+         //Randomly assigning the countries to all the players
 		/*
 		 * for(int j=0;j<listOfAllCountries.size();j++) { ArrayList<Country>
 		 * randomCountryList = new ArrayList<Country>(); int randomPlayer = (int)
