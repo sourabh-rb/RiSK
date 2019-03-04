@@ -4,6 +4,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import constants.LogLevel;
 import model.Country;
@@ -70,7 +71,16 @@ public class Utilities {
 			}
 		}
 		return null;
-		
+	}
+	
+	public static ArrayList<Country> getNeighborList(Player player, Country country) {
+	ArrayList<Country> neighborList=country.getNeighborCounties();
+	for(Country neighbor: country.getNeighborCounties()){
+		if(neighbor.getOwner().equals(player)) {
+			neighborList.add(neighbor);
+		}
+	}
+		return neighborList;
 	}
 
 }
