@@ -61,9 +61,6 @@ public class ReinforcementTest {
 		player1.setContinents(continents);
 		
 		player2.setCountries(countries);
-		
-		//To test if the getReinforcementArmies() method returns correct number of armies.
-		
 		int b1 = r.getReinforcementArmies(player1);
 		assertTrue(b1==4);
 		
@@ -87,7 +84,8 @@ public class ReinforcementTest {
 		player1.setArmies(9);
 		player1.setCountries(countries);
 		player1.setContinents(continents);
+		int armies=2;
 		//To test if the reinforceArmies() method returns correct number of armies.
-		assertTrue(r.reinforceArmies(player1,country1));
+		assertTrue(r.reinforceArmies(player1,country1,armies));
 	}
 }
