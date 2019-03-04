@@ -54,13 +54,13 @@ public class Reinforcement{
 	 * @param country Contains all the details of the country that the player chooses to reinforce.
 	 * @return returns true if the number of armies is successfully updated else false.
 	 */
-	public boolean reinforceArmies(Player player,Country country) {
+	public boolean reinforceArmies(Player player,Country country, int armies) {
 		Utilities.gameLog("Player: "+player.getName()+"|| Stage: Reinforcement || Country reinforced: "+ country.getName(),LogLevel.INFO);
 		ArrayList<Country> countries = player.getCountries();
 		if(countries != null && countries.contains(country)) {
 			int i = countries.indexOf(country);
 			Country country1 = countries.get(i);
-			country1.setArmies(country1.getArmies()+1);
+			country1.setArmies(country1.getArmies()+armies);
 			countries.remove(i);
 			countries.add(country1);
 			player.setCountries(countries);

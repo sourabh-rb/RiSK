@@ -6,6 +6,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 import constants.LogLevel;
+import model.Country;
+import model.Player;
 
 public class Utilities {
 		
@@ -59,6 +61,16 @@ public class Utilities {
             System.out.println(file.mkdirs());
             
         }
+	}
+	
+	public static Country getCountryFromPlayer(Player player,String countryName) {
+		for(Country country: player.getCountries()) {
+			if(countryName.equals(country.getName())) {
+				return country;
+			}
+		}
+		return null;
+		
 	}
 
 }
