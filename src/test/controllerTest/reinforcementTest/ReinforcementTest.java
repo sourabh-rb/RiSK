@@ -61,11 +61,9 @@ public class ReinforcementTest {
 		player1.setContinents(continents);
 		
 		player2.setCountries(countries);
-		int b1 = r.getReinforcementArmies(player1);
-		assertTrue(b1==4);
+		assertTrue(r.getReinforcementArmies(player1));
 		
-		int b2 = r.getReinforcementArmies(player2);
-		assertTrue(b2==0);
+		assertTrue(r.getReinforcementArmies(player2));
 	}
 	
 	@Test

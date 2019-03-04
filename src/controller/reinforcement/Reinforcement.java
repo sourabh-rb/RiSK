@@ -25,14 +25,14 @@ public class Reinforcement{
 	 * @param player Contains all the details of the player.
 	 * @return The number of armies that the player will get for reinforcement.
 	 */
-	public int getReinforcementArmies(Player player) {
+	public boolean getReinforcementArmies(Player player) {
 		// Number of armies to be given to the player for reinforcement
 		int armies=0;
 		// The control value associated with the continents owned by the player
 		int controlvalue=0;
-		
 		// If the player owns continents then the number of armies 
 		//given to him is the sum of the control values
+		try {
 		if(player.getContinents()!=null && player.getContinents().size()!=0) {
 			for(int i=0;i<player.getContinents().size();i++) {
 			controlvalue=player.getContinents().get(i).getControlValue();
@@ -43,12 +43,17 @@ public class Reinforcement{
 		}
 		// Update the number of armies the player owns.
 		player.setArmies(player.getArmies()+armies);
+		player.setNumberOfArmiesLeft(armies);
 		Utilities.gameLog("Player: "+player.getName()+" || Stage: Reinforcement Armies || Number of armies given: "+armies, LogLevel.INFO);
-		return armies;
+		return true;
+		}catch(Exception e) {
+			Utilities.gameLog("Player: "+player.getName()+" || Stage: Reinforcement Armies || Cannot give armies to reinforce!! ", LogLevel.ERROR);
+			return false;
+		}
 	}
 	
 	/**
-	 * This method is used to make changes in the number of armies in a country when the player is in the reinforcement stage
+	 * This method is used to make changes in the number of armies in a country when the player is in the reinforcement stage.
 	 * 
 	 * @param player Contains all the details of the player.
 	 * @param country Contains all the details of the country that the player chooses to reinforce.
@@ -64,6 +69,7 @@ public class Reinforcement{
 			countries.remove(i);
 			countries.add(country1);
 			player.setCountries(countries);
+			player.setNumberOfArmiesLeft(player.getNumberOfArmiesLeft()-armies);
 			Utilities.gameLog("Player: "+player.getName()+"|| Country reinforced!!",LogLevel.INFO);
 			return true;
 		}else {
