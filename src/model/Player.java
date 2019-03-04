@@ -23,13 +23,6 @@ public class Player {
 	// Number of armies owned by the player
 	private int armies;
 	private int numberOfArmiesLeft;
-	public int getNumberOfArmiesLeft() {
-		return numberOfArmiesLeft;
-	}
-
-	public void setNumberOfArmiesLeft(int numberOfArmiesLeft) {
-		this.numberOfArmiesLeft = numberOfArmiesLeft;
-	}
 	// Number of cards owned by the player
 	private int cardExchangeCount;
 	// Types of cards owned by the player
@@ -151,6 +144,23 @@ public class Player {
 	public void setContinents(ArrayList<Continent> continents) {
 		this.continents = continents;
 	}
+	
+	/**
+	 * This method gets the number of armies left for the player to deploy.
+	 * @return
+	 */
+	public int getNumberOfArmiesLeft() {
+		return numberOfArmiesLeft;
+	}
+
+	/**
+	 * This method sets the number of armies left forthe user to deploy.
+	 * @param numberOfArmiesLeft
+	 */
+	public void setNumberOfArmiesLeft(int numberOfArmiesLeft) {
+		this.numberOfArmiesLeft = numberOfArmiesLeft;
+	}
+
 	
 	@Override
 	public boolean equals(Object obj) 
