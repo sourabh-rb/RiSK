@@ -1,6 +1,8 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Objects;
+
 import utilities.Utilities;
 
 /**
@@ -129,10 +131,6 @@ public class Continent {
 
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		Integer value = Utilities.getIntegerValue(this.name);
-		result = prime * result + ((value == null) ? 0 : value);
-		return result;
+		return Objects.hash(this.name);
 	}
 }

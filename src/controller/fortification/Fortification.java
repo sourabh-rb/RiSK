@@ -2,6 +2,7 @@ package controller.fortification;
 
 import java.util.ArrayList;
 
+import constants.LogLevel;
 import model.Country;
 import model.Player;
 import utilities.Utilities;
@@ -26,31 +27,29 @@ public class Fortification{
 	 * @param toCountry Thecountry to which the army will be moved.
 	 * @return true if the fortification was successful, else false.
 	 */
-	public boolean fortifyArmies(Player player, Country fromCountry,Country toCountry) {
+	public boolean fortifyArmies(Player player, Country fromCountry,Country toCountry, int armies) {
 		
-		Utilities.gameLog("Player: "+player.getName()+"|| Stage: Fortification || Countries involved: "+fromCountry+","+toCountry);
+		Utilities.gameLog("Player: "+player.getName()+"|| Stage: Fortification || Countries involved: "+fromCountry.getName()+","+toCountry.getName(),LogLevel.INFO);
 		ArrayList<Country> playercountries = player.getCountries();
-		if(playercountries != null && playercountries.contains(fromCountry) && playercountries.contains(toCountry)) {
-			//Get the index of the countries that the user wants to involve in the fortification phase.
+		if(playercountries != null && playercountries.contains(fromCountry) && playercountries.contains(toCountry) && armies>0) {
+			//Update the number for armies in the fortifying country.
 			int i = playercountries.indexOf(fromCountry);
-			int j = playercountries.indexOf(toCountry);
-			//Reduce one army from the country the user chose.
 			Country country1 = playercountries.get(i);
-			country1.setArmies(country1.getArmies()-1);
-			//Add one army to the country the user wants to fortify.
-			Country country2 = playercountries.get(i);
-			country2.setArmies(country2.getArmies()+1);
-			//Update the countries with new army values
+			country1.setArmies(country1.getArmies()-armies);
 			playercountries.remove(i);
-			playercountries.remove(j);
 			playercountries.add(country1);
+			//Update the number for armies in the fortified country.
+			int j = playercountries.indexOf(toCountry);
+			Country country2 = playercountries.get(j);
+			country2.setArmies(country2.getArmies()+armies);
+			playercountries.remove(j);
 			playercountries.add(country2);
-			//Update the player with the new values.
 			player.setCountries(playercountries);
-			Utilities.gameLog("Player: "+player.getName()+"|| Countries fortified");
+			Utilities.gameLog("Player: "+player.getName()+"|| Countries fortified!! || "
+					+ country1.getName() +" : "+country1.getArmies()+" || "+ country2.getName() +" : "+country2.getArmies(),LogLevel.INFO);
 			return true;
 		}
-		Utilities.gameLog("Player: "+player.getName()+"|| Countries could not be fortified");
+		Utilities.gameLog("Player: "+player.getName()+"|| Countries could not be fortified",LogLevel.WARN);
 		return false;
 	}
 }
