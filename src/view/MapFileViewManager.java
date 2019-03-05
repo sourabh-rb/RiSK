@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
+import constants.LogLevel;
 import controller.Graph_test;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -25,6 +26,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import utilities.Utilities;
 /**
 * <h1>MapFileViewManager</h1>
 * The MapFileViewManager is responsible for loading
@@ -120,7 +122,6 @@ public class MapFileViewManager
 
 	        String line;
 	        while ((line = reader.readLine()) != null)
-	            //System.out.println(line);
 	        	displayArea.appendText(line + "\n");
 
 	    } catch (IOException e) {
@@ -144,6 +145,8 @@ public class MapFileViewManager
 			@Override
 			public void handle(ActionEvent event)
 			{
+				Utilities.gameLog("Stage: Map File Editor || State: Save Initiated", LogLevel.INFO);
+				
 				Graph_test gt=new Graph_test();
 				
 				try {
@@ -160,6 +163,7 @@ public class MapFileViewManager
 	            			alertDialog.setHeaderText(null);
 	            			alertDialog.setContentText("Map Valid! Choose location to save file.");
 	            			alertDialog.showAndWait();
+	            			Utilities.gameLog("Stage: Map File Editor || File Valid: " + chosenFile.getName(), LogLevel.INFO);
 	            		}
 	            		else
 	            		{
@@ -169,6 +173,10 @@ public class MapFileViewManager
 	            			alertDialog.setContentText("ERROR: " + errorMessage.toString());
 	            			alertDialog.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
 	            			alertDialog.showAndWait();
+	            			
+	            			Utilities.gameLog("Stage: Map File Editor || File Invalid: " + chosenFile.getName()
+                			+" || Error: " + errorMessage.toString(), LogLevel.INFO);
+	            			
 	            			return;
 	            		}
         			} catch (IOException e1)
@@ -212,6 +220,7 @@ public class MapFileViewManager
 			@Override
 			public void handle(ActionEvent event)
 			{
+				Utilities.gameLog("Stage: Map File Editor || State: Canceled Changes", LogLevel.INFO);
 			
 				mapFileStage.close();
 				
