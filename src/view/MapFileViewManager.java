@@ -7,8 +7,12 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 
+<<<<<<< Updated upstream
 import constants.LogLevel;
 import controller.Graph_test;
+=======
+import controller.GraphTest;
+>>>>>>> Stashed changes
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -145,15 +149,19 @@ public class MapFileViewManager
 			@Override
 			public void handle(ActionEvent event)
 			{
+<<<<<<< Updated upstream
 				Utilities.gameLog("Stage: Map File Editor || State: Save Initiated", LogLevel.INFO);
 				
 				Graph_test gt=new Graph_test();
+=======
+				GraphTest gt=new GraphTest();
+>>>>>>> Stashed changes
 				
 				try {
 						List<Object> mapValidation;
 	            		String errorMessage;
 	            		Alert alertDialog;
-	            		mapValidation = gt.initiate_check(displayArea.getText());
+	            		mapValidation = gt.initiateCheck(displayArea.getText());
 	            		errorMessage = mapValidation.get(0).toString();
 	            		if(errorMessage.equals("Success"))
 	            		{
