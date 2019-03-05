@@ -41,7 +41,7 @@ public class InitializationTest {
 		playerList.add(player1);
 		playerList.add(player2);
 		playerList.add(player3);
-		// playerList.add(player4);
+		//playerList.add(player4);
 
 		Continent continent1 = new Continent();
 		Country country1 = new Country();
