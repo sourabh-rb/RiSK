@@ -31,9 +31,9 @@ public class Utilities {
 	 * @param message 
 	 */
 	public static void gameLog(String message, LogLevel l) {
-		String FilePath = "D:\\RiskLogs\\GAME-LOG";
+		String FilePath = ".//Logs//game_log.txt";
 		try {
-			Utilities.createDirectoryIfNotExist("D:\\RiskLogs");
+			Utilities.createDirectoryIfNotExist(".//Logs");
 			File logFile = new File(FilePath);
 			logFile.createNewFile();
 			BufferedWriter wr = new BufferedWriter(new FileWriter(logFile, true));

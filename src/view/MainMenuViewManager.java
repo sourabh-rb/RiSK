@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Logger;
 
+import constants.LogLevel;
 import controller.Graph_test;
 import controller.initialization.StartUpPhase;
 import javafx.event.ActionEvent;
@@ -36,6 +37,7 @@ import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import utilities.Utilities;
 import view.ui_elements.RiskButton;
 import view.ui_elements.RiskLabel;
 import view.ui_elements.RiskSubScene;
@@ -89,6 +91,8 @@ public class MainMenuViewManager
 		createBackground();
 		createMenuButtons();
 		createLogo();
+		
+		Utilities.gameLog("Stage: Main Menu View displayed", LogLevel.INFO);
 		
 	}
 	
@@ -212,11 +216,12 @@ public class MainMenuViewManager
 		//Map Button Handler
 		mapButton.setOnAction(new EventHandler<ActionEvent>()
 		{
-
+			
 			@SuppressWarnings("unchecked")
 			@Override
 			public void handle(ActionEvent event)
 			{
+				Utilities.gameLog("Stage: Play || State: CHOOSE MAP selected", LogLevel.INFO);
 				FileChooser fileChooser = new FileChooser();
 				fileChooser.setTitle("Choose a map to edit");
 		        fileChooser.setInitialDirectory(new File(System.getProperty("user.dir")));
@@ -226,17 +231,18 @@ public class MainMenuViewManager
 		        	);
 		        File file = fileChooser.showOpenDialog(null);
                 if (file != null) {
+                	
+                	Utilities.gameLog("Stage: CHOOSE MAP || File selected: " + file.getName(), LogLevel.INFO);
                     //Validate file
                 	List<Object> mapValidation;
                 	StringBuffer contents = new StringBuffer();
-                	Graph_test gt=new Graph_test();
+                	Graph_test gt= new Graph_test();
                 	
                 	//Read file
                 	try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
 
             	        String line;
             	        while ((line = reader.readLine()) != null)
-            	            //System.out.println(line);
             	        	contents.append(line).append("\n");
 
             	    } catch (IOException e) {
@@ -269,6 +275,9 @@ public class MainMenuViewManager
 	                			startPhase = new StartUpPhase();
 	                			startPhase.mappingElements(continentHashMap, territoryHashMap, players);
 	                			startButton.setDisable(false);
+	                			
+	                			Utilities.gameLog("Stage: PLAY|| File Valid: " + file.getName(), LogLevel.INFO);
+	                			Utilities.gameLog("Stage: PLAY || Player Count: " + players, LogLevel.INFO);
 	                		}
 	                		else
 	                		{
@@ -277,8 +286,11 @@ public class MainMenuViewManager
 	                			alertDialog.setHeaderText("Invalid Map Selection");
 	                			alertDialog.setContentText("ERROR: " + errorMessage.toString());
 	                			alertDialog.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
-	                			alertDialog.showAndWait();	
+	                			alertDialog.showAndWait();
+	                			Utilities.gameLog("Stage: PLAY || File Invalid: " + file.getName()
+	                			+" || Error: " + errorMessage.toString(), LogLevel.INFO);
 	                		}
+	                		
                 		} catch (IOException e1)
                 			{
                 				// TODO Auto-generated catch block
@@ -344,6 +356,8 @@ public class MainMenuViewManager
 			@Override
 			public void handle(ActionEvent event)
 			{
+				Utilities.gameLog("Stage: Main Menu || State: EDIT MAP selected", LogLevel.INFO);
+				 
 				fileChooser.setTitle("Choose a map to edit");
 		        fileChooser.setInitialDirectory(new File(System.getProperty("user.dir")));
 		        fileChooser.getExtensionFilters().addAll(
@@ -353,7 +367,11 @@ public class MainMenuViewManager
 		        File file = fileChooser.showOpenDialog(null);
                 if (file != null) {
                     openMapEditFile(file);
+                    
+                    Utilities.gameLog("Stage: EDIT MAP || File selected:" + file.getName(), LogLevel.INFO);
                 }
+                
+               
 				
 			}
 		});
@@ -369,6 +387,8 @@ public class MainMenuViewManager
 			{
 				File newMapFile = new File(".//Maps//default.map");
 				MapFileViewManager fileView = new MapFileViewManager(newMapFile);
+				
+				Utilities.gameLog("Stage: NEW MAP selected", LogLevel.INFO);
 			}
 		});
 		HBox buttonBox = new HBox(20, editMapButton, createMapButton);
@@ -449,6 +469,7 @@ public class MainMenuViewManager
 			public void handle(ActionEvent event)
 			{
 				showSubScene(playSubScene);
+				Utilities.gameLog("Stage: Main Menu || State: PLAY selected", LogLevel.INFO);
 				
 			}
 		});
@@ -470,6 +491,7 @@ public class MainMenuViewManager
 			public void handle(ActionEvent event)
 			{
 				showSubScene(mapEditorSubScene);
+				Utilities.gameLog("Stage: Main Menu || State: MAP EDITOR selected", LogLevel.INFO);
 				
 			}
 		});
@@ -492,6 +514,7 @@ public class MainMenuViewManager
 			public void handle(ActionEvent event)
 			{
 				showSubScene(helpSubScene);
+				Utilities.gameLog("Stage: Main Menu || State: HELP selected", LogLevel.INFO);
 				
 			}
 		});
@@ -513,6 +536,7 @@ public class MainMenuViewManager
 			public void handle(ActionEvent event)
 			{
 				showSubScene(creditsSubScene);
+				Utilities.gameLog("Stage: Main Menu || State: CREDITS selected", LogLevel.INFO);
 				
 			}
 		});
@@ -534,6 +558,7 @@ public class MainMenuViewManager
 			public void handle(ActionEvent event)
 			{
 				mainStage.close();
+				Utilities.gameLog("Stage: Main Menu || State: Exited Game", LogLevel.INFO);
 				
 			}
 		});
