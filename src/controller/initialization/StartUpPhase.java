@@ -21,6 +21,7 @@ import utilities.Utilities;
  * will get equalll number of armies.
  * 
  * @author Aravind Reddy
+ * @version 1.0.0
  *
  */
 public class StartUpPhase {
@@ -33,13 +34,6 @@ public class StartUpPhase {
 	HashMap<String, Continent> continent_name2obj = new HashMap<String, Continent>();
 	ArrayList<Country> country_list = new ArrayList<Country>();
 
-	/**
-	 * 
-	 */
-	public StartUpPhase() {
-		//System.out.println("Inside startupphase constructor");
-
-	}
 
 	/**
 	 * This function creates objects for all the map elements like country,
@@ -54,7 +48,6 @@ public class StartUpPhase {
 	 */
 	public void mappingElements(HashMap<String, Integer> continentHashMap,
 			HashMap<String, ArrayList<String>> terrritoryHashMap, int noOfPlayers) {
-
 		int i = 0;
 		for (String key : continentHashMap.keySet()) {
 			continent_list.add(new Continent());
@@ -94,15 +87,29 @@ public class StartUpPhase {
 		Utilities.gameLog("Number of Player objects created: " + player_List.size());
 		initialSetUp(player_List, continent_list, country_list);
 	}
-
+/**
+ * This function return number of players in the game
+ * @param playerList list of player objects
+ * @return It is returning number of players
+ */
 	public int noOfPlayers(ArrayList<Player> playerList) {
 		return playerList.size();
 	}
 
+	/**
+	 * This function calculates number of continents in the provided map
+	 * @param continentList contains list of continent objects
+	 * @return returns number of continents
+	 */
 	public int noOfContinents(ArrayList<Continent> continentList) {
 		return continentList.size();
 	}
-
+/**
+ * This function is to calculate number of countries
+ * 
+ * @param countryList contains country objects
+ * @return number of countries
+ */
 	public int noOfCountries(ArrayList<Country> countryList) {
 		return countryList.size();
 	}
@@ -261,15 +268,7 @@ public class StartUpPhase {
 		}
 
 	}
-	
-	public void assignLeftOVerArmies(String countryName, int noOfArmies) {
-		for(int i=0;i<country_list.size();i++) {
-			if(countryName.equals(country_list.get(i).getName())){
-				country_list.get(i).setArmies(country_list.get(i).getArmies()+noOfArmies);
-				i=country_list.size();
-			}
-		}
-	}
+
 
 	/**
 	 * @param args
