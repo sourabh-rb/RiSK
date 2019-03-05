@@ -4,6 +4,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import constants.LogLevel;
 import model.Country;
@@ -72,5 +73,26 @@ public class Utilities {
 		return null;
 		
 	}
-
+	
+	public static ArrayList<Country> getNeighborList(Player player, Country country) {
+	    
+		ArrayList<Country> neighborList=new  ArrayList<Country>(); 
+	    System.out.println("shivani");
+	    System.out.println(country.getNeighborCounties().size());
+		for(int g=0;g<country.getNeighborCounties().size();g++) {
+	    	System.out.println(country.getNeighborCounties().get(g).getName());
+	    	
+	    }
+	   
+	    for(Country neighbor: country.getNeighborCounties()){
+	     
+	    	System.out.println("is a");
+	        if(neighbor.getOwner().getName().equals(player.getName())) {
+	        	System.out.println("bitch");
+	            neighborList.add(neighbor);
+	            System.out.println("Hello");
+	        }
+	    }
+	        return neighborList;
+	    }
 }

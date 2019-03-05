@@ -127,11 +127,20 @@ public class StartUpPhase {
 		}
 
 		for (Country c : country_list) {
+		
 			for (String neigh_country : terrritoryHashMap.get(c.getName()).subList(1,
 					terrritoryHashMap.get(c.getName()).size())) {
 				neigh_countries.add(country_name2obj.get(neigh_country));
+				
 			}
-			c.setNeighborCounties(neigh_countries);
+			System.out.println("Neighboring countries for "+c.getName());
+			for(int g=0;g<neigh_countries.size();g++) {
+		    	System.out.println(neigh_countries.get(g).getName());
+		    }
+			
+			
+			c.setNeighborCounties((ArrayList<Country>) neigh_countries.clone());
+			neigh_countries.clear();
 		}
 		int playerNumber = 1;
 		for (int k = 0; k < noOfPlayers; k++) {
@@ -261,6 +270,7 @@ public class StartUpPhase {
 				allCountryIndices.remove(randomCountry);
 				System.out.println("countries yet to be assigned - " + allCountryIndices.toString());
 				playerList.get(i).getCountries().add(listOfAllCountries.get(randomCountry));
+				listOfAllCountries.get(randomCountry).setOwner(playerList.get(i));
 				// playerList.get(i).setCountries(playerList.get(i).getCountries());
 			}
 		}
@@ -269,9 +279,10 @@ public class StartUpPhase {
 			int randomPlayer = (int) (Math.random() * playerList.size());
 			System.out.println("Random Player: " + randomPlayer);
 			listOfAllCountries.get(allCountryIndices.get(i));
-			System.out.println("char");
+			
 			playerList.get(randomPlayer).getCountries().add(listOfAllCountries.get(allCountryIndices.get(i)));
-			playerList.get(randomPlayer).setCountries(playerList.get(randomPlayer).getCountries());
+			listOfAllCountries.get(allCountryIndices.get(i)).setOwner(playerList.get(randomPlayer));
+			//playerList.get(randomPlayer).setCountries(playerList.get(randomPlayer).getCountries());
 		}
 
 		// Display owned countries of each player including player name
