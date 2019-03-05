@@ -27,6 +27,13 @@ import java.util.regex.Pattern;
 import javax.imageio.ImageIO;
 import java.util.regex.*;
 
+
+/**
+ * This class scrapes the data from .map file and checks the graph for errors.
+ * @author charan
+ * @version 1.0.0
+ */
+
 public  class Graph_test 
 
 {
@@ -34,9 +41,10 @@ public  class Graph_test
     private static final int SIZE = 10;
 
     /**
-     * Main demo entry point.
-     * 
-     * @param args command line arguments
+     * This method scrapes and extracts the  data from the .map file into a hashmap of  countries and continents.
+     * This method also checks the credibility of the .map file given as input and displays error messages if there are any
+     * @param file_contents contains the contents of the .map file in string format
+     * @return returns the continent,country hashmaps and also the error messages if the map has any errors otherwise returns success
      * @throws IOException 
      */
     
@@ -184,11 +192,20 @@ class graphs
 	 DefaultDirectedGraph<String, DefaultEdge> g;
 	
 	
+	/**
+	 * This constructor creates the empty graph object when an instance of graphs class is created
+	 * @throws IOException
+	 */
+	 
 	public  graphs() throws IOException {
 	     g= new DefaultDirectedGraph<String, DefaultEdge>(DefaultEdge.class);     
 	}
 	 
-	   
+	/**
+     * This method checks whether the graph is connected or not.
+     * @throws IOException 
+     * @return connected if the graph is connected otherwise disconnected 
+     */   
 	 
 	   
 	public String connectivity_check() throws IOException {
@@ -205,6 +222,14 @@ class graphs
 	 
 	    //assertTrue(imgFile.exists());
 	}
+	
+	/**
+     * This method populates the graph based on the .map file given as input.
+     * This method creates the vertices and edges between the vertices based on .map file
+     * @param territory_dissected contains each country details(country name,continent, neigh countries)
+     */   
+	
+	
 	
 	public void graph_populater(String[] territory_dissected)
 	{
