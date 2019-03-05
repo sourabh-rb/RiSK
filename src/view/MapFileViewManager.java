@@ -5,10 +5,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
 
 import constants.LogLevel;
 import controller.Graph_test;
@@ -17,7 +14,6 @@ import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.Alert.AlertType;
@@ -51,8 +47,12 @@ public class MapFileViewManager
 	private TextArea displayArea;
 	private Button saveButton;
 	private Button cancelButton;
-	private Button helpButton;
 	
+	/**
+	 * The MapFileViewManager constructor initializes and sets up
+	 * the map editor window.
+	 * 
+	 */
 	public MapFileViewManager(File file)
 	{
 		chosenFile = file;

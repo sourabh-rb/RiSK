@@ -11,6 +11,11 @@ import controller.fortification.Fortification;
 import model.Country;
 import model.Player;
 
+/**
+ * This class is used to test the fortification class.
+ * @author Shivani
+ *
+ */
 public class FortificationTest {
 	
 	Country fromCountry;
@@ -20,6 +25,9 @@ public class FortificationTest {
 	Fortification f;
 	private ArrayList<Country> countries;
 	
+	/**
+	 * This method is used to initialize and set the values for the common properties pertaining to countries and players 
+	 */
 	@Before
 	public void set() {
 		fromCountry = new Country();
@@ -43,6 +51,9 @@ public class FortificationTest {
 		f = new Fortification();
 	}
 
+	/**
+	 * This method is used to test the fortify armies method for a positive result.
+	 */
 	@Test
 	public void positiveTest1() {
 		armies=2;
@@ -50,6 +61,9 @@ public class FortificationTest {
 		assertTrue(b);
 	}
 	
+	/**
+	 * This method is used to test the fortify armies method for a negative result.
+	 */
 	@Test
 	public void negativeTest1() {
 
