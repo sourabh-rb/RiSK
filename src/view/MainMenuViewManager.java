@@ -11,13 +11,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Logger;
-
-<<<<<<< Updated upstream
 import constants.LogLevel;
-import controller.Graph_test;
-=======
 import controller.GraphTest;
->>>>>>> Stashed changes
 import controller.initialization.StartUpPhase;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -243,11 +238,9 @@ public class MainMenuViewManager
                     //Validate file
                 	List<Object> mapValidation;
                 	StringBuffer contents = new StringBuffer();
-<<<<<<< Updated upstream
-                	Graph_test gt= new Graph_test();
-=======
+
+
                 	GraphTest gt=new GraphTest();
->>>>>>> Stashed changes
                 	
                 	//Read file
                 	try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
