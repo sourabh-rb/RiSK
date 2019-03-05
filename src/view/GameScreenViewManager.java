@@ -593,26 +593,26 @@ public class GameScreenViewManager {
 				fortifyCountryCombobox.setBackground(new Background(new BackgroundFill(Color.BURLYWOOD, CornerRadii.EMPTY, Insets.EMPTY)));
 				fortifyCountryCombobox.getValue();
 				
+				fortifyCountryButton.setText("OK");
+				fortifyCountryButton.setLayoutX(450);
+				fortifyCountryButton.setLayoutY(500);
+				
+				fortifyNeighborLabel= new RiskLabel("Neighbouring countries");
+				fortifyNeighborLabel.setLayoutX(800);
+				fortifyNeighborLabel.setLayoutY(380);				
+				
+				fortifyNeighborCombobox.setLayoutX(800);
+				fortifyNeighborCombobox.setLayoutY(420);
+				
+				fortifyNeighborButton.setText("MOVE");
+				fortifyNeighborButton.setLayoutX(850);
+				fortifyNeighborButton.setLayoutY(500);
+				
 				//create OK button on selecting country
 				fortifyCountryCombobox.setOnAction(new EventHandler<ActionEvent>() {
 					
 					@Override
 					public void handle(ActionEvent event) {
-						
-						fortifyCountryButton.setText("OK");
-						fortifyCountryButton.setLayoutX(450);
-						fortifyCountryButton.setLayoutY(500);
-						
-						fortifyNeighborLabel= new RiskLabel("Neighbouring countries");
-						fortifyNeighborLabel.setLayoutX(800);
-						fortifyNeighborLabel.setLayoutY(380);				
-						
-						fortifyNeighborCombobox.setLayoutX(800);
-						fortifyNeighborCombobox.setLayoutY(420);
-						
-						fortifyNeighborButton.setText("MOVE");
-						fortifyNeighborButton.setLayoutX(850);
-						fortifyNeighborButton.setLayoutY(500);
 						
 						//create label & combo box for neighboring countries
 						fortifyCountryButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -643,10 +643,11 @@ public class GameScreenViewManager {
 															
 							}
 						});
-						gameScreenPane.getChildren().addAll(fortifyCountryButton,fortifyNeighborLabel,fortifyNeighborButton,fortifyNeighborCombobox);
+						//gameScreenPane.getChildren().addAll(fortifyCountryButton,fortifyNeighborLabel,fortifyNeighborButton,fortifyNeighborCombobox);
 					}
 				});
-				gameScreenPane.getChildren().addAll(fortifyCountryCombobox,fortifyCountryLabel);
+				gameScreenPane.getChildren().addAll(fortifyCountryCombobox,fortifyCountryLabel,fortifyCountryButton,
+						fortifyNeighborLabel,fortifyNeighborButton,fortifyNeighborCombobox);
 				//fortify BEGIN ends here
 			}
 		});
