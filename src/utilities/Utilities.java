@@ -5,6 +5,10 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import constants.LogLevel;
+import model.Country;
+import model.Player;
+
 public class Utilities {
 		
 	/**
@@ -24,23 +28,22 @@ public class Utilities {
 	
 	/**
 	 * This method is used to maintain the logs in a text file for the game.
-	 * @param serverID 
-	 * @param actionPerformed
-	 * @param memberID
-	 * @param reply
+	 * @param message 
 	 */
-	public static void gameLog(String message) {
-		String FilePath = "D:\\RiskLogs\\GAME-LOG";
+	public static void gameLog(String message, LogLevel l) {
+		String FilePath = ".//Logs//game_log.txt";
 		try {
-			Utilities.createDirectoryIfNotExist("D:\\RiskLogs");
+			Utilities.createDirectoryIfNotExist(".//Logs");
 			File logFile = new File(FilePath);
 			logFile.createNewFile();
 			BufferedWriter wr = new BufferedWriter(new FileWriter(logFile, true));
 			
 			
-			//System.out.println(message);
+
+			System.out.println(l+": "+message);
+
 			wr.newLine();
-			wr.write(message);
+			wr.write(l+": "+message);
 			wr.close();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -60,6 +63,16 @@ public class Utilities {
             System.out.println(file.mkdirs());
             
         }
+	}
+	
+	public static Country getCountryFromPlayer(Player player,String countryName) {
+		for(Country country: player.getCountries()) {
+			if(countryName.equals(country.getName())) {
+				return country;
+			}
+		}
+		return null;
+		
 	}
 
 }

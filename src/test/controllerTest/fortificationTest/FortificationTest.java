@@ -16,12 +16,17 @@ public class FortificationTest {
 	Country fromCountry;
 	Country toCountry;
 	Player player;
+	int armies;
 	Fortification f;
 	private ArrayList<Country> countries;
 	
 	@Before
 	public void set() {
 		fromCountry = new Country();
+		toCountry = new Country();
+		player = new Player();
+		countries = new ArrayList<>();
+		
 		fromCountry.setArmies(10);
 		fromCountry.setName("Canada");
 		
@@ -29,23 +34,28 @@ public class FortificationTest {
 		toCountry.setArmies(7);
 		toCountry.setName("Italy");
 		
-		player = new Player();
 		player.setName("Shivani");
-		player.setArmies(9);
-		player.setCardExchangeCount(0);
-		countries = null;
 		countries.add(fromCountry);
 		countries.add(toCountry);
 		player.setCountries(countries);
+		
 		
 		f = new Fortification();
 	}
 
 	@Test
 	public void positiveTest1() {
-		
-		boolean b = f.fortifyArmies(player, fromCountry, toCountry);
+		armies=2;
+		boolean b = f.fortifyArmies(player, fromCountry, toCountry, armies);
 		assertTrue(b);
+	}
+	
+	@Test
+	public void negativeTest1() {
+
+		armies=-2;
+		boolean b = f.fortifyArmies(player, fromCountry, toCountry, armies);
+		assertFalse(b);
 	}
 
 

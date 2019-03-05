@@ -5,6 +5,7 @@
 .apt_generated
 .factorypath
 .settings
+.classpath
 .springBeans
 .sts4-cache
 bin

@@ -27,6 +27,13 @@ import java.util.regex.Pattern;
 import javax.imageio.ImageIO;
 import java.util.regex.*;
 
+
+/**
+ * This class scrapes the data from .map file and checks the graph for errors.
+ * @author charan
+ * @version 1.0.0
+ */
+
 public  class Graph_test 
 
 {
@@ -34,9 +41,10 @@ public  class Graph_test
     private static final int SIZE = 10;
 
     /**
-     * Main demo entry point.
-     * 
-     * @param args command line arguments
+     * This method scrapes and extracts the  data from the .map file into a hashmap of  countries and continents.
+     * This method also checks the credibility of the .map file given as input and displays error messages if there are any
+     * @param file_contents contains the contents of the .map file in string format
+     * @return returns the continent,country hashmaps and also the error messages if the map has any errors otherwise returns success
      * @throws IOException 
      */
     
@@ -104,7 +112,7 @@ public  class Graph_test
     	for(int i=territory_start+1;i<lines.size();i++)
     	{
     		if(lines.get(i).length()==0) continue;
-    		if(!Pattern.matches("^[a-zA-Z0-9_ ]+,[0-9]+,[0-9]+,[a-zA-Z0-9_ ]+(,[a-zA-Z0-9_ ]+)+$", lines.get(i))) 
+    		if(!Pattern.matches("^[a-zA-Z0-9_ ]+,[0-9]+,[0-9]+,[a-zA-Z0-9_ ]+(,[a-zA-Z0-9_ ]+)*$", lines.get(i))) 
     			return Arrays.asList("wrong territory line format",continent_hashMap , territory_hashMap);
     		territory_dissected = lines.get(i).split(",");
     		
@@ -159,7 +167,18 @@ public  class Graph_test
     	System.out.println(territory_hashMap);
     	System.out.println(continent_hashMap);
     	
-    	//g1.visualize();
+    	
+    	
+    	
+    	if(continent_hashMap.isEmpty() || territory_hashMap.isEmpty())
+    	{
+    		return Arrays.asList("One of the hashmaps is empty",continent_hashMap,territory_hashMap);
+    	}
+    	
+    	if(g1.connectivity_check().contentEquals("graph disconnected"))
+    	{
+    		return Arrays.asList("Map Disconnected",continent_hashMap,territory_hashMap);
+    	}
 		
 		return Arrays.asList("Success",continent_hashMap , territory_hashMap);
      }
@@ -173,37 +192,44 @@ class graphs
 	 DefaultDirectedGraph<String, DefaultEdge> g;
 	
 	
+	/**
+	 * This constructor creates the empty graph object when an instance of graphs class is created
+	 * @throws IOException
+	 */
+	 
 	public  graphs() throws IOException {
 	     g= new DefaultDirectedGraph<String, DefaultEdge>(DefaultEdge.class);     
 	}
 	 
-	   
+	/**
+     * This method checks whether the graph is connected or not.
+     * @throws IOException 
+     * @return connected if the graph is connected otherwise disconnected 
+     */   
 	 
 	   
-	public void visualize() throws IOException {
+	public String connectivity_check() throws IOException {
 		
-		 
-	    JGraphXAdapter<String, DefaultEdge> graphAdapter = 
-	      new JGraphXAdapter<String, DefaultEdge>(g);
-	    mxIGraphLayout layout = new mxCircleLayout(graphAdapter);
-	    layout.execute(graphAdapter.getDefaultParent());
-	     
-	    BufferedImage image = 
-	      mxCellRenderer.createBufferedImage(graphAdapter, null, 2, Color.WHITE, true, null);
-	    File imgFile = new File("D:\\APPRisk/graph.png");
-	    ImageIO.write(image, "PNG", imgFile);
 	    ConnectivityInspector<String, DefaultEdge> inspector = new ConnectivityInspector<>(g);
 		if(inspector.isConnected())
 		{
-			System.out.println("connected");
+			return "connected";
 		}
 		else
 		{
-			System.out.println("graph disconnected");
+			return "graph disconnected";
 		}
 	 
 	    //assertTrue(imgFile.exists());
 	}
+	
+	/**
+     * This method populates the graph based on the .map file given as input.
+     * This method creates the vertices and edges between the vertices based on .map file
+     * @param territory_dissected contains each country details(country name,continent, neigh countries)
+     */   
+	
+	
 	
 	public void graph_populater(String[] territory_dissected)
 	{
