@@ -13,8 +13,8 @@ import utilities.Utilities;
  * f his owned countries. The players also get a card after each turn, these
  * cards can be exchanged for armies.
  * 
- * @author shivani
- * @version 1.0
+ * @author Shivani
+ * @version 1.0.0
  *
  */
 public class Player {

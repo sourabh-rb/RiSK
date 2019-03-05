@@ -9,7 +9,7 @@ import utilities.Utilities;
  * after each turn or after capturing the last country of another player.
  * 
  * @author shivani
- * @version 1.0
+ * @version 1.0.0
  */
 public class Card {
 

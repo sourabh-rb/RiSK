@@ -19,6 +19,7 @@ import model.Player;
  * This class contains test methods for initialization phase
  * 
  * @author Aravind Reddy
+ * @version 1.0.0
  *
  */
 public class InitializationTest {
@@ -86,6 +87,10 @@ public class InitializationTest {
 		continentList.add(continent2);
 		 initialize = new StartUpPhase();
 	}
+	/**
+	 * This method is used to test the method that calculates the number of armies that are to be given to 
+	 * each player at the start of the game. 
+	 */
 	@Test
 	public void noOfArmiesTest() {
 		int noOfArmies = initialize.calculateNoOfArmies(playerList.size());
@@ -93,11 +98,17 @@ public class InitializationTest {
 		
 	}
 	
+	/**
+	 * This method is used to test the method that calculates the number of continents in the game.
+	 */
 	@Test
 	public void noOfContinentsTest() {
 		int noOfContinents = initialize.noOfContinents(continentList);
 		assertEquals(noOfContinents, 2);
 	}
+	/**
+	 * This method is used to initialize the number of players for the game.
+	 */
 	@Test
 	public void noOfPlayersTest() {
 		int noOfPlayers = initialize.noOfPlayers(playerList);

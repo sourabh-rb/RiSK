@@ -12,8 +12,8 @@ import utilities.Utilities;
  * be same or different from the other continents. To conquer the continent the
  * player must capture all of the countries that make up the continent.
  * 
- * @author shivani
- * @version 1.0
+ * @author Shivani
+ * @version 1.0.0
  *
  */
 public class Continent {

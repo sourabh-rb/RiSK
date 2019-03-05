@@ -12,6 +12,12 @@ import model.Continent;
 import model.Country;
 import model.Player;
 
+/**
+ * This class is used to test the reinforcement class. 
+ * @author Shivani
+ * @version 1.0.0
+ *
+ */
 public class ReinforcementTest {
 	
 	Country country1,country2;
@@ -21,6 +27,9 @@ public class ReinforcementTest {
 	private ArrayList<Continent> continents;
 	Reinforcement r;
 	
+	/**
+	 * This method is used to initialize and set the values for the common properties pertaining to countries and players 
+	 */
 	@Before
 	public void set() {
 		country1 = new Country();
@@ -42,6 +51,10 @@ public class ReinforcementTest {
 		r = new Reinforcement();
 }
 
+	/**
+	 * This method is used to check if the getReinforcementArmies method is updating the correct value
+	 * for the player.
+	 */
 	@Test
 	public void positiveTest1() {
 		
@@ -66,6 +79,9 @@ public class ReinforcementTest {
 		assertTrue(r.getReinforcementArmies(player2));
 	}
 	
+	/**
+	 * This method is used to check if the reinforceArmies method is updating the countries correctly.
+	 */
 	@Test
 	public void positiveTest2() {
 		
