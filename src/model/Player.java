@@ -1,6 +1,8 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Objects;
+
 import utilities.Utilities;
 
 
@@ -11,8 +13,8 @@ import utilities.Utilities;
  * f his owned countries. The players also get a card after each turn, these
  * cards can be exchanged for armies.
  * 
- * @author shivani
- * @version 1.0
+ * @author Shivani
+ * @version 1.0.0
  *
  */
 public class Player {
@@ -21,13 +23,6 @@ public class Player {
 	// Number of armies owned by the player
 	private int armies;
 	private int numberOfArmiesLeft;
-	public int getNumberOfArmiesLeft() {
-		return numberOfArmiesLeft;
-	}
-
-	public void setNumberOfArmiesLeft(int numberOfArmiesLeft) {
-		this.numberOfArmiesLeft = numberOfArmiesLeft;
-	}
 	// Number of cards owned by the player
 	private int cardExchangeCount;
 	// Types of cards owned by the player
@@ -36,6 +31,7 @@ public class Player {
 	private ArrayList<Country> countries =new ArrayList<Country>();
 	// The continents that the player owns
 	private ArrayList<Continent> continents;
+	
 
 	/**
 	 * This method gets the name of the player.
@@ -150,6 +146,22 @@ public class Player {
 		this.continents = continents;
 	}
 	
+	/**
+	 * This method gets the number of armies left for the player to deploy.
+	 * @return
+	 */
+	public int getNumberOfArmiesLeft() {
+		return numberOfArmiesLeft;
+	}
+
+	/**
+	 * This method sets the number of armies left forthe user to deploy.
+	 * @param numberOfArmiesLeft
+	 */
+	public void setNumberOfArmiesLeft(int numberOfArmiesLeft) {
+		this.numberOfArmiesLeft = numberOfArmiesLeft;
+	}
+		
 	@Override
 	public boolean equals(Object obj) 
 	{ 
@@ -173,10 +185,6 @@ public class Player {
 	
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		Integer value = Utilities.getIntegerValue(this.name);
-		result = prime * result + ((value == null) ? 0 : value);
-		return result;
+		return Objects.hash(this.name);
 	}
 }

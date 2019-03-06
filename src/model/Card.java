@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Objects;
+
 import utilities.Utilities;
 
 /**
@@ -7,7 +9,7 @@ import utilities.Utilities;
  * after each turn or after capturing the last country of another player.
  * 
  * @author shivani
- * @version 1.0
+ * @version 1.0.0
  */
 public class Card {
 
@@ -56,10 +58,6 @@ public class Card {
 	
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		Integer value = Utilities.getIntegerValue(this.type);
-		result = prime * result + ((value == null) ? 0 : value);
-		return result;
+		return Objects.hash(this.type);
 	}
 }

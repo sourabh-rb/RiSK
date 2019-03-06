@@ -1,6 +1,8 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Objects;
+
 import utilities.Utilities;
 
 /**
@@ -9,8 +11,8 @@ import utilities.Utilities;
  * countries, these are called neighbour countries. Each country can be occupied
  * by 'n' number of armies of the player that owns it.
  * 
- * @author shivani
- * @version 1.0
+ * @author Shivani
+ * @version 1.0.0
  *
  */
 public class Country {
@@ -125,7 +127,7 @@ public class Country {
 
 	
 	  @Override public int hashCode() { final int prime = 31; int result = 1;
-	  Integer value = Utilities.getIntegerValue(this.name); result = prime * result
-	  + ((value == null) ? 0 : value); return result; }
+	  
+	  return Objects.hash(this.name); }
 	 
 }
