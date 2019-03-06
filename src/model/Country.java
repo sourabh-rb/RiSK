@@ -11,8 +11,8 @@ import utilities.Utilities;
  * countries, these are called neighbour countries. Each country can be occupied
  * by 'n' number of armies of the player that owns it.
  * 
- * @author shivani
- * @version 1.0
+ * @author Shivani
+ * @version 1.0.0
  *
  */
 public class Country {

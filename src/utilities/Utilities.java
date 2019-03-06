@@ -112,7 +112,9 @@ public class Utilities {
 	 * @param phase
 	 * @return true if the number is valid, else false
 	 */
+
 	public static boolean isUserInputValid(int userInput, int armies, GamePhase phase) {
+
 		if (phase.equals(GamePhase.REINFORCEMENT) || phase.equals(GamePhase.INITIALIZATION)) {
 			if (userInput > 0 && userInput <= armies) {
 				return true;
@@ -128,21 +130,19 @@ public class Utilities {
 		}
 		return false;
 	}
-	
 
-	public static boolean isFortificationPossible(Player player) {
+
+	public boolean isFortificationPossible(Player player) {
 		// ArrayList<Country> neighborList=null;
-		
-        for (Country country : player.getCountries()) {
-            if (country.getNeighborCounties() != null && country.getArmies() > 1) {
-                for (Country neighbor : country.getNeighborCounties()) {
-                    if (neighbor.getOwner().equals(player)) {
-                        return true;
-                    }
-                }
-            }
-            
-        }
-        return false;
+		for (Country country : player.getCountries()) {
+			if (country.getNeighborCounties() != null && country.getArmies() > 1) {
+				for (Country neighbor : country.getNeighborCounties()) {
+					if (neighbor.getOwner().equals(player)) {
+						return true;
+					}
+				}
+			}
+		}
+		return false;
 	}
 }
