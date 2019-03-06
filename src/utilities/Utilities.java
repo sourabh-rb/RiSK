@@ -91,7 +91,7 @@ public class Utilities {
 	 * @return
 	 */
 	public static ArrayList<Country> getNeighborList(Player player, Country country) {
-		ArrayList<Country> neighborList = country.getNeighborCounties();
+		ArrayList<Country> neighborList =new ArrayList<>();
 		for (Country neighbor : country.getNeighborCounties()) {
 			if (neighbor.getOwner().equals(player)) {
 				neighborList.add(neighbor);
@@ -112,7 +112,9 @@ public class Utilities {
 	 * @param phase
 	 * @return true if the number is valid, else false
 	 */
-	public boolean isUserInputValid(int userInput, int armies, GamePhase phase) {
+
+	public static boolean isUserInputValid(int userInput, int armies, GamePhase phase) {
+
 		if (phase.equals(GamePhase.REINFORCEMENT) || phase.equals(GamePhase.INITIALIZATION)) {
 			if (userInput > 0 && userInput <= armies) {
 				return true;
@@ -128,6 +130,7 @@ public class Utilities {
 		}
 		return false;
 	}
+
 
 	public boolean isFortificationPossible(Player player) {
 		// ArrayList<Country> neighborList=null;

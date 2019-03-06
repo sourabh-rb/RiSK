@@ -1,8 +1,14 @@
 package view;
 
 import java.util.ArrayList;
+import controller.fortification.*;
 import java.util.List;
+
+import constants.GamePhase;
+import constants.LogLevel;
 import controller.initialization.StartUpPhase;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -12,6 +18,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -27,6 +34,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import model.Country;
+import model.Player;
 import view.ui_elements.RiskButton;
 import view.ui_elements.RiskLabel;
 import utilities.Utilities;
@@ -36,11 +44,12 @@ import controller.reinforcement.*;
  *  selects PLAY option on the main screen.
  *  
  * @author Arvind Korchibettu Adiga
- *
+ * @version 1.0.0
  */
 
 public class GameScreenViewManager {
 	
+	//Declare data members
 	private final static int WIDTH = 1024;
 	private final static int HEIGHT = 768;
 	
@@ -54,12 +63,13 @@ public class GameScreenViewManager {
 	private ComboBox<String> playerInitCombobox,reinforcementCombobox,fortifyCountryCombobox;
 	private TextField playerInitTextfield,reinforcementTextfield;
 	private ImageView reinforcementSoldierImage,playerInitSoldierImage;
-	private RiskButton reinforcementButton,fortifyMessageButton;
+	private RiskButton reinforcementButton,fortifyMessageButton,finalButton;
 	private RiskButton playerInitOkButton;
 	private RiskLabel playerInitArmy;
 	private Reinforcement reinforce=new Reinforcement();
 	ArrayList<Country> playerNeighborList; 
 	
+	//Initialize reusable data members
 	private RiskButton reinforceButton=new RiskButton("");
 	private RiskLabel welcomeLabel=new RiskLabel("");
 	private RiskLabel armyNotAssignedLabel=new RiskLabel("");
@@ -71,10 +81,17 @@ public class GameScreenViewManager {
 	private RiskButton fortifyCountryButton=new RiskButton("");
 	private RiskButton fortifyNeighborButton=new RiskButton("");
 	private RiskLabel fortifyNeighborLabel= new RiskLabel("");
+	private RiskLabel fortifyEachCountryArmyCount= new RiskLabel("");
+	private TextField fortifyTextField=new TextField();
+	private ImageView fortifySoldierImage;
 	
 	List<RiskButton> menuButtons;
 	
-	
+	/**
+	 * This is the Constructor for GameScreenViewManager
+	 * @param startObject initializes player data members
+	 * 
+	 */
 	public GameScreenViewManager(StartUpPhase startObject)
 	{
 		this.startObject = startObject;
@@ -96,6 +113,9 @@ public class GameScreenViewManager {
 		createTable();
 		createWelcomeMessage();
 		gameScreenStage.show();
+		reinforceButton.setDisable(true);
+		attackButton.setDisable(true);
+		fortifyButton.setDisable(true);
 	}	
 	
 	/**
@@ -172,42 +192,68 @@ public class GameScreenViewManager {
 		playerInitOkButton.setLayoutX(1200);
 		playerInitOkButton.setLayoutY(390);
 		
+		
 		//Assign action on click of OK button.
 		
 		playerInitOkButton.setOnAction(new EventHandler<ActionEvent>() {
 					
 					@Override
-					public void handle(ActionEvent event) {
+					public void handle(ActionEvent event) throws NullPointerException {
 						playerInitTextfield.getText();
 					
 							if((startObject.player_List.get(index).getNumberOfArmiesLeft())>0)
 							{
 								//Retrieve user inputed combo box and text field value
-								String playerInitComboboxValue = playerInitCombobox.getSelectionModel().getSelectedItem().toString();	
-								int playerInitArmyInput = Integer.parseInt(playerInitTextfield.getText());
+								String playerInitComboboxValue = null;	
+								int playerInitArmyInput=0;		
+								Country playerInitCountryObject=null;
+								try {
+									playerInitComboboxValue = playerInitCombobox.getSelectionModel().getSelectedItem().toString();
+									playerInitArmyInput = Integer.parseInt(playerInitTextfield.getText());
+									playerInitCountryObject = Utilities.getCountryFromPlayer(startObject.player_List.get(index),playerInitComboboxValue);						
+								}
+								catch(Exception e) {
+									playerInitMessageLabel.setText("Invalid user input");
+								}
+								
 								
 								//Retrieve country object from Utilities.getCountryFromPlayer method
-								Country playerInitCountryObject = Utilities.getCountryFromPlayer(startObject.player_List.get(index),playerInitComboboxValue);
 								
+								
+								if(Utilities.isUserInputValid(playerInitArmyInput, startObject.player_List.get(index).getNumberOfArmiesLeft(), GamePhase.INITIALIZATION))
+								{
 								//This method is used to make changes in the number of armies in a country when the player is in the reinforcement stage
 								reinforce.reinforceArmies(startObject.player_List.get(index),playerInitCountryObject,playerInitArmyInput);
 								
 								armyNotAssignedLabel.setText("Army not assigned : " +startObject.player_List.get(index).getNumberOfArmiesLeft());
-								
+															
 								playerInitMessageLabel.setText(playerInitComboboxValue+" got additional "+playerInitArmyInput+" armies");
 								playerInitMessageLabel.setLayoutX(650);
 								playerInitMessageLabel.setLayoutY(575);						
 								//gameScreenPane.getChildren().add(playerInitMessageLabel);
+								}
+								else {
+									playerInitMessageLabel.setText("Invalid user input");
+									playerInitMessageLabel.setLayoutX(575);
+									playerInitMessageLabel.setLayoutY(575);
+								}
+								try {
+									gameScreenPane.getChildren().add(playerInitMessageLabel);
+								}
+								catch(Exception e) {
+									Utilities.gameLog("test",LogLevel.ERROR);
+								}
+								
 							}
 							
 							else
 							{
 								playerInitMessageLabel.setText("Cannot assign : no more armies remaining."+"\n"+
-							"Proceed to Reinforcement");	
+																"Proceed to Reinforcement");	
 								reinforceButton.setDisable(false);
+								playerInitOkButton.setDisable(true);
 							}
-						
-						
+											
 					}
 				});
 				
@@ -216,6 +262,9 @@ public class GameScreenViewManager {
 				playerInitTextfield,playerInitOkButton,playerInitMessageLabel);
 		
 	}
+	/**
+	 * This method creates the message when user begins the turn
+	 */
 	
 	private void createWelcomeMessage()
 	{		
@@ -332,30 +381,27 @@ public class GameScreenViewManager {
 			public void handle(ActionEvent event) {
 				updateFortifyScreen();
 				
-				/*if(index >=(startObject.player_List.size() - 1))
-				{
-					index = 0;
-				}
-				else 
-				{
-					index++;
-				}*/
-				
-				
-				
-				
 			}
 		});
 				
-		RiskButton helpButton = new RiskButton("HELP");
-		helpButton.setLayoutX(850);
-		helpButton.setLayoutY(900);
+		RiskButton GamePlayExitButton = new RiskButton("EXIT");
+		GamePlayExitButton.setLayoutX(850);
+		GamePlayExitButton.setLayoutY(900);
 		
-		gameScreenPane.getChildren().addAll(cardsButton,reinforceButton,attackButton,fortifyButton,helpButton);
+		GamePlayExitButton.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				gameScreenStage.close();
+				
+			}
+		});
+		
+		gameScreenPane.getChildren().addAll(cardsButton,reinforceButton,attackButton,fortifyButton,GamePlayExitButton);
 	}
 	
-	/**Create labels on the game screen
-	 * 
+	/**
+	 * Create labels on the game screen
 	 */
 	
 	public void createLabels()
@@ -369,11 +415,6 @@ public class GameScreenViewManager {
 		playerDescLabel2.setLayoutX(40);
 		playerDescLabel2.setLayoutY(300);
 		playerDescLabel2.setTextFill(Color.BLACK);
-		
-		RiskLabel playerDescLabel3=new RiskLabel("Neighbours");
-		playerDescLabel3.setLayoutX(40);
-		playerDescLabel3.setLayoutY(380);
-		playerDescLabel3.setTextFill(Color.BLACK);
 		
 		RiskLabel playerDescLabel4=new RiskLabel("Opponent Description");
 		playerDescLabel4.setLayoutX(1570);
@@ -389,16 +430,12 @@ public class GameScreenViewManager {
 		armiesAssignedLabel.setLayoutX(40);
 		armiesAssignedLabel.setLayoutY(150);
 		
-		RiskLabel playerDescLabel7=new RiskLabel("Attackable countries");
-		playerDescLabel7.setLayoutX(40);
-		playerDescLabel7.setLayoutY(750);
-		
 		armyNotAssignedLabel.setText("Army not assigned : " +startObject.player_List.get(index).getNumberOfArmiesLeft());
 		armyNotAssignedLabel.setLayoutX(40);
 		armyNotAssignedLabel.setLayoutY(190);
 		
-		gameScreenPane.getChildren().addAll(playerDescLabel2,playerDescLabel1,playerDescLabel3,playerDescLabel4,
-				currentPlayerLabel,armiesAssignedLabel,playerDescLabel7,armyNotAssignedLabel);
+		gameScreenPane.getChildren().addAll(playerDescLabel2,playerDescLabel1,playerDescLabel4,
+				currentPlayerLabel,armiesAssignedLabel,armyNotAssignedLabel);
 	}
 	
 
@@ -416,31 +453,39 @@ public class GameScreenViewManager {
 	
 		playerOwnedCombobox.setEditable(true); 
 		playerOwnedCombobox.setLayoutX(40);
-		playerOwnedCombobox.setLayoutY(340);		
-
-		ComboBox<String> neighboursCombobox = new ComboBox<String>();
-		neighboursCombobox.getItems().addAll("Country1","Country2","Country3","Country4","Country5");
-		neighboursCombobox.setEditable(true); 
-		neighboursCombobox.setLayoutX(40);
-		neighboursCombobox.setLayoutY(420);
-		
-		gameScreenPane.getChildren().addAll(playerOwnedCombobox,neighboursCombobox);
+		playerOwnedCombobox.setLayoutY(340);	
+			
+		gameScreenPane.getChildren().addAll(playerOwnedCombobox);
 	}
 	
-	/** Creates a table view to display opponent description.
-	 * 
+	/** 
+	 * Creates a table view to display player description.
 	 */
 	private void createTable()
 	{
 		TableView opponentTable=new TableView();
-		opponentTable.setEditable(true);	
-		TableColumn opponentName = new TableColumn("Player Name");
-		TableColumn opponentCountries = new TableColumn("Territories");
-		TableColumn opponentScore= new TableColumn("Score");
-		opponentTable.setLayoutX(1610);
+		opponentTable.setEditable(true);
+		
+		 final ObservableList<Player> data = FXCollections.observableArrayList();
+		 for (Player player : startObject.player_List) {
+			 data.addAll(player);
+		}
+		        				 
+		TableColumn playerName = new TableColumn("Player Name");
+		playerName.setMinWidth(100);
+		playerName.setCellValueFactory(
+                new PropertyValueFactory<Player, String>("name"));
+
+		TableColumn playerArmies= new TableColumn("Total armies");
+		playerArmies.setMinWidth(100);
+		playerArmies.setCellValueFactory(
+                new PropertyValueFactory<Player, String>("armies"));
+		
+		opponentTable.setLayoutX(1570);
 		opponentTable.setLayoutY(120);
-		opponentTable.setBackground(new Background(new BackgroundFill(Color.BURLYWOOD, CornerRadii.EMPTY, Insets.EMPTY)));        
-		opponentTable.getColumns().addAll(opponentName,opponentCountries,opponentScore);
+		opponentTable.setBackground(new Background(new BackgroundFill(Color.BURLYWOOD, CornerRadii.EMPTY, Insets.EMPTY)));  
+		opponentTable.setItems(data);
+		opponentTable.getColumns().addAll(playerName,playerArmies);
 		gameScreenPane.getChildren().addAll(opponentTable);
 	}
 	
@@ -455,6 +500,8 @@ public class GameScreenViewManager {
 				playerInitArmy,playerInitSoldierImage,playerInitMessageLabel,playerInitTextfield,playerInitOkButton);
 		
 		playerInitLabel.setText("Reinforcement Phase");
+		reinforceButton.setDisable(true);
+		
 		
 		//This method returns the number of armies that the player will get in the reinforcement phase of the game.
 		reinforce=new Reinforcement();
@@ -516,32 +563,63 @@ public class GameScreenViewManager {
 				{
 					//Retrieve user inputed combo box and text field value
 					String reinforcementComboboxValue = reinforcementCombobox.getSelectionModel().getSelectedItem().toString();	
-					int userArmyInput = Integer.parseInt(reinforcementTextfield.getText());
+					int userArmyInput=0;
+					try {
+						userArmyInput = Integer.parseInt(reinforcementTextfield.getText());
+					}
+					catch(Exception e) {
+						reinforcementMessageLabel.setText("Invalid user input");
+					}
 					
 					//Retrieve country object from Utilities.getCountryFromPlayer method
 					Country reinforcementCountry = Utilities.getCountryFromPlayer(startObject.player_List.get(index),reinforcementComboboxValue);
 					
-					//This method is used to make changes in the number of armies in a country when the player is in the reinforcement stage			
-					reinforce.reinforceArmies(startObject.player_List.get(index),reinforcementCountry,userArmyInput);
+					if(Utilities.isUserInputValid(userArmyInput, startObject.player_List.get(index).getNumberOfArmiesLeft(), GamePhase.REINFORCEMENT))
+					{													
+						//This method is used to make changes in the number of armies in a country when the player is in the reinforcement stage			
+						reinforce.reinforceArmies(startObject.player_List.get(index),reinforcementCountry,userArmyInput);
 					
-					armyNotAssignedLabel.setText("Army not assigned : " +startObject.player_List.get(index).getNumberOfArmiesLeft());
+						armyNotAssignedLabel.setText("Army not assigned : " +startObject.player_List.get(index).getNumberOfArmiesLeft());
 					
-					reinforcementMessageLabel.setText(reinforcementComboboxValue+" got additional "+userArmyInput+" armies");
-					reinforcementMessageLabel.setLayoutX(575);
-					reinforcementMessageLabel.setLayoutY(575);
-					gameScreenPane.getChildren().add(reinforcementMessageLabel);
+						reinforcementMessageLabel.setText(reinforcementComboboxValue+" got additional "+userArmyInput+" armies");
+						reinforcementMessageLabel.setLayoutX(575);
+						reinforcementMessageLabel.setLayoutY(575);
+						//gameScreenPane.getChildren().add(reinforcementMessageLabel);
+						
+					}
+					else {
+						reinforcementMessageLabel.setText("Invalid user input");
+						reinforcementMessageLabel.setLayoutX(575);
+						reinforcementMessageLabel.setLayoutY(575);
+						//gameScreenPane.getChildren().add(reinforcementMessageLabel);
+					}
+					try {
+						gameScreenPane.getChildren().add(reinforcementMessageLabel);
+					}
+					catch(Exception e) {
+						Utilities.gameLog("test",LogLevel.ERROR);
+					}
+					
 				}
 				
 				else
 				{
 					reinforcementMessageLabel.setText("Cannot assign : no more armies remaining"+"\n"+"Proceed to next phase");
 					fortifyButton.setDisable(false);
+					reinforcementButton.setDisable(true);
+					try {
+					gameScreenPane.getChildren().add(reinforcementMessageLabel);
+					}
+					catch(Exception e) {
+						Utilities.gameLog("test",LogLevel.ERROR);
+					}
 				}
+				//gameScreenPane.getChildren().add(reinforcementMessageLabel);
 			}
 		});
 		
 		gameScreenPane.getChildren().addAll(reinforcementCombobox,reinforcementLabelC,reinforcementLabelA, reinforcementTextfield,
-				reinforcementSoldierImage,reinforcementButton,playerInitLabel,reinforcementMessageLabel);
+				reinforcementSoldierImage,reinforcementButton,playerInitLabel);
 				
 	}
 	
@@ -550,8 +628,11 @@ public class GameScreenViewManager {
 	 */
 	private void updateFortifyScreen()
 	{ 	
+		if(Utilities.isFortificationPossible(startObject.player_List.get(index)))
+		{
 		//remove reinforce screen elements.
 		reinforceButton.setDisable(true);
+		fortifyButton.setDisable(true);
 		gameScreenPane.getChildren().removeAll(reinforcementCombobox,reinforcementLabelC,reinforcementLabelA, reinforcementTextfield,
 				reinforcementSoldierImage,playerInitLabel,reinforcementButton,reinforcementMessageLabel);
 				
@@ -605,26 +686,59 @@ public class GameScreenViewManager {
 				fortifyNeighborCombobox.setLayoutY(420);
 				
 				fortifyNeighborButton.setText("MOVE");
-				fortifyNeighborButton.setLayoutX(850);
-				fortifyNeighborButton.setLayoutY(500);
+				fortifyNeighborButton.setLayoutX(1000);
+				fortifyNeighborButton.setLayoutY(510);
 				
+				fortifyEachCountryArmyCount=new RiskLabel("");
+				fortifyEachCountryArmyCount.setLayoutX(450);
+				fortifyEachCountryArmyCount.setLayoutY(600);
+				
+				//fortifyTextField=new TextField();
+				fortifyTextField.getText();
+				fortifyTextField.setLayoutX(800);
+				fortifyTextField.setLayoutY(500);
+				fortifyTextField.setPrefColumnCount(2);
+				
+				fortifySoldierImage=new ImageView("/view/resources/gamePlaySoldier.png");
+				fortifySoldierImage.setFitHeight(50);
+				fortifySoldierImage.setFitWidth(50);
+				fortifySoldierImage.setLayoutX(855);
+				fortifySoldierImage.setLayoutY(490);
+						
+								
 				//create OK button on selecting country
 				fortifyCountryCombobox.setOnAction(new EventHandler<ActionEvent>() {
 					
 					@Override
 					public void handle(ActionEvent event) {
-						
+						fortifyNeighborLabel.setText("");
+						fortifyNeighborLabel.setText("");
+						fortifyCountryButton.setDisable(false);
+						fortifyNeighborButton.setDisable(false);
 						//create label & combo box for neighboring countries
 						fortifyCountryButton.setOnAction(new EventHandler<ActionEvent>() {
 
 							@Override
 							public void handle(ActionEvent event) {
 								
-								
+								fortifyCountryButton.setDisable(true);
 								String fortifyCountryValue = fortifyCountryCombobox.getSelectionModel().getSelectedItem().toString();
 								Country fortifyCountryObject = Utilities.getCountryFromPlayer(startObject.player_List.get(index),fortifyCountryValue);
-															
-								System.out.println("adiga"+fortifyCountryObject.getName());
+							
+								if(isArmyTransferrable(fortifyCountryObject)) 
+								{
+								fortifyEachCountryArmyCount.setText(fortifyCountryObject.getName()+" has "
+								+fortifyCountryObject.getArmies()+" armies"+"\n"+
+								"Player can move upto "+(fortifyCountryObject.getArmies()-1)+" armies");
+								fortifyTextField.setDisable(false);
+								}
+								else
+								{
+									fortifyEachCountryArmyCount.setText("WARNING : Cannot move Armies to Neighbors as Country has single army");
+									fortifyTextField.setDisable(true);
+									fortifyNeighborButton.setDisable(true);
+									
+								}
 								
 								playerNeighborList = new ArrayList<Country>();
 								playerNeighborList = Utilities.getNeighborList(startObject.player_List.get(index),fortifyCountryObject);
@@ -634,24 +748,126 @@ public class GameScreenViewManager {
 								if(playerNeighborList.isEmpty())
 								{
 									fortifyNeighborCombobox.getItems().add("No neighbors");
+									fortifyNeighborButton.setDisable(true);
 								}
 								
 								for(Country country : playerNeighborList)
 								{						
 									fortifyNeighborCombobox.getItems().add(country.getName());
 								}
+								
+								
+								//set action for MOVE button
+								fortifyNeighborButton.setOnAction(new EventHandler<ActionEvent>() {
+									
+									@Override
+									public void handle(ActionEvent event) throws NullPointerException {
+										int userArmyInput=0;
+										String fortifyNeighborValue =null;
+										Country fortifyNeighborCountryObject=null;
+										try {
+											userArmyInput = Integer.parseInt(fortifyTextField.getText());
+											fortifyNeighborValue=fortifyNeighborCombobox.getSelectionModel().getSelectedItem().toString();
+											fortifyNeighborCountryObject = Utilities.getCountryFromPlayer(startObject.player_List.get(index),fortifyNeighborValue);
+										}
+										catch(Exception e) {
+											fortifyNeighborLabel.setText("Invalid user input");
+											fortifyNeighborLabel.setLayoutX(1000);
+											fortifyNeighborLabel.setLayoutY(420);
+										}																													
+						
+										if((Utilities.isUserInputValid(userArmyInput, fortifyCountryObject.getArmies(), GamePhase.FORTIFICATION)))
+										{
+											Fortification.fortifyArmies(startObject.player_List.get(index),fortifyCountryObject,fortifyNeighborCountryObject,userArmyInput);											
+											fortifyNeighborLabel.setText(userArmyInput+" armies moved from "+fortifyCountryValue+" to "+fortifyNeighborValue);
+											fortifyNeighborLabel.setLayoutX(650);
+											fortifyNeighborLabel.setLayoutY(430);	
+										
+											fortifyCountryLabel.setText("Fortification phase has ended. "+"\n"
+													+" Next player will begin turn.");
+											fortifyCountryLabel.setLayoutX(650);
+											fortifyCountryLabel.setLayoutY(550);
+										    
+											finalButton=new RiskButton("OK");
+											finalButton.setLayoutX(700);
+											finalButton.setLayoutY(700);
+											
+											finalButton.setOnAction(new EventHandler<ActionEvent>() {
+
+												@Override
+												public void handle(ActionEvent event) {
+													if(index >=(startObject.player_List.size() - 1))
+													{
+														index = 0;
+													}
+													else 
+													{
+														index++;
+													}
+													gameScreenStage.hide();
+													GameScreenViewManager gsvm=new GameScreenViewManager(startObject);
+												}												
+											});
+											
+											gameScreenPane.getChildren().add(finalButton);
+											
+											gameScreenPane.getChildren().removeAll(fortifyCountryCombobox,fortifyCountryButton,fortifyMessageLabel,
+												fortifyNeighborButton,fortifyNeighborCombobox,fortifyTextField,fortifySoldierImage,fortifyEachCountryArmyCount);																	
+										}
+										else
+										{
+											fortifyNeighborLabel.setText("Invalid user input");
+											fortifyNeighborLabel.setLayoutX(1000);
+											fortifyNeighborLabel.setLayoutY(420);
+										}
+										
+									}
+								});
 															
 							}
 						});
-						//gameScreenPane.getChildren().addAll(fortifyCountryButton,fortifyNeighborLabel,fortifyNeighborButton,fortifyNeighborCombobox);
+						//OK button ends here
 					}
 				});
 				gameScreenPane.getChildren().addAll(fortifyCountryCombobox,fortifyCountryLabel,fortifyCountryButton,
-						fortifyNeighborLabel,fortifyNeighborButton,fortifyNeighborCombobox);
+						fortifyNeighborLabel,fortifyNeighborButton,fortifyNeighborCombobox,fortifyEachCountryArmyCount,fortifyTextField,
+						fortifySoldierImage);
 				//fortify BEGIN ends here
+				
+				//Fortify neighbor country on click of MOVE button
+				
 			}
 		});
 	
+	}
+		else {
+			if(index >=(startObject.player_List.size() - 1))
+			{
+				index = 0;
+			}
+			else 
+			{
+				index++;
+			}
+			gameScreenStage.hide();
+			GameScreenViewManager gsvm=new GameScreenViewManager(startObject);
+		}
+	}
+	
+	/**
+	 * This method is used by player to determine if armies can be transferred from country to neighbor
+	 * @param country The country object
+	 * @return Booleyan
+	 */
+	
+	private boolean isArmyTransferrable(Country country)
+	{
+		if(country.getArmies() - 1 > 1) {
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 	
 
