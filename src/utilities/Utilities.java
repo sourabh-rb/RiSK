@@ -132,7 +132,7 @@ public class Utilities {
 	}
 
 
-	public boolean isFortificationPossible(Player player) {
+	public static boolean isFortificationPossible(Player player) {
 		// ArrayList<Country> neighborList=null;
 		for (Country country : player.getCountries()) {
 			if (country.getNeighborCounties() != null && country.getArmies() > 1) {
