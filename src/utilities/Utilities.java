@@ -91,7 +91,7 @@ public class Utilities {
 	 * @return
 	 */
 	public static ArrayList<Country> getNeighborList(Player player, Country country) {
-		ArrayList<Country> neighborList = country.getNeighborCounties();
+		ArrayList<Country> neighborList =new ArrayList<>();
 		for (Country neighbor : country.getNeighborCounties()) {
 			if (neighbor.getOwner().equals(player)) {
 				neighborList.add(neighbor);
@@ -112,20 +112,37 @@ public class Utilities {
 	 * @param phase
 	 * @return true if the number is valid, else false
 	 */
-	public boolean isUserInputValid(int userInput, int armies, GamePhase phase) {
-		if (phase.equals(GamePhase.REINFORCEMENT)) {
+	public static boolean isUserInputValid(int userInput, int armies, GamePhase phase) {
+		if (phase.equals(GamePhase.REINFORCEMENT) || phase.equals(GamePhase.INITIALIZATION)) {
 			if (userInput > 0 && userInput <= armies) {
 				return true;
 			} else {
 				return false;
 			}
 		} else if (phase.equals(GamePhase.FORTIFICATION)) {
-			if (userInput > 0 && userInput >= armies - 1) {
+			if (userInput > 0 && userInput <= armies - 1) {
 				return true;
 			} else {
 				return false;
 			}
 		}
 		return false;
+	}
+	
+
+	public static boolean isFortificationPossible(Player player) {
+		// ArrayList<Country> neighborList=null;
+		
+        for (Country country : player.getCountries()) {
+            if (country.getNeighborCounties() != null && country.getArmies() > 1) {
+                for (Country neighbor : country.getNeighborCounties()) {
+                    if (neighbor.getOwner().equals(player)) {
+                        return true;
+                    }
+                }
+            }
+            
+        }
+        return false;
 	}
 }
