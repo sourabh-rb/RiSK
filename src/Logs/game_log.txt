@@ -1,0 +1,328 @@
+
+INFO: Stage: Main Menu View displayed
+INFO: Stage: Main Menu || State: PLAY selected
+INFO: Stage: Play || State: CHOOSE MAP selected
+INFO: Stage: CHOOSE MAP || File selected: bidirectional_connectivity_check.map
+INFO: Stage: PLAY || File Invalid: bidirectional_connectivity_check.map || Error: Alaska to Northwest Territory connectivity is mentioned but not vice versa
+INFO: Stage: Play || State: CHOOSE MAP selected
+INFO: Stage: CHOOSE MAP || File selected: World.map
+INFO: Created continent objects and added their values to the respective objects
+INFO: Number of Player objects created: 3
+INFO: Total number of Players playing the game 3
+INFO: Total number of continents in the whole map 6
+INFO: Total number of countries in the whole map 42
+INFO: Assigned 35 armies to each player
+INFO: Assigned countries randomly to all the players
+INFO: Total number of armies assigned to Player1 is 35
+INFO: No of armies left with Player1 is 34
+INFO: No of armies left with Player1 is 33
+INFO: No of armies left with Player1 is 32
+INFO: No of armies left with Player1 is 31
+INFO: No of armies left with Player1 is 30
+INFO: No of armies left with Player1 is 29
+INFO: No of armies left with Player1 is 28
+INFO: No of armies left with Player1 is 27
+INFO: No of armies left with Player1 is 26
+INFO: No of armies left with Player1 is 25
+INFO: No of armies left with Player1 is 24
+INFO: No of armies left with Player1 is 23
+INFO: No of armies left with Player1 is 22
+INFO: No of armies left with Player1 is 21
+INFO: Total number of armies assigned to Player2 is 35
+INFO: No of armies left with Player2 is 34
+INFO: No of armies left with Player2 is 33
+INFO: No of armies left with Player2 is 32
+INFO: No of armies left with Player2 is 31
+INFO: No of armies left with Player2 is 30
+INFO: No of armies left with Player2 is 29
+INFO: No of armies left with Player2 is 28
+INFO: No of armies left with Player2 is 27
+INFO: No of armies left with Player2 is 26
+INFO: No of armies left with Player2 is 25
+INFO: No of armies left with Player2 is 24
+INFO: No of armies left with Player2 is 23
+INFO: No of armies left with Player2 is 22
+INFO: No of armies left with Player2 is 21
+INFO: Total number of armies assigned to Player3 is 35
+INFO: No of armies left with Player3 is 34
+INFO: No of armies left with Player3 is 33
+INFO: No of armies left with Player3 is 32
+INFO: No of armies left with Player3 is 31
+INFO: No of armies left with Player3 is 30
+INFO: No of armies left with Player3 is 29
+INFO: No of armies left with Player3 is 28
+INFO: No of armies left with Player3 is 27
+INFO: No of armies left with Player3 is 26
+INFO: No of armies left with Player3 is 25
+INFO: No of armies left with Player3 is 24
+INFO: No of armies left with Player3 is 23
+INFO: No of armies left with Player3 is 22
+INFO: No of armies left with Player3 is 21
+INFO: Stage: PLAY|| File Valid: World.map
+INFO: Stage: PLAY || Player Count: 3
+INFO: Stage: Main Menu View displayed
+INFO: Stage: Main Menu || State: PLAY selected
+INFO: Stage: Play || State: CHOOSE MAP selected
+INFO: Stage: CHOOSE MAP || File selected: World.map
+INFO: Created continent objects and added their values to the respective objects
+INFO: Number of Player objects created: 3
+INFO: Total number of Players playing the game 3
+INFO: Total number of continents in the whole map 6
+INFO: Total number of countries in the whole map 42
+INFO: Assigned 35 armies to each player
+INFO: Assigned countries randomly to all the players
+INFO: Total number of armies assigned to Player1 is 35
+INFO: No of armies left with Player1 is 34
+INFO: No of armies left with Player1 is 33
+INFO: No of armies left with Player1 is 32
+INFO: No of armies left with Player1 is 31
+INFO: No of armies left with Player1 is 30
+INFO: No of armies left with Player1 is 29
+INFO: No of armies left with Player1 is 28
+INFO: No of armies left with Player1 is 27
+INFO: No of armies left with Player1 is 26
+INFO: No of armies left with Player1 is 25
+INFO: No of armies left with Player1 is 24
+INFO: No of armies left with Player1 is 23
+INFO: No of armies left with Player1 is 22
+INFO: No of armies left with Player1 is 21
+INFO: Total number of armies assigned to Player2 is 35
+INFO: No of armies left with Player2 is 34
+INFO: No of armies left with Player2 is 33
+INFO: No of armies left with Player2 is 32
+INFO: No of armies left with Player2 is 31
+INFO: No of armies left with Player2 is 30
+INFO: No of armies left with Player2 is 29
+INFO: No of armies left with Player2 is 28
+INFO: No of armies left with Player2 is 27
+INFO: No of armies left with Player2 is 26
+INFO: No of armies left with Player2 is 25
+INFO: No of armies left with Player2 is 24
+INFO: No of armies left with Player2 is 23
+INFO: No of armies left with Player2 is 22
+INFO: No of armies left with Player2 is 21
+INFO: Total number of armies assigned to Player3 is 35
+INFO: No of armies left with Player3 is 34
+INFO: No of armies left with Player3 is 33
+INFO: No of armies left with Player3 is 32
+INFO: No of armies left with Player3 is 31
+INFO: No of armies left with Player3 is 30
+INFO: No of armies left with Player3 is 29
+INFO: No of armies left with Player3 is 28
+INFO: No of armies left with Player3 is 27
+INFO: No of armies left with Player3 is 26
+INFO: No of armies left with Player3 is 25
+INFO: No of armies left with Player3 is 24
+INFO: No of armies left with Player3 is 23
+INFO: No of armies left with Player3 is 22
+INFO: No of armies left with Player3 is 21
+INFO: Stage: PLAY|| File Valid: World.map
+INFO: Stage: PLAY || Player Count: 3
+INFO: Player: Player1|| Stage: Reinforcement || Country reinforced: Congo
+INFO: Player: Player1|| Country reinforced!!
+ERROR: test
+INFO: Player: Player1 || Stage: Reinforcement Armies || Number of armies given: 4
+INFO: Player: Player1|| Stage: Reinforcement || Country reinforced: China
+INFO: Player: Player1|| Country reinforced!!
+ERROR: test
+INFO: Player: Player1|| Stage: Fortification || Countries involved: Congo,East Africa
+INFO: Player: Player1|| Countries fortified!! || Congo : 12 || East Africa : 11
+ERROR: test
+ERROR: test
+INFO: Player: Player2|| Stage: Reinforcement || Country reinforced: Afghanistan
+INFO: Player: Player2|| Country reinforced!!
+ERROR: test
+INFO: Player: Player2 || Stage: Reinforcement Armies || Number of armies given: 4
+INFO: Player: Player2|| Stage: Reinforcement || Country reinforced: Ukraine
+INFO: Player: Player2|| Country reinforced!!
+ERROR: test
+INFO: Player: Player2|| Stage: Fortification || Countries involved: Ukraine,Northern Europe
+INFO: Player: Player2|| Countries fortified!! || Ukraine : 1 || Northern Europe : 5
+INFO: Player: Player3|| Stage: Reinforcement || Country reinforced: Alberta
+INFO: Player: Player3|| Country reinforced!!
+ERROR: test
+INFO: Player: Player3 || Stage: Reinforcement Armies || Number of armies given: 4
+INFO: Player: Player3|| Stage: Reinforcement || Country reinforced: Eastern United States
+INFO: Player: Player3|| Country reinforced!!
+ERROR: test
+INFO: Player: Player3|| Stage: Fortification || Countries involved: Eastern United States,Western United States
+INFO: Player: Player3|| Countries fortified!! || Eastern United States : 3 || Western United States : 3
+INFO: Stage: Main Menu View displayed
+INFO: Stage: Main Menu || State: PLAY selected
+INFO: Stage: Play || State: CHOOSE MAP selected
+INFO: Stage: CHOOSE MAP || File selected: World.map
+INFO: Created continent objects and added their values to the respective objects
+INFO: Number of Player objects created: 3
+INFO: Total number of Players playing the game 3
+INFO: Total number of continents in the whole map 6
+INFO: Total number of countries in the whole map 42
+INFO: Assigned 35 armies to each player
+INFO: Assigned countries randomly to all the players
+INFO: Total number of armies assigned to Player1 is 35
+INFO: No of armies left with Player1 is 34
+INFO: No of armies left with Player1 is 33
+INFO: No of armies left with Player1 is 32
+INFO: No of armies left with Player1 is 31
+INFO: No of armies left with Player1 is 30
+INFO: No of armies left with Player1 is 29
+INFO: No of armies left with Player1 is 28
+INFO: No of armies left with Player1 is 27
+INFO: No of armies left with Player1 is 26
+INFO: No of armies left with Player1 is 25
+INFO: No of armies left with Player1 is 24
+INFO: No of armies left with Player1 is 23
+INFO: No of armies left with Player1 is 22
+INFO: No of armies left with Player1 is 21
+INFO: Total number of armies assigned to Player2 is 35
+INFO: No of armies left with Player2 is 34
+INFO: No of armies left with Player2 is 33
+INFO: No of armies left with Player2 is 32
+INFO: No of armies left with Player2 is 31
+INFO: No of armies left with Player2 is 30
+INFO: No of armies left with Player2 is 29
+INFO: No of armies left with Player2 is 28
+INFO: No of armies left with Player2 is 27
+INFO: No of armies left with Player2 is 26
+INFO: No of armies left with Player2 is 25
+INFO: No of armies left with Player2 is 24
+INFO: No of armies left with Player2 is 23
+INFO: No of armies left with Player2 is 22
+INFO: No of armies left with Player2 is 21
+INFO: Total number of armies assigned to Player3 is 35
+INFO: No of armies left with Player3 is 34
+INFO: No of armies left with Player3 is 33
+INFO: No of armies left with Player3 is 32
+INFO: No of armies left with Player3 is 31
+INFO: No of armies left with Player3 is 30
+INFO: No of armies left with Player3 is 29
+INFO: No of armies left with Player3 is 28
+INFO: No of armies left with Player3 is 27
+INFO: No of armies left with Player3 is 26
+INFO: No of armies left with Player3 is 25
+INFO: No of armies left with Player3 is 24
+INFO: No of armies left with Player3 is 23
+INFO: No of armies left with Player3 is 22
+INFO: No of armies left with Player3 is 21
+INFO: Stage: PLAY|| File Valid: World.map
+INFO: Stage: PLAY || Player Count: 3
+ERROR: test
+INFO: Player: Player1|| Stage: Reinforcement || Country reinforced: Scandinavia
+INFO: Player: Player1|| Country reinforced!!
+ERROR: test
+INFO: Player: Player1 || Stage: Reinforcement Armies || Number of armies given: 4
+INFO: Player: Player1|| Stage: Reinforcement || Country reinforced: Mongolia
+INFO: Player: Player1|| Country reinforced!!
+ERROR: test
+INFO: Player: Player1|| Stage: Fortification || Countries involved: Mongolia,Siberia
+INFO: Player: Player1|| Countries fortified!! || Mongolia : 2 || Siberia : 4
+INFO: Player: Player2|| Stage: Reinforcement || Country reinforced: Northwest Territory
+INFO: Player: Player2|| Country reinforced!!
+ERROR: test
+INFO: Player: Player2 || Stage: Reinforcement Armies || Number of armies given: 4
+INFO: Player: Player2|| Stage: Reinforcement || Country reinforced: Irkutsk
+INFO: Player: Player2|| Country reinforced!!
+ERROR: test
+INFO: Player: Player3|| Stage: Reinforcement || Country reinforced: Southern Europe
+INFO: Player: Player3|| Country reinforced!!
+ERROR: test
+INFO: Player: Player3 || Stage: Reinforcement Armies || Number of armies given: 4
+INFO: Player: Player3|| Stage: Reinforcement || Country reinforced: Alberta
+INFO: Player: Player3|| Country reinforced!!
+ERROR: test
+INFO: Player: Player3|| Stage: Fortification || Countries involved: Alberta,Alaska
+INFO: Player: Player3|| Countries fortified!! || Alberta : 2 || Alaska : 4
+INFO: Stage: Main Menu View displayed
+INFO: Stage: Main Menu || State: PLAY selected
+INFO: Stage: Play || State: CHOOSE MAP selected
+INFO: Stage: CHOOSE MAP || File selected: World.map
+INFO: Created continent objects and added their values to the respective objects
+INFO: Number of Player objects created: 3
+INFO: Total number of Players playing the game 3
+INFO: Total number of continents in the whole map 6
+INFO: Total number of countries in the whole map 42
+INFO: Assigned 35 armies to each player
+INFO: Assigned countries randomly to all the players
+INFO: Total number of armies assigned to Player1 is 35
+INFO: No of armies left with Player1 is 34
+INFO: No of armies left with Player1 is 33
+INFO: No of armies left with Player1 is 32
+INFO: No of armies left with Player1 is 31
+INFO: No of armies left with Player1 is 30
+INFO: No of armies left with Player1 is 29
+INFO: No of armies left with Player1 is 28
+INFO: No of armies left with Player1 is 27
+INFO: No of armies left with Player1 is 26
+INFO: No of armies left with Player1 is 25
+INFO: No of armies left with Player1 is 24
+INFO: No of armies left with Player1 is 23
+INFO: No of armies left with Player1 is 22
+INFO: No of armies left with Player1 is 21
+INFO: Total number of armies assigned to Player2 is 35
+INFO: No of armies left with Player2 is 34
+INFO: No of armies left with Player2 is 33
+INFO: No of armies left with Player2 is 32
+INFO: No of armies left with Player2 is 31
+INFO: No of armies left with Player2 is 30
+INFO: No of armies left with Player2 is 29
+INFO: No of armies left with Player2 is 28
+INFO: No of armies left with Player2 is 27
+INFO: No of armies left with Player2 is 26
+INFO: No of armies left with Player2 is 25
+INFO: No of armies left with Player2 is 24
+INFO: No of armies left with Player2 is 23
+INFO: No of armies left with Player2 is 22
+INFO: No of armies left with Player2 is 21
+INFO: Total number of armies assigned to Player3 is 35
+INFO: No of armies left with Player3 is 34
+INFO: No of armies left with Player3 is 33
+INFO: No of armies left with Player3 is 32
+INFO: No of armies left with Player3 is 31
+INFO: No of armies left with Player3 is 30
+INFO: No of armies left with Player3 is 29
+INFO: No of armies left with Player3 is 28
+INFO: No of armies left with Player3 is 27
+INFO: No of armies left with Player3 is 26
+INFO: No of armies left with Player3 is 25
+INFO: No of armies left with Player3 is 24
+INFO: No of armies left with Player3 is 23
+INFO: No of armies left with Player3 is 22
+INFO: No of armies left with Player3 is 21
+INFO: Stage: PLAY|| File Valid: World.map
+INFO: Stage: PLAY || Player Count: 3
+INFO: Player: Player1|| Stage: Reinforcement || Country reinforced: Kamchatka
+INFO: Player: Player1|| Country reinforced!!
+ERROR: test
+INFO: Player: Player1 || Stage: Reinforcement Armies || Number of armies given: 4
+INFO: Player: Player1|| Stage: Reinforcement || Country reinforced: Siberia
+INFO: Player: Player1|| Country reinforced!!
+ERROR: test
+INFO: Player: Player1|| Stage: Fortification || Countries involved: Siberia,Mongolia
+INFO: Player: Player1|| Countries fortified!! || Siberia : 2 || Mongolia : 4
+ERROR: test
+ERROR: test
+ERROR: test
+ERROR: test
+ERROR: test
+ERROR: test
+ERROR: test
+ERROR: test
+ERROR: test
+INFO: Player: Player2|| Stage: Reinforcement || Country reinforced: Afghanistan
+INFO: Player: Player2|| Country reinforced!!
+ERROR: test
+INFO: Player: Player2 || Stage: Reinforcement Armies || Number of armies given: 4
+INFO: Player: Player2|| Stage: Reinforcement || Country reinforced: New Guinea
+INFO: Player: Player2|| Country reinforced!!
+ERROR: test
+INFO: Player: Player2|| Stage: Fortification || Countries involved: New Guinea,Indonesia
+INFO: Player: Player2|| Countries fortified!! || New Guinea : 2 || Indonesia : 4
+INFO: Player: Player3|| Stage: Reinforcement || Country reinforced: Scandinavia
+INFO: Player: Player3|| Country reinforced!!
+ERROR: test
+INFO: Player: Player3 || Stage: Reinforcement Armies || Number of armies given: 4
+INFO: Player: Player3|| Stage: Reinforcement || Country reinforced: Southern Europe
+INFO: Player: Player3|| Country reinforced!!
+ERROR: test
+INFO: Player: Player3|| Stage: Fortification || Countries involved: Southern Europe,Egypt
+INFO: Player: Player3|| Countries fortified!! || Southern Europe : 2 || Egypt : 4
+INFO: Player: Player1 || Stage: Reinforcement Armies || Number of armies given: 4

@@ -1,4 +1,5 @@
 
+
 /**
  * 
  */
@@ -107,14 +108,29 @@ public class StartUpPhase {
 		initialSetUp(player_List, continent_list, country_list);
 	}
 
+	/**
+ * This function return number of players in the game
+ * @param playerList list of player objects
+ * @return It is returning number of players
+ */
 	public int noOfPlayers(ArrayList<Player> playerList) {
 		return playerList.size();
 	}
 
+	/**
+	 * This function calculates number of continents in the provided map
+	 * @param continentList contains list of continent objects
+	 * @return returns number of continents
+	 */
 	public int noOfContinents(ArrayList<Continent> continentList) {
 		return continentList.size();
 	}
-
+/**
+ * This function is to calculate number of countries
+ * 
+ * @param countryList contains country objects
+ * @return number of countries
+ */
 	public int noOfCountries(ArrayList<Country> countryList) {
 		return countryList.size();
 	}
@@ -294,4 +310,5 @@ public class StartUpPhase {
 	}
 
 }
+
 

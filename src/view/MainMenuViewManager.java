@@ -11,9 +11,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Logger;
-
 import constants.LogLevel;
-import controller.Graph_test;
+import controller.GraphTest;
 import controller.initialization.StartUpPhase;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -33,7 +32,6 @@ import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
-import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -76,7 +74,11 @@ public class MainMenuViewManager
 	
 	
 	
-	
+	/**
+	 * The MainMenuViewManager constructor initializes and sets up
+	 * the main menu window.
+	 * 
+	 */
 	public MainMenuViewManager()
 	{
 		mainPane = new AnchorPane();
@@ -161,7 +163,7 @@ public class MainMenuViewManager
 	}
 	
 	/**
-	 * This method sets up subscenes for menu buttons.
+	 * This method sets up sub-scenes for menu buttons.
 	 * 
 	 */
 	private void addSubScenes()
@@ -236,7 +238,9 @@ public class MainMenuViewManager
                     //Validate file
                 	List<Object> mapValidation;
                 	StringBuffer contents = new StringBuffer();
-                	Graph_test gt= new Graph_test();
+
+
+                	GraphTest gt=new GraphTest();
                 	
                 	//Read file
                 	try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
@@ -258,7 +262,7 @@ public class MainMenuViewManager
 	                		int players;
 	                		Alert alertDialog;
 	                		
-	                		mapValidation = gt.initiate_check(contents.toString());
+	                		mapValidation = gt.initiateCheck(contents.toString());
 	                		errorMessage = mapValidation.get(0).toString();
 	                		if(errorMessage.equals("Success"))
 	                		{
@@ -312,13 +316,9 @@ public class MainMenuViewManager
 				//Initiate start up sequence
 				//Load main game screen
 				mainStage.hide();
-				GameScreenViewManager gsvm=new GameScreenViewManager(startPhase);
-				
-				
+				GameScreenViewManager gsvm=new GameScreenViewManager(startPhase);	
 			}
 		});
-		
-		
 		
 		playSubScene.getPane().getChildren().add(playLabel);
 		playSubScene.getPane().getChildren().add(countLabel);
@@ -326,9 +326,6 @@ public class MainMenuViewManager
 		playSubScene.getPane().getChildren().add(mapLabel);
 		playSubScene.getPane().getChildren().add(mapButton);
 		playSubScene.getPane().getChildren().add(startButton);
-		
-		
-
 	}
 	
 	/**
@@ -399,6 +396,11 @@ public class MainMenuViewManager
 		mapEditorSubScene.getPane().getChildren().add(buttonBox);
 	}
 	
+	/**
+	 * This method sets up the help sub-scene, 
+	 * initiated when help button is clicked.
+	 * 
+	 */
 	private void addHelpSubScene()
 	{
 		helpSubScene = new RiskSubScene();
@@ -433,6 +435,11 @@ public class MainMenuViewManager
 		
 	}
 	
+	/**
+	 * This method sets up the credits sub-scene, 
+	 * initiated when credits button is clicked.
+	 * 
+	 */
 	private void addCreditsSubScene()
 	{
 		creditsSubScene = new RiskSubScene();
@@ -566,9 +573,9 @@ public class MainMenuViewManager
 	
 	
 	/**
-	 * This method is used to show only the current chosen subscene.
+	 * This method is used to show only the current chosen sub-scene.
 	 * 
-	 * @param subscene The subscene to be shown on screen.
+	 * @param subscene The sub-scene to be shown on screen.
 	 */
 	protected void showSubScene(RiskSubScene subscene)
 	{
