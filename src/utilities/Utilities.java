@@ -5,9 +5,12 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Random;
 
+import constants.Constants;
 import constants.GamePhase;
 import constants.LogLevel;
+import model.Card;
 import model.Country;
 import model.Player;
 
@@ -132,7 +135,13 @@ public class Utilities {
 	}
 
 
-	public boolean isFortificationPossible(Player player) {
+	/**
+	 * This method is used to check if the player can perform fortification or not. 
+	 * This is done by checking all his countries for the number of armies in them as well as having at least one adjacent country of an opponent.
+	 * @param player
+	 * @return true if fortification is possible else false
+	 */
+	public static boolean isFortificationPossible(Player player) {
 		// ArrayList<Country> neighborList=null;
 		for (Country country : player.getCountries()) {
 			if (country.getNeighborCounties() != null && country.getArmies() > 1) {
@@ -145,4 +154,23 @@ public class Utilities {
 		}
 		return false;
 	}
+	
+	/**
+	 * This method returns the card that is given to the player after he wins an attack.
+	 * @return The card that will be given to the player.
+	 */
+	public static Card giveCard() {
+		Random random = new Random();
+		Card card=new Card();
+		int randomNum = 1 + random.nextInt((2) + 1);
+		if(randomNum==1) {
+			card.setType(Constants.INFANTRY);
+		}else if(randomNum==2) {
+			card.setType(Constants.CAVALRY);
+		}else {
+			card.setType(Constants.ARTILLERY);
+		}
+		return card;
+	} 
+	
 }
