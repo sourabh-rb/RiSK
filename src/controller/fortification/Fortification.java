@@ -27,7 +27,7 @@ public class Fortification{
 	 * @param toCountry Thecountry to which the army will be moved.
 	 * @return true if the fortification was successful, else false.
 	 */
-	public boolean fortifyArmies(Player player, Country fromCountry,Country toCountry, int armies) {
+	public static boolean fortifyArmies(Player player, Country fromCountry,Country toCountry, int armies) {
 		
 		Utilities.gameLog("Player: "+player.getName()+"|| Stage: Fortification || Countries involved: "+fromCountry.getName()+","+toCountry.getName(),LogLevel.INFO);
 		ArrayList<Country> playercountries = player.getCountries();

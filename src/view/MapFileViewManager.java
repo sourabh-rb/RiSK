@@ -6,9 +6,8 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
-
 import constants.LogLevel;
-import controller.Graph_test;
+import controller.GraphTest;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -145,15 +144,17 @@ public class MapFileViewManager
 			@Override
 			public void handle(ActionEvent event)
 			{
+
 				Utilities.gameLog("Stage: Map File Editor || State: Save Initiated", LogLevel.INFO);
 				
-				Graph_test gt=new Graph_test();
+				
+				GraphTest gt=new GraphTest();
 				
 				try {
 						List<Object> mapValidation;
 	            		String errorMessage;
 	            		Alert alertDialog;
-	            		mapValidation = gt.initiate_check(displayArea.getText());
+	            		mapValidation = gt.initiateCheck(displayArea.getText());
 	            		errorMessage = mapValidation.get(0).toString();
 	            		if(errorMessage.equals("Success"))
 	            		{

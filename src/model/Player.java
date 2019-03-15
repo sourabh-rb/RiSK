@@ -31,6 +31,7 @@ public class Player {
 	private ArrayList<Country> countries =new ArrayList<Country>();
 	// The continents that the player owns
 	private ArrayList<Continent> continents;
+	
 
 	/**
 	 * This method gets the name of the player.
@@ -160,8 +161,7 @@ public class Player {
 	public void setNumberOfArmiesLeft(int numberOfArmiesLeft) {
 		this.numberOfArmiesLeft = numberOfArmiesLeft;
 	}
-
-	
+		
 	@Override
 	public boolean equals(Object obj) 
 	{ 

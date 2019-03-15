@@ -11,9 +11,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Logger;
-
 import constants.LogLevel;
-import controller.Graph_test;
+import controller.GraphTest;
 import controller.initialization.StartUpPhase;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -239,7 +238,9 @@ public class MainMenuViewManager
                     //Validate file
                 	List<Object> mapValidation;
                 	StringBuffer contents = new StringBuffer();
-                	Graph_test gt= new Graph_test();
+
+
+                	GraphTest gt=new GraphTest();
                 	
                 	//Read file
                 	try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
@@ -261,7 +262,7 @@ public class MainMenuViewManager
 	                		int players;
 	                		Alert alertDialog;
 	                		
-	                		mapValidation = gt.initiate_check(contents.toString());
+	                		mapValidation = gt.initiateCheck(contents.toString());
 	                		errorMessage = mapValidation.get(0).toString();
 	                		if(errorMessage.equals("Success"))
 	                		{
