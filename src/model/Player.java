@@ -359,7 +359,14 @@ public class Player {
 		String allOutAttack = winner(attackingCountry, defendingCountry, noOfDiceForAttacker, noOfDiceForDefender, "allOutWinner");
 		return allOutAttack;
 	}
-	
+	/**
+	 * This function takes care of attack phase of the game and it has all the constraints and criteria
+	 * @param attackingCountry attacking country object from which user wants to attack
+	 * @param defendingCountrydefending country object for which user wants to attack
+	 * @param noOfDiceForAttackingCountry number of dice to be used for attacking and this is specified by the user
+	 * @param noOFDiceForDefendingCountry number of dice to be used for defending and usually it will be maximum number of dice the defender can have at that point of time
+	 * @param action
+	 */
 	public void attack(Country attackingCountry, Country defendingCountry, int noOfDiceForAttackingCountry,
 			int noOFDiceForDefendingCountry, String action) {
 		int noOfSuccesfullAttacks = 0;
@@ -392,7 +399,13 @@ public class Player {
 			System.out.println("cannot attack because there should be atleast 2 armies in the attacking country");
 
 	}
-
+/**
+ * This function gives maximum number of dice for particular attacking or defending country
+ * 
+ * @param attackingCountry attacking country object is sent from the user
+ * @param defendingCountry defending country object is sent from the user
+ * @return provides max number of dice for both and are been appended as a string
+ */
 	public String maxNoOfDice(Country attackingCountry, Country defendingCountry) {
 		int maxNoOfDiceForAttacking = 0;
 		int maxNoOfDiceForDefending = 0;
