@@ -271,21 +271,42 @@ public class Player {
 	public int hashCode() {
 		return Objects.hash(this.name);
 	}
-
+	
+	
+	ArrayList<Integer> attackingCountryDiceValues = new ArrayList<Integer>();
+	ArrayList<Integer> defendingCountryDiceValues = new ArrayList<Integer>();
+	
+	
+/**
+ * This function gives random dice value for each throw
+ * @return random dice value
+ */
 	public int randomDiceValue() {
 		ThreadLocalRandom random = ThreadLocalRandom.current();
 		int randomDiceValue = random.nextInt(1, 7);
 		return randomDiceValue;
 	}
+	/**
+	 * This function decreases one army from the defeated country every time either attacking country or defending country looses
+	 * @param defeatedCountry after attacking defeated country object is received
+	 * @return armies left after decreasing
+	 */
 	public int decreaseOneArmy(Country defeatedCountry) {
 		defeatedCountry.setArmies(defeatedCountry.getArmies() - 1);
 		System.out.println("Number of armies left in "+defeatedCountry.getName()+" is "+defeatedCountry.getArmies());
 		return defeatedCountry.getArmies();
 	}
 
-	ArrayList<Integer> attackingCountryDiceValues = new ArrayList<Integer>();
-	ArrayList<Integer> defendingCountryDiceValues = new ArrayList<Integer>();
-
+	
+/**
+ * This function decides whether the attacking country or defending country wins
+ * @param attackingCountry attacking country object
+ * @param defendingCountry defending country object
+ * @param noOfDiceForAttackingCountry number of dice attacker wishes to throw
+ * @param noOFDiceForDefendingCountry number of dice defender wants to throw
+ * @param action this parameter decides whether to attack once or attack until it is possible
+ * @return conclusion after attack
+ */
 	public String winner(Country attackingCountry, Country defendingCountry, int noOfDiceForAttackingCountry,
 			int noOFDiceForDefendingCountry, String action) {
 		int noOfArmiesInDefeatedCountry = 0;
@@ -333,11 +354,16 @@ public class Player {
 		}		
 		else
 			return "notDefeated";
-
 	}
 
 	
-
+/**
+ * This function calculates number of maximum dice each gets in allout mode and then calls winner function to determine the winner
+ * 
+ * @param attackingCountry attacking country object
+ * @param defendingCountry defending country object
+ * @return conclusion on the winner result
+ */
 	public String noOfDiceOnAllOut(Country attackingCountry, Country defendingCountry) {
 		int attackingArmies = attackingCountry.getArmies();
 		int defendingArmies = defendingCountry.getArmies();
@@ -431,6 +457,6 @@ public class Player {
 		StartUpPhase start = new StartUpPhase();
 		System.out.println("Attacking country armies: "+playerList.get(0).getCountries().get(0).getName() +" "+ playerList.get(0).getCountries().get(0).getArmies());
 		System.out.println("Defending country armies: "+playerList.get(1).getCountries().get(0).getName()+" " + playerList.get(1).getCountries().get(0).getArmies());
-		play.attack(playerList.get(0).getCountries().get(0), playerList.get(1).getCountries().get(0),3,2,"attack");
+		play.attack(playerList.get(0).getCountries().get(0), playerList.get(1).getCountries().get(0),3,1,"allOutWinner");
 	}
 }
