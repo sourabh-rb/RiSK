@@ -6084,3 +6084,5 @@ INFO: Player: Player1|| Country reinforced!!
 ERROR: test
 INFO: Player: Player1|| Stage: Fortification || Countries involved: Irkutsk,Siberia
 INFO: Player: Player1|| Countries fortified!! || Irkutsk : 2 || Siberia : 4
+INFO: Assigned 35 armies to each player
+INFO: Assigned 35 armies to each player
