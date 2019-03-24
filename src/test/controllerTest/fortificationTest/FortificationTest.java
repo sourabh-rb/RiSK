@@ -58,7 +58,7 @@ public class FortificationTest {
 	public void positiveTest1() {
 		armies=2;
 		boolean b = f.fortifyArmies(player, fromCountry, toCountry, armies);
-		assertTrue(b);
+		assertTrue(b);	
 	}
 	
 	/**
