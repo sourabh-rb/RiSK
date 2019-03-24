@@ -112,7 +112,8 @@ public class AttackTest {
 		 * System.out.println("aravind"); if(atttackRes.equals("defeated")) res= true;
 		 * assertTrue(res);
 		 */
-		assertEquals(atttackRes,"defeated");
+		String def = "defeated";
+		assertEquals(atttackRes,def);
 		
 	}
 }

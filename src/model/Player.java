@@ -402,7 +402,8 @@ public class Player {
 	 *                                    and usually it will be maximum number of
 	 *                                    dice the defender can have at that point
 	 *                                    of time
-	 * @param action action specifies whether to perform all out operation or just one time attack
+	 * @param action                      action specifies whether to perform all
+	 *                                    out operation or just one time attack
 	 */
 	public String attack(Country attackingCountry, Country defendingCountry, int noOfDiceForAttackingCountry,
 			int noOFDiceForDefendingCountry, String action) {
