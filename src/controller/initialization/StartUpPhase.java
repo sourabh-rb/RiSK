@@ -192,9 +192,7 @@ public class StartUpPhase {
 				Utilities.gameLog("No of armies left with " + playerList.get(j).getName() + " is "
 						+ playerList.get(j).getNumberOfArmiesLeft(), LogLevel.INFO);
 			}
-
 		}
-
 	}
 
 	/**
