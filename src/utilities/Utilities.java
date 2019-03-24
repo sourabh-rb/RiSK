@@ -145,4 +145,21 @@ public class Utilities {
 		}
 		return false;
 	}
+	
+	/**
+	 * This method is used to retrieve the enemy countries
+	 * 
+	 * @param player
+	 * @param country
+	 * @return
+	 */
+	public static ArrayList<Country> getEnemyNeighborList(Player player, Country country) {
+		ArrayList<Country> neighborList =new ArrayList<>();
+		for (Country neighbor : country.getNeighborCounties()) {
+			if (!(neighbor.getOwner().equals(player))) {
+				neighborList.add(neighbor);
+			}
+		}
+		return neighborList;
+	}
 }

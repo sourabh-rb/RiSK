@@ -21,7 +21,7 @@ import utilities.Utilities;
  * countries are given to which player, how many armies should be given to each
  * player and how many armies are placed in each country for that particular
  * player. Assigning of countries and placeng the armies is random. Each player
- * will get equalll number of armies.
+ * will get equal number of armies.
  * 
  * @author Aravind Reddy
  *
@@ -40,7 +40,7 @@ public class StartUpPhase {
 	 * 
 	 */
 	public StartUpPhase() {
-		//System.out.println("Inside startupphase constructor");
+		//System.out.println("Inside start up phase constructor");
 
 	}
 
@@ -298,6 +298,23 @@ public class StartUpPhase {
 				country_list.get(i).setArmies(country_list.get(i).getArmies()+noOfArmies);
 				i=country_list.size();
 			}
+		}
+	}
+	
+	/**
+	 * This method is used to assign armies during Game initialization
+	 * @return player army left
+	 */
+	
+	public int initialPhaseArmyAssignment(Player player)
+	{
+		if(player.getNumberOfArmiesLeft()>0)
+		{
+			return player.getNumberOfArmiesLeft()-1;
+		}
+		else
+		{
+			return 0;
 		}
 	}
 
