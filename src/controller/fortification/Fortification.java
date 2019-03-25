@@ -30,21 +30,21 @@ public class Fortification{
 	public static boolean fortifyArmies(Player player, Country fromCountry,Country toCountry, int armies) {
 		
 		Utilities.gameLog("Player: "+player.getName()+"|| Stage: Fortification || Countries involved: "+fromCountry.getName()+","+toCountry.getName(),LogLevel.INFO);
-		ArrayList<Country> playercountries = player.getCountries();
-		if(playercountries != null && playercountries.contains(fromCountry) && playercountries.contains(toCountry) && armies>0) {
+		ArrayList<Country> playerCountries = player.getCountries();
+		if(playerCountries != null && playerCountries.contains(fromCountry) && playerCountries.contains(toCountry) && armies>0) {
 			//Update the number for armies in the fortifying country.
-			int i = playercountries.indexOf(fromCountry);
-			Country country1 = playercountries.get(i);
+			int i = playerCountries.indexOf(fromCountry);
+			Country country1 = playerCountries.get(i);
 			country1.setArmies(country1.getArmies()-armies);
-			playercountries.remove(i);
-			playercountries.add(country1);
+			playerCountries.remove(i);
+			playerCountries.add(country1);
 			//Update the number for armies in the fortified country.
-			int j = playercountries.indexOf(toCountry);
-			Country country2 = playercountries.get(j);
+			int j = playerCountries.indexOf(toCountry);
+			Country country2 = playerCountries.get(j);
 			country2.setArmies(country2.getArmies()+armies);
-			playercountries.remove(j);
-			playercountries.add(country2);
-			player.setCountries(playercountries);
+			playerCountries.remove(j);
+			playerCountries.add(country2);
+			player.setCountries(playerCountries);
 			Utilities.gameLog("Player: "+player.getName()+"|| Countries fortified!! || "
 					+ country1.getName() +" : "+country1.getArmies()+" || "+ country2.getName() +" : "+country2.getArmies(),LogLevel.INFO);
 			return true;

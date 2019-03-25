@@ -9,8 +9,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import constants.GamePhase;
-import constants.LogLevel;
-import controller.fortification.Fortification;
 import model.Country;
 import model.Player;
 import utilities.Utilities;
