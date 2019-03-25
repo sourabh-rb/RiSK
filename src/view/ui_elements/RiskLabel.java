@@ -22,6 +22,14 @@ public class RiskLabel extends Label
 		setLabelFont();
 	}
 	
+	public RiskLabel()
+	{
+		prefHeight(60);
+		prefWidth(400);
+		setWrapText(true);
+		setAlignment(Pos.CENTER);
+		setLabelFont();
+	}
 	private void setLabelFont()
 	{
 		try {

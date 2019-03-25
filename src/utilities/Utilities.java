@@ -7,6 +7,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
+
 import constants.GamePhase;
 import constants.LogLevel;
 import model.Country;
@@ -163,6 +164,7 @@ public class Utilities {
 		}
 		return neighborList;
 	}
+
   /**
 	 * This method returns the card that is given to the player after he wins an attack.
 	 * @return The card that will be given to the player.
@@ -180,4 +182,5 @@ public class Utilities {
 		}
 		return card;
 	} 
+
 }
