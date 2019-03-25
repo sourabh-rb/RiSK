@@ -179,7 +179,6 @@ public  class ValidateGraph
     	{
     		return Arrays.asList("Map Disconnected",continentHashMap,territoryHashMap);
     	}
-		
 		return Arrays.asList("Success",continentHashMap , territoryHashMap);
      }
     

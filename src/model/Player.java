@@ -38,13 +38,15 @@ public class Player {
 	// The continents that the player owns
 	private ArrayList<Continent> continents;
 
+	ArrayList<Card> cardTypeList = new ArrayList<Card>();
+	
 	ArrayList<Country> europeCountryList = new ArrayList<Country>();
 	static ArrayList<Player> playerList = new ArrayList<Player>();
 	ArrayList<Continent> continentList = new ArrayList<Continent>();
 	ArrayList<Country> countryListPlayer1 = new ArrayList<Country>();
 	ArrayList<Country> countryListPlayer2 = new ArrayList<Country>();
 	static Country country1;
-	Country country5;
+	static Country country5;
 
 	public void set() {
 		Player player1 = new Player();
@@ -104,11 +106,11 @@ public class Player {
 		countryListPlayer1.add(country2);
 		countryListPlayer1.add(country3);
 		countryListPlayer1.add(country4);
-		country1.setArmies(1);
+		country1.setArmies(4);
 
 		countryListPlayer2.add(country5);
 		countryListPlayer2.add(country6);
-		country5.setArmies(2);
+		country5.setArmies(3);
 		player1.setCountries(countryListPlayer1);
 		player2.setCountries(countryListPlayer2);
 
@@ -374,15 +376,6 @@ public class Player {
 		maxNoOfDiceForDefender = Integer.parseInt(maxDiceForEach[1]);
 		System.out
 				.println("maxAttackerDice: " + maxNoOfDiceForAttacker + " maxDefenderDice: " + maxNoOfDiceForDefender);
-
-		/*
-		 * if (attackingArmies != 1) { if (attackingArmies > 3) { noOfDiceForAttacker =
-		 * 3; } else { noOfDiceForAttacker = attackingArmies - 1; } }
-		 * 
-		 * if (defendingArmies == 1) noOfDiceForDefender = 1; else noOfDiceForDefender =
-		 * 2;
-		 */
-
 		String allOutAttack = winner(attackingCountry, defendingCountry, maxNoOfDiceForAttacker, maxNoOfDiceForDefender,
 				"allOutWinner");
 		return allOutAttack;
@@ -421,8 +414,11 @@ public class Player {
 			if (attackRes.equals("defeated")) {
 				defendingCountry.setOwner(attackingCountry.getOwner());// assign defeated country to the attacker
 				// can give this player a card
+				ArrayList<Card> cardTypeList = attackingCountry.getOwner().getCardType();
+				cardTypeList.add(Utilities.giveCard());
+				attackingCountry.getOwner().setCardType(cardTypeList);
+				cardTypeList.clear();
 				// ASk player if wants to continue attacking
-
 				System.out.println("Defeated the country");
 				return "defeated";
 				// If player do not want to continue, he must fortify
@@ -432,11 +428,12 @@ public class Player {
 				return "notdefeated";
 			} else if (attackRes.equals("onlyOneArmy")) {
 				System.out.println("Only one army left in the attacking country So, cannot attack");
+				// ASk player if wants to continue attacking with another country
 				return "onlyOneArmy";
 			}
 		} else
 			System.out.println("cannot attack because there should be atleast 2 armies in the attacking country");
-
+		// ASk player if wants to continue attacking with another country
 		return "cannotAttack";
 
 	}
@@ -464,8 +461,7 @@ public class Player {
 			maxNoOfDiceForDefending = 2;
 		} else
 			maxNoOfDiceForDefending = 1;
-		System.out.println(Integer.toString(maxNoOfDiceForAttacking) + " " + Integer.toString(maxNoOfDiceForDefending));
-		return Integer.toString(maxNoOfDiceForAttacking) + " " + Integer.toString(maxNoOfDiceForDefending);
+		return Integer.toString(maxNoOfDiceForAttacking)+" "+Integer.toString(maxNoOfDiceForDefending);//Concating 2 dice values
 
 	}
 
@@ -473,10 +469,11 @@ public class Player {
 		Player play = new Player();
 		play.set();
 		StartUpPhase start = new StartUpPhase();
+	
 		System.out.println("Attacking country armies: " + playerList.get(0).getCountries().get(0).getName() + " "
 				+ playerList.get(0).getCountries().get(0).getArmies());
 		System.out.println("Defending country armies: " + playerList.get(1).getCountries().get(0).getName() + " "
 				+ playerList.get(1).getCountries().get(0).getArmies());
-		play.attack(playerList.get(0).getCountries().get(0), playerList.get(1).getCountries().get(0), 1, 1, "attack");
+		play.attack(playerList.get(0).getCountries().get(0), playerList.get(1).getCountries().get(0), 1, 1, "allOutWinner");
 	}
 }
