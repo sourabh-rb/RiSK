@@ -1,0 +1,22 @@
+Error - no bidirectional connectivity between Alaska and Northwest Territory(Northwest Territory is a neigh country of Alaska but not vice versa)
+[Map]
+author=Sean O'Connor
+image=world.bmp
+wrap=no
+scroll=horizontal
+warn=yes
+
+[Continents]
+North America=5
+
+[Territories]
+Alaska,70,126,North America,Northwest Territory,Alberta
+Northwest Territory,148,127,North America,Alberta
+Alberta,147,163,North America,Alaska,Northwest Territory
+
+
+
+
+
+
+
