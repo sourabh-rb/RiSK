@@ -56,7 +56,7 @@ public class AttackTest {
 		Continent continent2 = new Continent();
 		Country country4 = new Country();
 		country4.setName("France");
-		Country country5 = new Country();
+		 country5 = new Country();
 		country5.setName("Germany");
 		Country country6 = new Country();
 		country6.setName("Sweden");
@@ -86,7 +86,7 @@ public class AttackTest {
 
 		countryListPlayer2.add(country5);
 		countryListPlayer2.add(country6);
-		country5.setArmies(2);
+		country5.setArmies(1);
 		player1.setCountries(countryListPlayer1);
 		player2.setCountries(countryListPlayer2);
 		playerAttack = new Player();
@@ -95,13 +95,15 @@ public class AttackTest {
 	@Test
 	public void decreaseOneArmy() {
 		int noOfArmiesLeft = playerAttack.decreaseOneArmy(country1);
-		assertEquals(noOfArmiesLeft, 3);
+		assertEquals(noOfArmiesLeft, 4);
 	}
 
 	@Test
 	public void maxNoOfDice() {
 		String diceValues = playerAttack.maxNoOfDice(country1, country5);
-		assertEquals(diceValues, "3 2");
+		System.out.println(diceValues);
+		String dice = "3 1";
+		assertEquals(diceValues,dice);
 	}
 
 	@Test
