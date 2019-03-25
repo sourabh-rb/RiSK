@@ -34,7 +34,7 @@ import java.util.regex.*;
  * @version 1.0.0
  */
 
-public  class GraphTest 
+public  class ValidateGraph 
 
 {
     // number of vertices
