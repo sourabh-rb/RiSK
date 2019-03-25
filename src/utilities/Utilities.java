@@ -1,3 +1,4 @@
+
 package utilities;
 
 import java.io.BufferedWriter;
@@ -135,12 +136,6 @@ public class Utilities {
 	}
 
 
-	/**
-	 * This method is used to check if the player can perform fortification or not. 
-	 * This is done by checking all his countries for the number of armies in them as well as having at least one adjacent country of an opponent.
-	 * @param player
-	 * @return true if fortification is possible else false
-	 */
 	public static boolean isFortificationPossible(Player player) {
 		// ArrayList<Country> neighborList=null;
 		for (Country country : player.getCountries()) {
@@ -156,21 +151,37 @@ public class Utilities {
 	}
 	
 	/**
-	 * This method returns the card that is given to the player after he wins an attack.
-	 * @return The card that will be given to the player.
+	 * This method is used to retrieve the enemy countries
+	 * 
+	 * @param player
+	 * @param country
+	 * @return
 	 */
-	public static Card giveCard() {
-		Random random = new Random();
-		Card card=new Card();
-		int randomNum = 1 + random.nextInt((2) + 1);
-		if(randomNum==1) {
-			card.setType(Constants.INFANTRY);
-		}else if(randomNum==2) {
-			card.setType(Constants.CAVALRY);
-		}else {
-			card.setType(Constants.ARTILLERY);
+	public static ArrayList<Country> getEnemyNeighborList(Player player, Country country) {
+		ArrayList<Country> neighborList =new ArrayList<>();
+		for (Country neighbor : country.getNeighborCounties()) {
+			if (!(neighbor.getOwner().equals(player))) {
+				neighborList.add(neighbor);
+			}
 		}
-		return card;
-	} 
-	
+		return neighborList;
+	}
+//  /**
+//	 * This method returns the card that is given to the player after he wins an attack.
+//	 * @return The card that will be given to the player.
+//	 */
+//	public static Card giveCard()
+//	{
+//		Random random = new Random();
+//		Card card=new Card();
+//		int randomNum = 1 + random.nextInt((2) + 1);
+//		if(randomNum==1) {
+//			card.setType(Constants.INFANTRY);
+//		}else if(randomNum==2) {
+//			card.setType(Constants.CAVALRY);
+//		}else {
+//			card.setType(Constants.ARTILLERY);
+//		}
+//		return card;
+//	} 
 }
