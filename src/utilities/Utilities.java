@@ -94,7 +94,7 @@ public class Utilities {
 	 * @return
 	 */
 	public static ArrayList<Country> getNeighborList(Player player, Country country) {
-		ArrayList<Country> neighborList =new ArrayList<>();
+		ArrayList<Country> neighborList = new ArrayList<>();
 		for (Country neighbor : country.getNeighborCounties()) {
 			if (neighbor.getOwner().equals(player)) {
 				neighborList.add(neighbor);
@@ -134,10 +134,11 @@ public class Utilities {
 		return false;
 	}
 
-
 	/**
-	 * This method is used to check if the player can perform fortification or not. 
-	 * This is done by checking all his countries for the number of armies in them as well as having at least one adjacent country of an opponent.
+	 * This method is used to check if the player can perform fortification or not.
+	 * This is done by checking all his countries for the number of armies in them
+	 * as well as having at least one adjacent country of an opponent.
+	 * 
 	 * @param player
 	 * @return true if fortification is possible else false
 	 */
@@ -154,23 +155,65 @@ public class Utilities {
 		}
 		return false;
 	}
-	
+
 	/**
-	 * This method returns the card that is given to the player after he wins an attack.
+	 * This method returns the card that is given to the player after he wins an
+	 * attack.
+	 * 
 	 * @return The card that will be given to the player.
 	 */
 	public static Card giveCard() {
 		Random random = new Random();
-		Card card=new Card();
+		Card card = new Card();
 		int randomNum = 1 + random.nextInt((2) + 1);
-		if(randomNum==1) {
+		if (randomNum == 1) {
 			card.setType(Constants.INFANTRY);
-		}else if(randomNum==2) {
+		} else if (randomNum == 2) {
 			card.setType(Constants.CAVALRY);
-		}else {
+		} else {
 			card.setType(Constants.ARTILLERY);
 		}
 		return card;
-	} 
-	
+	}
+
+	/**
+	 * This method gives the count of each type of card that the player has.
+	 * 
+	 * @param player
+	 * @return Array of integer type containing the number of cards of each type in
+	 *         the order arillery, infantry, cavalry.
+	 */
+	public static int[] cardCount(Player player) {
+
+		int artilleryCount = 0;
+		int cavalryCount = 0;
+		int infantryCount = 0;
+		int[] cardCount = new int[3];
+		ArrayList<Card> playerCards = null;
+		if (player.getCardType() != null || player.getCardType().size() != 0) {
+			playerCards = player.getCardType();
+		} else {
+			Utilities.gameLog("Player: " + player.getName() + " || Stage: Card count check  || Player has no cards!! ",
+					LogLevel.ERROR);
+			cardCount = null;
+			return cardCount;
+		}
+		// Count what type of cards does the player have
+		for (Card card : playerCards) {
+			if (card.getType().equals(Constants.ARTILLERY)) {
+				artilleryCount++;
+			} else if (card.getType().equals(Constants.INFANTRY)) {
+				infantryCount++;
+			} else if (card.getType().equals(Constants.CAVALRY)) {
+				cavalryCount++;
+			}
+		}
+		cardCount[0] = artilleryCount;
+		cardCount[1] = infantryCount;
+		cardCount[2] = cavalryCount;
+
+		return cardCount;
+
+	}
+
 }
