@@ -125,10 +125,13 @@ public class ReinforcementTest {
 		cardTypes.add(card3);
 		player1.setCardExchangeCount(0);
 		player1.setCardType(cardTypes);
-		int armies= r.armiesFromCardExchange(player1);
+		int armies= r.armiesFromCardExchange(player1,3,0,0);
 		assertEquals(5,armies);
 	}
 	
+	/**
+	 * This method checks if the user can exchange different cards.
+	 */
 	@Test
 	public void positiveDifferentCardExchange() {
 		card1.setType(Constants.ARTILLERY);
@@ -139,15 +142,18 @@ public class ReinforcementTest {
 		cardTypes.add(card3);
 		player1.setCardExchangeCount(2);
 		player1.setCardType(cardTypes);
-		int armies= r.armiesFromCardExchange(player1);
+		int armies= r.armiesFromCardExchange(player1,1,1,1);
 		assertEquals(15,armies);
 	}
 	
+	/**
+	 * This method checks whether the user has selected correct cards to exchange.
+	 */
 	@Test
-	public void neagtiveCardExchange() {
+	public void invalidCardSelection() {
 		player1.setCardExchangeCount(2);
 		player1.setCardType(cardTypes);
-		int armies= r.armiesFromCardExchange(player1);
+		int armies= r.armiesFromCardExchange(player1,0,0,0);
 		assertEquals(0,armies);
 	}
 }
