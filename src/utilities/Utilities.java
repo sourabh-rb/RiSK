@@ -10,6 +10,7 @@ import java.util.Random;
 import constants.Constants;
 import constants.GamePhase;
 import constants.LogLevel;
+import controller.initialization.StartUpPhase;
 import model.Card;
 import model.Country;
 import model.Player;
@@ -188,14 +189,13 @@ public class Utilities {
 		int artilleryCount = 0;
 		int cavalryCount = 0;
 		int infantryCount = 0;
-		int[] cardCount = new int[3];
+		int[] cardCount = {0,0,0};
 		ArrayList<Card> playerCards = null;
 		if (player.getCardType() != null || player.getCardType().size() != 0) {
 			playerCards = player.getCardType();
 		} else {
 			Utilities.gameLog("Player: " + player.getName() + " || Stage: Card count check  || Player has no cards!! ",
 					LogLevel.ERROR);
-			cardCount = null;
 			return cardCount;
 		}
 		// Count what type of cards does the player have
