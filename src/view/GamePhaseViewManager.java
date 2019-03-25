@@ -180,6 +180,8 @@ public class GamePhaseViewManager
 		RiskButton confirmButton = new RiskButton("CONFIRM");
 
 		RiskLabel infoLabel = new RiskLabel("Phase Info goes here!");
+		
+		createCardsPhaseElements();
 	
 		
 		phaseInfoPane.add(countryVBox, 1, 0);
@@ -195,6 +197,17 @@ public class GamePhaseViewManager
 		phaseInfoPane.setLayoutY(350);
 		
 		
+		
+	}
+	
+	private void createCardsPhaseElements()
+	{
+		RiskLabel cardCountLabel = new RiskLabel("Total Cards :");
+		RiskLabel InfantryCountLabel = new RiskLabel("Infantry :");
+		RiskLabel CavalryCountLabel = new RiskLabel("Cavalry :");
+		RiskLabel ArtilleryCountLabel = new RiskLabel("Artillery :");
+		VBox cardsVBox = new VBox(20, cardCountLabel,InfantryCountLabel,CavalryCountLabel,ArtilleryCountLabel);
+		phaseInfoPane.add(cardsVBox, 4, 0);
 		
 	}
 	
