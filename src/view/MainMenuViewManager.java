@@ -316,7 +316,7 @@ public class MainMenuViewManager
 				//Initiate start up sequence
 				//Load main game screen
 				mainStage.hide();
-				GameScreenViewManager gsvm=new GameScreenViewManager(startPhase);	
+				GamePhaseViewManager gamePhase = new GamePhaseViewManager();
 			}
 		});
 		

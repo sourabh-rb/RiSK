@@ -215,5 +215,4 @@ public class Utilities {
 		return cardCount;
 
 	}
-
 }
