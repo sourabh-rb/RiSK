@@ -177,42 +177,5 @@ public class Utilities {
 		return card;
 	}
 
-	/**
-	 * This method gives the count of each type of card that the player has.
-	 * 
-	 * @param player
-	 * @return Array of integer type containing the number of cards of each type in
-	 *         the order arillery, infantry, cavalry.
-	 */
-	public static int[] cardCount(Player player) {
-
-		int artilleryCount = 0;
-		int cavalryCount = 0;
-		int infantryCount = 0;
-		int[] cardCount = {0,0,0};
-		ArrayList<Card> playerCards = null;
-		if (player.getCardType() != null || player.getCardType().size() != 0) {
-			playerCards = player.getCardType();
-		} else {
-			Utilities.gameLog("Player: " + player.getName() + " || Stage: Card count check  || Player has no cards!! ",
-					LogLevel.ERROR);
-			return cardCount;
-		}
-		// Count what type of cards does the player have
-		for (Card card : playerCards) {
-			if (card.getType().equals(Constants.ARTILLERY)) {
-				artilleryCount++;
-			} else if (card.getType().equals(Constants.INFANTRY)) {
-				infantryCount++;
-			} else if (card.getType().equals(Constants.CAVALRY)) {
-				cavalryCount++;
-			}
-		}
-		cardCount[0] = artilleryCount;
-		cardCount[1] = infantryCount;
-		cardCount[2] = cavalryCount;
-
-		return cardCount;
-
-	}
+	
 }
