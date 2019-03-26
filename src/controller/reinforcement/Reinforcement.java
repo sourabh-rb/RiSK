@@ -33,14 +33,14 @@ public class Reinforcement {
 		// Number of armies to be given to the player for reinforcement
 		int armies = 0;
 		// The control value associated with the continents owned by the player
-		int controlvalue = 0;
+		int controlValue = 0;
 		// If the player owns continents then the number of armies
 		// given to him is the sum of the control values
 		try {
 			if (player.getContinents() != null && player.getContinents().size() != 0) {
 				for (int i = 0; i < player.getContinents().size(); i++) {
-					controlvalue = player.getContinents().get(i).getControlValue();
-					armies = armies + controlvalue;
+					controlValue = player.getContinents().get(i).getControlValue();
+					armies = armies + controlValue;
 				}
 			} else {
 				armies = player.getCountries().size() / 3;
@@ -65,82 +65,106 @@ public class Reinforcement {
 	 * @param player
 	 * @return
 	 */
-	public int armiesFromCardExchange(Player player) {
-		int artilleryCount=0;
-		int cavalryCount=0;
-		int infantryCount=0;
-		int count=0;
+	public int armiesFromCardExchange(Player player, int artilleryCount, int infantryCount, int cavalryCount) {
+		
+		boolean artilleryFlag=false;
+		boolean infantryFlag=false;
+		boolean cavalryFlag=false;
 		boolean result=false;
 		ArrayList<Card> playerCards=null;
+		int[] cardCount=new int[3];
+		int indexes[]= new int[5];
 		
-		//Check if player has any cards
-		if(player.getCardType()!=null) {
+		cardCount=Utilities.cardCount(player);
+		//Check if player can return cards
+		if((artilleryCount==3 || infantryCount==3 || cavalryCount==3)||(artilleryCount==1 && infantryCount==1 && cavalryCount==1)) {
 			playerCards=player.getCardType();
-		}else {
+		}else{
+			Utilities.gameLog("Player: " + player.getName()
+			+ " || Stage: Reinforcement Armies || Invalid card selection!! ", LogLevel.ERROR);
 			return 0;
 		}
-		//Count what type of cards does the player have
-		for (Card card : playerCards) {
-			if (card.getType().equals(Constants.ARTILLERY)) {
-				artilleryCount++;
-			}else if(card.getType().equals(Constants.INFANTRY)) {
-				infantryCount++;
-			}else if(card.getType().equals(Constants.CAVALRY)) {
-				cavalryCount++;
-			}
-		}
-		//Check if player has 3 cards of same type and exchange them.
+		//When player has 3 cards of same type and exchange them.
 		if(artilleryCount==3) {
-			for(Card cardToRemove : player.getCardType()) {
-				if (cardToRemove.getType().equals(Constants.ARTILLERY)) {
-					playerCards.remove(cardToRemove);
+			for(int i=0,j=0; i<playerCards.size();i++) {
+				if(Constants.ARTILLERY.equals(playerCards.get(i).getType())){
+					indexes[j]=i;
+					j++;
 				}
+			}
+			for(int i=2;i>=0;i--){
+				playerCards.remove(indexes[i]);
 			}
 			result= true;
 		}else if(infantryCount==3) {
-			for(Card cardToRemove : player.getCardType()) {
-				if (cardToRemove.getType().equals(Constants.INFANTRY)) {
-					playerCards.remove(cardToRemove);
+			for(int i=0,j=0; i<playerCards.size();i++) {
+				if(Constants.INFANTRY.equals(playerCards.get(i).getType())){
+					indexes[j]=i;
+					j++;
 				}
+			}
+			for(int i=2;i>=0;i--){
+				playerCards.remove(indexes[i]);
 			}
 			result= true;
 		}else if(cavalryCount==3) {
-			for(Card cardToRemove : player.getCardType()) {
-				if (cardToRemove.getType().equals(Constants.CAVALRY)) {
-					playerCards.remove(cardToRemove);
+			for(int i=0,j=0; i<playerCards.size();i++) {
+				if(Constants.CAVALRY.equals(playerCards.get(i).getType())){
+					indexes[j]=i;
+					j++;
 				}
 			}
+			for(int i=2;i>=0;i--){
+				playerCards.remove(indexes[i]);
+			}
 			result= true;
-		}// Check if the player has 3 cards of different types and exchange them.
-		else if(artilleryCount>0 && infantryCount>0 && cavalryCount>0) {
-			for(Card cardToRemove : player.getCardType()) {
-				if (cardToRemove.getType().equals(Constants.CAVALRY)) {
-					playerCards.remove(cardToRemove);
-					count++;
-				}else if(cardToRemove.getType().equals(Constants.ARTILLERY)) {
-					playerCards.remove(cardToRemove);
-					count++;
-				}else if(cardToRemove.getType().equals(Constants.CAVALRY)) {
-					playerCards.remove(cardToRemove);
-					count++;
+		}
+		// Check if the player has 3 cards of different types and exchange them.
+		else if(cardCount[0]>0 && cardCount[1]>0 && cardCount[2]>0) {
+			for(int i=0,j=0; i<playerCards.size();i++) {
+				if(Constants.ARTILLERY.equals(playerCards.get(i).getType()) && artilleryFlag==false){
+					indexes[j]=i;
+					artilleryFlag=true;
+					j++;
+				}else if(Constants.INFANTRY.equals(playerCards.get(i).getType()) && infantryFlag==false) {
+					indexes[j]=i;
+					infantryFlag=true;
+					j++;
+				}else if(Constants.INFANTRY.equals(playerCards.get(i).getType()) && cavalryFlag==false) {
+					indexes[j]=i;
+					cavalryFlag=true;
+					j++;
 				}
-				if(count==3) {
-					result= true;
+				if(artilleryFlag==true && infantryFlag==true && cavalryFlag==true) {
 					break;
 				}
 			}
+			for(int i=2;i>=0;i--){
+				playerCards.remove(indexes[i]);
+			}
+			result=true;
 		}else {
+			Utilities.gameLog("Player: " + player.getName()
+			+ " || Stage: Reinforcement Armies || Cards cannot be exchanged!! ", LogLevel.WARN);
 			return 0;
 		}
-		//Update the player with the list after the cards are exchanged.
-		player.setCardType(playerCards);
 		
 		if(result==true){
 			int armies= (player.getCardExchangeCount()+1)*5;
 			player.setCardExchangeCount(player.getCardExchangeCount()+1);
+			//Update the player with the list after the cards are exchanged.
+			player.setCardType(playerCards);
+			// Update the number of armies the player owns.
+			player.setArmies(player.getArmies() + armies);
+			player.setNumberOfArmiesLeft(armies);
+			Utilities.gameLog("Player: " + player.getName()
+			+ " || Stage: Reinforcement Armies || Number of armies given: " + armies, LogLevel.INFO);
 			return armies;
+		}else {
+			Utilities.gameLog("Player: " + player.getName()
+			+ " || Stage: Reinforcement Armies || Cards cannot be exchanged!!", LogLevel.WARN);
+			return 0;
 		}
-		return 0;
 	}
 
 	/**

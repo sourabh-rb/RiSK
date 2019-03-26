@@ -1,0 +1,16 @@
+Error - Alaska has 2 entries instead of one ,so Alaska belongs to 2 continents rather than one.
+[Map]
+author=Sean O'Connor
+image=world.bmp
+wrap=no
+scroll=horizontal
+warn=yes
+
+[Continents]
+North America=5
+
+[Territories]
+Alaska,70,126,North America,Northwest Territory
+Northwest Territory,148,127,North America,Alaska
+Alaska,70,126,North Africa,Northwest Territory
+

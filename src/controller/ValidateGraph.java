@@ -34,7 +34,7 @@ import java.util.regex.*;
  * @version 1.0.0
  */
 
-public  class GraphTest 
+public  class ValidateGraph 
 
 {
     // number of vertices
@@ -179,7 +179,6 @@ public  class GraphTest
     	{
     		return Arrays.asList("Map Disconnected",continentHashMap,territoryHashMap);
     	}
-		
 		return Arrays.asList("Success",continentHashMap , territoryHashMap);
      }
     

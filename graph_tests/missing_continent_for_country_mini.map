@@ -1,0 +1,16 @@
+# Missing continent for Alaska 
+[Map]
+author=Sean O'Connor
+image=world.bmp
+wrap=no
+scroll=horizontal
+warn=yes
+
+[Continents]
+North America=5
+
+[Territories]
+Alaska,70,126,Northwest Territory
+Northwest Territory,148,127,North America,Alaska
+
+

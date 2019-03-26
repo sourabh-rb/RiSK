@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Logger;
 import constants.LogLevel;
-import controller.GraphTest;
+import controller.ValidateGraph;
 import controller.initialization.StartUpPhase;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -240,7 +240,7 @@ public class MainMenuViewManager
                 	StringBuffer contents = new StringBuffer();
 
 
-                	GraphTest gt=new GraphTest();
+                	ValidateGraph gt=new ValidateGraph();
                 	
                 	//Read file
                 	try (BufferedReader reader = new BufferedReader(new FileReader(file))) {

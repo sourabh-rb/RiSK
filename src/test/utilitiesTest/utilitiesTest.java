@@ -9,8 +9,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import constants.GamePhase;
-import constants.LogLevel;
-import controller.fortification.Fortification;
 import model.Country;
 import model.Player;
 import utilities.Utilities;
@@ -96,5 +94,15 @@ public class utilitiesTest {
 		Country c= u.getCountryFromPlayer(player, countryName);
 		assertTrue(c.equals(country1));
 		
+	}
+	
+	/**
+	 * This method is used to test the method getEnemyNeighborList.
+	 */
+	@Test
+	public void checkGetEnemyNeighborList() {
+		String countryName="India";
+		Country c= u.getCountryFromPlayer(player, countryName);
+		assertTrue(c.equals(country1));		
 	}
 }
