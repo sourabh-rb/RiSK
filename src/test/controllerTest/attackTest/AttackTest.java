@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import org.junit.Before;
 import org.junit.Test;
 
+import controller.initialization.StartUpPhase;
 import model.Card;
 import model.Continent;
 import model.Country;
@@ -20,14 +21,25 @@ public class AttackTest {
 	ArrayList<Continent> continentList = new ArrayList<Continent>();
 	ArrayList<Country> countryListPlayer1 = new ArrayList<Country>();
 	ArrayList<Country> countryListPlayer2 = new ArrayList<Country>();
+	ArrayList<Country> countryListPlayer3 = new ArrayList<Country>();
+	ArrayList<Country> countryListPlayer4 = new ArrayList<Country>();
 	Country country1;
+	Country country2;
+	Country country3;
 	Country country5;
+	Player player3;
+	Player player4;
+	Player player1;
+	Player player2;
+	ArrayList<Country> countryList = new ArrayList<Country>();
 
 	@Before
 	public void set() {
 
-		Player player1 = new Player();
-		Player player2 = new Player();
+		 player1 = new Player();
+		 player2 = new Player();
+		player3 = new Player();
+	player4 = new Player();
 		
 		player1.setName("Aravind");
 		player2.setName("charan");
@@ -42,9 +54,9 @@ public class AttackTest {
 		country1 = new Country();
 		country1.setName("India");
 		country1.setOwner(player1);
-		Country country2 = new Country();
+		country2 = new Country();
 		country2.setName("china");
-		Country country3 = new Country();
+		 country3 = new Country();
 		country3.setName("pakistan");
 		
 
@@ -56,7 +68,7 @@ public class AttackTest {
 		Country country6 = new Country();
 		country6.setName("Sweden");
 
-		ArrayList<Country> countryList = new ArrayList<Country>();
+		
 		countryList.add(country1);
 		countryList.add(country2);
 		countryList.add(country3);
@@ -76,10 +88,10 @@ public class AttackTest {
 		countryListPlayer1.add(country2);
 		countryListPlayer1.add(country3);
 		countryListPlayer1.add(country4);
-		
+		countryListPlayer1.add(country6);
 
 		countryListPlayer2.add(country5);
-		countryListPlayer2.add(country6);
+		
 		
 		player1.setCountries(countryListPlayer1);
 		player2.setCountries(countryListPlayer2);
@@ -126,12 +138,31 @@ public class AttackTest {
 	 * This function gives the attack result when attacker and defender decides number of dice to throw explicitly
 	 */
 	@Test
-	public void attackWithSpecificDiceValue() {
-		country1.setArmies(6);
+	public void attackWithOneArmy() {
+		country1.setArmies(1);
 		//country5.setArmies(4);
 		String atttackRes = playerAttack.attack(country1, country5, 1, 2, "attack");
-		assertEquals(atttackRes,"notDefeated");
+		assertEquals(atttackRes,"cannotAttack");
 	}
-	
-	
+	/**
+	 * This function is used to test if it is providing winner of the game properly or not
+	 */
+	@Test
+	public void gameWinner() {
+		StartUpPhase.getInstance().getCountryList().add(country1);
+		StartUpPhase.getInstance().getCountryList().add(country2);
+		StartUpPhase.getInstance().getCountryList().add(country3);
+		country1.setOwner(player3);
+		country2.setOwner(player3);
+		country3.setOwner(player4);
+		countryListPlayer3.add(country1);
+		countryListPlayer3.add(country2);
+		countryListPlayer4.add(country3);
+		player3.setCountries(countryListPlayer3);
+		player4.setCountries(countryListPlayer4);
+		country1.setArmies(6);
+		country3.setArmies(1);
+		String atttackRes = playerAttack.attack(country1, country3, 3, 2, "allOutWinner");
+		assertEquals(atttackRes,"champion");
+	}
 }

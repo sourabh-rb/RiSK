@@ -1,3 +1,4 @@
+
 package model;
 
 import java.util.ArrayList;
@@ -8,8 +9,10 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import org.junit.Before;
 
+
 import constants.Constants;
 import constants.LogLevel;
+
 import controller.initialization.StartUpPhase;
 import utilities.Utilities;
 
@@ -34,12 +37,16 @@ public class Player {
 	// Number of cards owned by the player
 	private int cardExchangeCount;
 	// Types of cards owned by the player
-	private ArrayList<Card> cards;
+
+	private ArrayList<Card> cards = new ArrayList<Card>();
+
 	// The countries that the player owns
 	private ArrayList<Country> countries = new ArrayList<Country>();
 	// The continents that the player owns
 	private ArrayList<Continent> continents;
-	StartUpPhase start = new StartUpPhase();
+
+	
+
 
 	ArrayList<Card> cardTypeList = new ArrayList<Card>();
 	ArrayList<Country> lostCountries = new ArrayList<Country>();
@@ -52,6 +59,10 @@ public class Player {
 	
 	static Country country1;
 	static Country country5;
+
+	StartUpPhase start=StartUpPhase.getInstance();
+	
+
 
 	public void set() {
 		Player player1 = new Player();
@@ -112,7 +123,9 @@ public class Player {
 		countryListPlayer1.add(country3);
 		countryListPlayer1.add(country4);
 		countryListPlayer1.add(country6);
-		country1.setArmies(5);
+
+		country1.setArmies(3);
+
 		country1.setOwner(player1);
 		country2.setOwner(player1);
 
@@ -124,9 +137,11 @@ public class Player {
 		player2.setCountries(countryListPlayer2);
 
 	}
+
 	public Player()
 	{
 			}
+
 
 	/**
 	 * This method gets the name of the player.
@@ -327,8 +342,11 @@ public class Player {
 	 */
 	public String winner(Country attackingCountry, Country defendingCountry, int noOfDiceForAttackingCountry,
 			int noOFDiceForDefendingCountry, String action) {
-		int noOfArmiesInDefenderCountry = 0;
-		int noOfArmiesInAttackingCountry = 0;
+
+		int noOfArmiesInDefeatedCountry = 0;
+		
+		//int noOfArmiesInAttackingCountry = 0;
+
 		for (int i = 0; i < noOfDiceForAttackingCountry; i++) {
 			attackingCountryDiceValues.add(randomDiceValue());
 		}
@@ -351,19 +369,24 @@ public class Player {
 				: noOFDiceForDefendingCountry;
 		for (int i = 0; i < name; i++) {
 			if (attackingCountryDiceValues.get(i) > defendingCountryDiceValues.get(i)) {
-				noOfArmiesInDefenderCountry = decreaseOneArmy(defendingCountry);
+
+				noOfArmiesInDefeatedCountry = decreaseOneArmy(defendingCountry);
+				System.out.println("Armies left in defending country after atatck: "+noOfArmiesInDefeatedCountry);
 			} else if (attackingCountryDiceValues.get(i) == defendingCountryDiceValues.get(i)) {
-				noOfArmiesInAttackingCountry = decreaseOneArmy(attackingCountry);
+				noOfArmiesInDefeatedCountry = decreaseOneArmy(attackingCountry);
 			} else {
-				noOfArmiesInAttackingCountry = decreaseOneArmy(attackingCountry);
+				noOfArmiesInDefeatedCountry = decreaseOneArmy(attackingCountry);
+
 			}
 		}
 		attackingCountryDiceValues.clear();
 		defendingCountryDiceValues.clear();
-		if (noOfArmiesInDefenderCountry == 0) {
+
+		if (noOfArmiesInDefeatedCountry == 0) {
 			return "defeated";
 		} else if (action.equals("allOutWinner")) {
-			if (attackingCountry.getArmies() > 1)
+			if (attackingCountry.getArmies() != 1)
+
 				return noOfDiceOnAllOut(attackingCountry, defendingCountry);
 			else
 				return "onlyOneArmy";
@@ -424,20 +447,19 @@ public class Player {
 				attackRes = winner(attackingCountry, defendingCountry, noOfDiceForAttackingCountry,
 						noOFDiceForDefendingCountry, "attack");
 			}
-			
+
 			System.out.println("Result of attacking : "+attackRes);
 			if (attackRes.equals("defeated")) {
-				
 				defendingCountry.setOwner(attackingCountry.getOwner());// change the defeated country owner to attacked country owner
-				
 				attackingCountry.getOwner().getCountries().add(defendingCountry); //assign the defeated country to winner
-				
 				System.out.println("Number of countries attacker has after attacking: "+attackingCountry.getOwner().getCountries().size());
-				if(attackingCountry.getOwner().getCountries().size() == start.countryList.size()) {
+				System.out.println("Number of total countries in the game: "+start.getCountryList().size());
+				if(attackingCountry.getOwner().getCountries().size() == start.getCountryList().size()) {
 					return "champion";
 				}
 				// can give this player a card
-				cardTypeList = attackingCountry.getOwner().getCardType();
+			 cardTypeList = attackingCountry.getOwner().getCardType();
+
 				cardTypeList.add(Utilities.giveCard());
 				attackingCountry.getOwner().setCardType(cardTypeList);
 				cardTypeList.clear();
@@ -493,7 +515,9 @@ public class Player {
 	public static void main(String[] args) {
 		Player play = new Player();
 		play.set();
+
 		StartUpPhase start = StartUpPhase.getInstance();
+
 
 		System.out.println("Attacking country armies: " + playerList.get(0).getCountries().get(0).getName() + " "
 				+ playerList.get(0).getCountries().get(0).getArmies());
@@ -502,6 +526,7 @@ public class Player {
 		play.attack(playerList.get(0).getCountries().get(0), playerList.get(1).getCountries().get(0), 1, 1, "allOutWinner");
 	}
 	
+
 	/**
 	 * This method determines the number of armies a player gets when he exchanges
 	 * his cards.
@@ -760,4 +785,5 @@ public class Player {
 			return false;
 		}
 	}
+
 }

@@ -6146,3 +6146,7 @@ INFO: No of armies left with Player3 is 22
 INFO: No of armies left with Player3 is 21
 INFO: Stage: PLAY|| File Valid: World.map
 INFO: Stage: PLAY || Player Count: 3
+INFO: Stage: Main Menu View displayed
+INFO: Stage: Main Menu || State: PLAY selected
+INFO: Stage: Play || State: CHOOSE MAP selected
+INFO: Stage: Main Menu || State: Exited Game
