@@ -1,0 +1,15 @@
+Error - Mispelled country name (Albrta)
+[Map]
+author=Sean O'Connor
+image=world.bmp
+wrap=no
+scroll=horizontal
+warn=yes
+
+[Continents]
+North America=5
+
+[Territories]
+Alaska,70,126,North America,Northwest Territory,Albrta
+Northwest Territory,148,127,North America,Alaska,Alberta
+Alberta,147,163,North America,Alaska,Northwest Territory

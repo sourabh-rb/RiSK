@@ -65,37 +65,26 @@ public class Reinforcement {
 	 * @param player
 	 * @return
 	 */
-	public int armiesFromCardExchange(Player player) {
-		int artilleryCount=0;
-		int cavalryCount=0;
-		int infantryCount=0;
+	public int armiesFromCardExchange(Player player, int artilleryCount, int infantryCount, int cavalryCount) {
+		
 		boolean artilleryFlag=false;
 		boolean infantryFlag=false;
 		boolean cavalryFlag=false;
-		int count=0;
 		boolean result=false;
 		ArrayList<Card> playerCards=null;
-		int indexes[]= new int[5];		
+		int[] cardCount=new int[3];
+		int indexes[]= new int[5];
 		
-		//Check if player has any cards
-		if(player.getCardType()!=null || player.getCardType().size()!=0) {
+		cardCount=Utilities.cardCount(player);
+		//Check if player can return cards
+		if((artilleryCount==3 || infantryCount==3 || cavalryCount==3)||(artilleryCount==1 && infantryCount==1 && cavalryCount==1)) {
 			playerCards=player.getCardType();
-		}else {
+		}else{
 			Utilities.gameLog("Player: " + player.getName()
-			+ " || Stage: Reinforcement Armies || Player has no cards to exchange!! ", LogLevel.ERROR);
+			+ " || Stage: Reinforcement Armies || Invalid card selection!! ", LogLevel.ERROR);
 			return 0;
 		}
-		//Count what type of cards does the player have
-		for (Card card : playerCards) {
-			if (card.getType().equals(Constants.ARTILLERY)) {
-				artilleryCount++;
-			}else if(card.getType().equals(Constants.INFANTRY)) {
-				infantryCount++;
-			}else if(card.getType().equals(Constants.CAVALRY)) {
-				cavalryCount++;
-			}
-		}
-		//Check if player has 3 cards of same type and exchange them.
+		//When player has 3 cards of same type and exchange them.
 		if(artilleryCount==3) {
 			for(int i=0,j=0; i<playerCards.size();i++) {
 				if(Constants.ARTILLERY.equals(playerCards.get(i).getType())){
@@ -129,24 +118,9 @@ public class Reinforcement {
 				playerCards.remove(indexes[i]);
 			}
 			result= true;
-		}// Check if the player has 3 cards of different types and exchange them.
-		else if(artilleryCount>0 && infantryCount>0 && cavalryCount>0) {
-			/*for(Card cardToRemove : player.getCardType()) {
-				if (cardToRemove.getType().equals(Constants.CAVALRY)) {
-					playerCards.remove(cardToRemove);
-					count++;
-				}else if(cardToRemove.getType().equals(Constants.ARTILLERY)) {
-					playerCards.remove(cardToRemove);
-					count++;
-				}else if(cardToRemove.getType().equals(Constants.CAVALRY)) {
-					playerCards.remove(cardToRemove);
-					count++;
-				}
-				if(count==3) {
-					result= true;
-					break;
-				}
-			}*/
+		}
+		// Check if the player has 3 cards of different types and exchange them.
+		else if(cardCount[0]>0 && cardCount[1]>0 && cardCount[2]>0) {
 			for(int i=0,j=0; i<playerCards.size();i++) {
 				if(Constants.ARTILLERY.equals(playerCards.get(i).getType()) && artilleryFlag==false){
 					indexes[j]=i;

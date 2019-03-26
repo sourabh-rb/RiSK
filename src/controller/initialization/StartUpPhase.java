@@ -1,8 +1,4 @@
 
-
-/**
- * 
- */
 package controller.initialization;
 
 import java.util.ArrayList;
