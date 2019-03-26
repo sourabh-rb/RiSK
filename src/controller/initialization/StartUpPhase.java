@@ -40,6 +40,7 @@ public class StartUpPhase {
 	 * 
 	 */
 	public StartUpPhase() {
+		
 		//System.out.println("Inside start up phase constructor");
 
 	}
