@@ -1,5 +1,7 @@
 package view;
 
+import java.util.ArrayList;
+
 import constants.GamePhase;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -25,6 +27,7 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import model.PhaseManager;
+import model.Player;
 import view.ui_elements.RiskButton;
 import view.ui_elements.RiskLabel;
 /**
@@ -53,10 +56,14 @@ public class GamePhaseViewManager
 	RiskButton attackButton;
 	RiskButton fortifyButton;
 	RiskButton doneButton;
+	RiskButton dominationButton;
+	RiskButton exitButton;
 	
 	GridPane phaseInfoPane;
 	
+	
 	PhaseManager playerPhase;
+	
 	
 	
 	public GamePhaseViewManager()
@@ -66,8 +73,7 @@ public class GamePhaseViewManager
 		gamePhaseStage = new Stage();
 		gamePhaseStage.setScene(gamePhaseScene);
 		gamePhaseStage.setResizable(false);
-		//gamePhaseStage.initStyle(StageStyle.UNDECORATED);
-		gamePhaseStage.show();
+		gamePhaseStage.initStyle(StageStyle.UNDECORATED);
 		
 		playerPhase = new PhaseManager();
 		phaseName = new RiskLabel();
@@ -78,9 +84,10 @@ public class GamePhaseViewManager
 		createLogo();
 		createPhase();
 		
+		
 		gamePhasePane.getChildren().add(phaseInfoPane);
 	}
-	
+
 	/**
 	 * This method sets up the game phase background.
 	 * 
@@ -160,6 +167,45 @@ public class GamePhaseViewManager
 	}
 	
 	private void createInitializationPhaseElements()
+	{
+		phaseInfoPane.getChildren().clear();
+		
+		RiskLabel countryLabel = new RiskLabel("Owned Countries");
+		ComboBox<String> countriesCombobox = new ComboBox<String>();
+		VBox countryVBox = new VBox(20, countryLabel, countriesCombobox);
+		
+		RiskLabel armyLabel = new RiskLabel("Armies");
+		RiskLabel armyCountLabel = new RiskLabel();
+		VBox armyVBox = new VBox(20, armyLabel, armyCountLabel);
+		
+		RiskLabel armySelectLabel = new RiskLabel("Select Army");
+		Spinner<Integer> armySpinner = new Spinner<Integer>();
+		SpinnerValueFactory<Integer> armyValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 5, 0);
+		armySpinner.setValueFactory(armyValueFactory);
+		VBox armySelectVBox = new VBox(20, armySelectLabel, armySpinner);
+		
+		RiskButton confirmButton = new RiskButton("CONFIRM");
+
+		RiskLabel infoLabel = new RiskLabel("Phase Info goes here!");
+	
+		
+		phaseInfoPane.add(countryVBox, 1, 0);
+		phaseInfoPane.add(armyVBox, 2, 0);
+		phaseInfoPane.add(armySelectVBox, 3, 0);
+		phaseInfoPane.add(confirmButton, 3, 1);
+		phaseInfoPane.add(infoLabel, 1, 2,3,2);
+		
+		phaseInfoPane.setHgap(50);
+		phaseInfoPane.setVgap(20);
+		
+		phaseInfoPane.setLayoutX(85);
+		phaseInfoPane.setLayoutY(350);
+		
+		
+		
+	}
+	
+	private void createReinforcementPhaseElements()
 	{
 		phaseInfoPane.getChildren().clear();
 		
@@ -352,11 +398,70 @@ public class GamePhaseViewManager
 		doneButton.setLayoutY(800);
 		
 		gamePhasePane.getChildren().add(doneButton);
+		
+		
+		dominationButton = new RiskButton("Domination View");
+		dominationButton.setOnAction(new EventHandler<ActionEvent>()
+		{
+
+			@Override
+			public void handle(ActionEvent event)
+			{
+				PlayerDominationViewManager domView = new PlayerDominationViewManager();
+				domView.showView();
+				
+			}
+		});
+		exitButton = new RiskButton("EXIT");
+		
+		exitButton.setOnAction(new EventHandler<ActionEvent>()
+		{
+
+			@Override
+			public void handle(ActionEvent event)
+			{
+				gamePhaseStage.close();
+				
+			}
+		});
+		
+		HBox buttonBox = new HBox(25, dominationButton, exitButton);
+		buttonBox.setLayoutX(650);
+		buttonBox.setLayoutY(800);
+		
+		gamePhasePane.getChildren().add(buttonBox);
+		
+		
+	}
+	
+	public void showView()
+	{
+		gamePhaseStage.show();
 	}
 	
 	public Stage getGameStage()
 	{
 		return gamePhaseStage;
+	}
+	
+	public void setInitializationPhase()
+	{
+		createInitializationPhaseElements();
+	}
+	
+	public void setReinforcementPhase()
+	{
+		createReinforcementPhaseElements();
+	}
+	
+	public void setAttackPhase()
+	{
+		createAttackPhaseElements();
+	}
+	
+	public void setFortificationPhase()
+	{
+		createFortificationPhaseElements();
 	}
 	
 
