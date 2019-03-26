@@ -1,9 +1,9 @@
+
 package view;
 
 import java.util.ArrayList;
 
 import constants.GamePhase;
-import controller.initialization.StartUpPhase;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -29,7 +29,6 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import model.PhaseManager;
 import model.Player;
-import utilities.Utilities;
 import view.ui_elements.RiskButton;
 import view.ui_elements.RiskLabel;
 /**
@@ -58,10 +57,14 @@ public class GamePhaseViewManager
 	RiskButton attackButton;
 	RiskButton fortifyButton;
 	RiskButton doneButton;
+	RiskButton dominationButton;
+	RiskButton exitButton;
 	
 	GridPane phaseInfoPane;
 	
+	
 	PhaseManager playerPhase;
+	
 	
 	
 	public GamePhaseViewManager()
@@ -71,8 +74,7 @@ public class GamePhaseViewManager
 		gamePhaseStage = new Stage();
 		gamePhaseStage.setScene(gamePhaseScene);
 		gamePhaseStage.setResizable(false);
-		//gamePhaseStage.initStyle(StageStyle.UNDECORATED);
-		gamePhaseStage.show();
+		gamePhaseStage.initStyle(StageStyle.UNDECORATED);
 		
 		playerPhase = new PhaseManager();
 		phaseName = new RiskLabel();
@@ -83,9 +85,10 @@ public class GamePhaseViewManager
 		createLogo();
 		createPhase();
 		
+		
 		gamePhasePane.getChildren().add(phaseInfoPane);
 	}
-	
+
 	/**
 	 * This method sets up the game phase background.
 	 * 
@@ -185,8 +188,6 @@ public class GamePhaseViewManager
 		RiskButton confirmButton = new RiskButton("CONFIRM");
 
 		RiskLabel infoLabel = new RiskLabel("Phase Info goes here!");
-		
-		createCardsPhaseElements();
 	
 		
 		phaseInfoPane.add(countryVBox, 1, 0);
@@ -199,62 +200,48 @@ public class GamePhaseViewManager
 		phaseInfoPane.setVgap(20);
 		
 		phaseInfoPane.setLayoutX(85);
-		phaseInfoPane.setLayoutY(350);	
+		phaseInfoPane.setLayoutY(350);
+		
+		
 		
 	}
 	
-	/**
-	 * This method is used to display the Cards phase in the Reinforcement mode
-	 */
-	
-	private void createCardsPhaseElements()
+	private void createReinforcementPhaseElements()
 	{
-		ArrayList<Player> playerList=StartUpPhase.player_List;
-		Player currentPlayer = new Player();
+		phaseInfoPane.getChildren().clear();
 		
-		int[] count=Utilities.cardCount(currentPlayer);
+		RiskLabel countryLabel = new RiskLabel("Owned Countries");
+		ComboBox<String> countriesCombobox = new ComboBox<String>();
+		VBox countryVBox = new VBox(20, countryLabel, countriesCombobox);
 		
-		for(int i=0;i<playerList.size();i++) {
-		if(playerList.get(i).getName().equals(playerName)) {
-			currentPlayer=playerList.get(i);
-		}
-		}
+		RiskLabel armyLabel = new RiskLabel("Armies");
+		RiskLabel armyCountLabel = new RiskLabel();
+		VBox armyVBox = new VBox(20, armyLabel, armyCountLabel);
 		
-		//create card type text,display count of each type of card and add spinner to select count for exchange
-		RiskLabel InfantryCountLabel = new RiskLabel("Infantry :" +count[1]);
-		Spinner<Integer> infantrySpinner = new Spinner<Integer>();
-		SpinnerValueFactory<Integer> infantryValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, count[1], 0);
-		infantrySpinner.setValueFactory(infantryValueFactory);
-		int infantrySpinnerValue=infantrySpinner.getValue();
+		RiskLabel armySelectLabel = new RiskLabel("Select Army");
+		Spinner<Integer> armySpinner = new Spinner<Integer>();
+		SpinnerValueFactory<Integer> armyValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 5, 0);
+		armySpinner.setValueFactory(armyValueFactory);
+		VBox armySelectVBox = new VBox(20, armySelectLabel, armySpinner);
+		
+		RiskButton confirmButton = new RiskButton("CONFIRM");
+
+		RiskLabel infoLabel = new RiskLabel("Phase Info goes here!");
+	
+		
+		phaseInfoPane.add(countryVBox, 1, 0);
+		phaseInfoPane.add(armyVBox, 2, 0);
+		phaseInfoPane.add(armySelectVBox, 3, 0);
+		phaseInfoPane.add(confirmButton, 3, 1);
+		phaseInfoPane.add(infoLabel, 1, 2,3,2);
+		
+		phaseInfoPane.setHgap(50);
+		phaseInfoPane.setVgap(20);
+		
+		phaseInfoPane.setLayoutX(85);
+		phaseInfoPane.setLayoutY(350);
 		
 		
-		RiskLabel CavalryCountLabel = new RiskLabel("Cavalry :" + count[2]);
-		Spinner<Integer> cavalrySpinner = new Spinner<Integer>();
-		SpinnerValueFactory<Integer> cavalaryValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, count[2], 0);
-		cavalrySpinner.setValueFactory(cavalaryValueFactory);
-		int cavalrySpinnerValue=cavalrySpinner.getValue();
-		
-		RiskLabel ArtilleryCountLabel = new RiskLabel("Artillery :" +count[0]);
-		Spinner<Integer> artillerySpinner = new Spinner<Integer>();
-		SpinnerValueFactory<Integer> artilleryValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, count[0], 0);
-		artillerySpinner.setValueFactory(artilleryValueFactory);
-		int artillerySpinnerValue=artillerySpinner.getValue();
-		
-		RiskButton cardsExchangeButton=new RiskButton("Exchange");
-		cardsExchangeButton.setOnAction(new EventHandler<ActionEvent>() {
-			
-			@Override
-			public void handle(ActionEvent event) {
-				// TODO Auto-generated method stub
-				
-			}
-		});
-		
-		RiskLabel cardCountLabel = new RiskLabel("Total Cards :" + (count[0]+count[1]+count[2]));
-		VBox cardsVBox = new VBox(20, InfantryCountLabel,CavalryCountLabel,ArtilleryCountLabel,cardCountLabel);
-		phaseInfoPane.add(cardsVBox, 4, 0);
-		VBox spinnerBox=new VBox(20,infantrySpinner,cavalrySpinner,artillerySpinner,cardsExchangeButton);
-		phaseInfoPane.add(spinnerBox, 5, 0);
 		
 	}
 	
@@ -412,11 +399,70 @@ public class GamePhaseViewManager
 		doneButton.setLayoutY(800);
 		
 		gamePhasePane.getChildren().add(doneButton);
+		
+		
+		dominationButton = new RiskButton("Domination View");
+		dominationButton.setOnAction(new EventHandler<ActionEvent>()
+		{
+
+			@Override
+			public void handle(ActionEvent event)
+			{
+				PlayerDominationViewManager domView = new PlayerDominationViewManager();
+				domView.showView();
+				
+			}
+		});
+		exitButton = new RiskButton("EXIT");
+		
+		exitButton.setOnAction(new EventHandler<ActionEvent>()
+		{
+
+			@Override
+			public void handle(ActionEvent event)
+			{
+				gamePhaseStage.close();
+				
+			}
+		});
+		
+		HBox buttonBox = new HBox(25, dominationButton, exitButton);
+		buttonBox.setLayoutX(650);
+		buttonBox.setLayoutY(800);
+		
+		gamePhasePane.getChildren().add(buttonBox);
+		
+		
+	}
+	
+	public void showView()
+	{
+		gamePhaseStage.show();
 	}
 	
 	public Stage getGameStage()
 	{
 		return gamePhaseStage;
+	}
+	
+	public void setInitializationPhase()
+	{
+		createInitializationPhaseElements();
+	}
+	
+	public void setReinforcementPhase()
+	{
+		createReinforcementPhaseElements();
+	}
+	
+	public void setAttackPhase()
+	{
+		createAttackPhaseElements();
+	}
+	
+	public void setFortificationPhase()
+	{
+		createFortificationPhaseElements();
 	}
 	
 

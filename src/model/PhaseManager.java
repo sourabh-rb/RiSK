@@ -1,8 +1,12 @@
 package model;
 
+import java.util.ArrayList;
+
 import constants.GamePhase;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 /**
 * <h1>PhaseManager</h1>
@@ -19,6 +23,9 @@ public class PhaseManager
 	private StringProperty playerName;
 	private StringProperty phaseName;
 	
+
+	
+	
 	private GamePhase currentPhase;
 	
 	private void updateGamePhase(GamePhase nextPhase)
@@ -26,28 +33,28 @@ public class PhaseManager
 		switch(nextPhase)
 		{
 		case INITIALIZATION:
-			phaseName.set("INITIALIZATION");
 			currentPhase = GamePhase.INITIALIZATION;
+			phaseName.set("INITIALIZATION");
 			//TODO: bind required fields.
 			break;
 		case REINFORCEMENT:
-			phaseName.set("REINFORCEMENT");
 			currentPhase = GamePhase.REINFORCEMENT;
+			phaseName.set("REINFORCEMENT");
 			//TODO: bind required fields.
 			break;
 		case ATTACK:
-			phaseName.set("ATTACK");
 			currentPhase = GamePhase.ATTACK;
+			phaseName.set("ATTACK");
 			//TODO: bind required fields.
 			break;
 		case FORTIFICATION:
-			phaseName.set("FORTIFICATION");
 			currentPhase = GamePhase.FORTIFICATION;
+			phaseName.set("FORTIFICATION");
 			//TODO: bind required fields.
 			break;
 		case END:
-			phaseName.set("TURN ENDS");
 			currentPhase = GamePhase.END;
+			phaseName.set("TURN ENDS");
 			//TODO: bind required fields.
 			
 			break;
@@ -96,6 +103,7 @@ public class PhaseManager
 		updateGamePhase(nextPhase);
 		
 	}
+	
 	
 	public GamePhase getCurrentGamePhase()
 	{

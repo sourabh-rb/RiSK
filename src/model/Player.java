@@ -488,8 +488,8 @@ public class Player {
 	public static void main(String[] args) {
 		Player play = new Player();
 		play.set();
-		StartUpPhase start = new StartUpPhase();
-	
+		StartUpPhase start = StartUpPhase.getInstance();
+
 		System.out.println("Attacking country armies: " + playerList.get(0).getCountries().get(0).getName() + " "
 				+ playerList.get(0).getCountries().get(0).getArmies());
 		System.out.println("Defending country armies: " + playerList.get(1).getCountries().get(0).getName() + " "
