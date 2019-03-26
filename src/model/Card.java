@@ -1,7 +1,10 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
+import constants.Constants;
+import constants.LogLevel;
 import utilities.Utilities;
 
 /**
@@ -59,5 +62,57 @@ public class Card {
 	@Override
 	public int hashCode() {
 		return Objects.hash(this.type);
+	}
+	
+	/**
+	 * This method gives the count of each type of card that the player has.
+	 * 
+	 * @param player
+	 * @return Array of integer type containing the number of cards of each type in
+	 *         the order arillery, infantry, cavalry.
+	 */
+	public static int[] cardCount(Player player) {
+
+		int artilleryCount = 0;
+		int cavalryCount = 0;
+		int infantryCount = 0;
+		int[] cardCount = {2,2,3};
+		ArrayList<Card> playerCards = null;
+		ArrayList<Card> testList = new ArrayList();
+        Card testCard1=new Card();
+        Card testCard2=new Card();
+        Card testCard3=new Card();
+        testCard1.setType(Constants.ARTILLERY);
+        testCard2.setType(Constants.CAVALRY);
+        testCard3.setType(Constants.INFANTRY);
+        testList.add(testCard1);
+        testList.add(testCard1);
+        testList.add(testCard1);
+        testList.add(testCard2);
+        testList.add(testCard3);
+        player.setCardType(testList);
+		if (player.getCardType() != null && player.getCardType().size() != 0) {
+			playerCards = player.getCardType();
+		} else {
+			Utilities.gameLog("Player: " + player.getName() + " || Stage: Card count check  || Player has no cards!! ",
+					LogLevel.ERROR);
+			return cardCount;
+		}
+		// Count what type of cards does the player have
+		for (Card card : playerCards) {
+			if (card.getType().equals(Constants.ARTILLERY)) {
+				artilleryCount++;
+			} else if (card.getType().equals(Constants.INFANTRY)) {
+				infantryCount++;
+			} else if (card.getType().equals(Constants.CAVALRY)) {
+				cavalryCount++;
+			}
+		}
+		cardCount[0] = artilleryCount;
+		cardCount[1] = infantryCount;
+		cardCount[2] = cavalryCount;
+
+		return cardCount;
+
 	}
 }

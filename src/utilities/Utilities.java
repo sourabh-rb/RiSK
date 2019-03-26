@@ -191,7 +191,20 @@ public class Utilities {
 		int infantryCount = 0;
 		int[] cardCount = {0,0,0};
 		ArrayList<Card> playerCards = null;
-		if (player.getCardType() != null || player.getCardType().size() != 0) {
+		ArrayList<Card> testList = new ArrayList();
+        Card testCard1=new Card();
+        Card testCard2=new Card();
+        Card testCard3=new Card();
+        testCard1.setType(Constants.ARTILLERY);
+        testCard2.setType(Constants.CAVALRY);
+        testCard3.setType(Constants.INFANTRY);
+        testList.add(testCard1);
+        testList.add(testCard1);
+        testList.add(testCard1);
+        testList.add(testCard2);
+        testList.add(testCard3);
+        player.setCardType(testList);
+		if (player.getCardType() != null && player.getCardType().size() != 0) {
 			playerCards = player.getCardType();
 		} else {
 			Utilities.gameLog("Player: " + player.getName() + " || Stage: Card count check  || Player has no cards!! ",

@@ -77,7 +77,10 @@ public class Reinforcement {
 		
 		cardCount=Utilities.cardCount(player);
 		//Check if player can return cards
-		if((artilleryCount==3 || infantryCount==3 || cavalryCount==3)||(artilleryCount==1 && infantryCount==1 && cavalryCount==1)) {
+		if (((artilleryCount == 3 && infantryCount == 0 && cavalryCount == 0)
+				                || (infantryCount == 3 && artilleryCount == 0 && cavalryCount == 0)
+				                || (cavalryCount == 3 && infantryCount == 0 && artilleryCount == 0))
+				                || (artilleryCount == 1 && infantryCount == 1 && cavalryCount == 1)) {
 			playerCards=player.getCardType();
 		}else{
 			Utilities.gameLog("Player: " + player.getName()
