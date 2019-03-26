@@ -27,19 +27,29 @@ public class StartUpPhase {
 	ArrayList<Continent> continentList = new ArrayList<Continent>();
 	ArrayList<Country> neighborCountries = new ArrayList<Country>();
 	ArrayList<Country> countriesInContinent = new ArrayList<Country>();
-	public ArrayList<Player> playerList = new ArrayList<Player>();
-	HashMap<String, Country> countryNameToObj = new HashMap<String, Country>();
-	HashMap<String, Continent> continentNameToObj = new HashMap<String, Continent>();
-	public static ArrayList<Country> countryList = new ArrayList<Country>();
+	public ArrayList<Player> player_List = new ArrayList<Player>();
+	HashMap<String, Country> country_name2obj = new HashMap<String, Country>();
+	HashMap<String, Continent> continent_name2obj = new HashMap<String, Continent>();
+	ArrayList<Country> country_list = new ArrayList<Country>();
+	private static StartUpPhase startPhaseObject = null;
+
 
 	/**
 	 * 
 	 */
-	public StartUpPhase() {
-		
-		//System.out.println("Inside start up phase constructor");
 
+	public StartUpPhase() 
+	{
+		
 	}
+		
+	public static synchronized StartUpPhase getInstance() {
+        if(startPhaseObject == null) {
+        	startPhaseObject = new StartUpPhase();
+        }
+        return startPhaseObject;
+    }
+
 
 	/**
 	 * This function creates objects for all the map elements like country,
@@ -309,6 +319,11 @@ public class StartUpPhase {
 	public static void main(String[] args) {
 		System.out.println("Start up phase started");
 		StartUpPhase start = new StartUpPhase();
+	}
+	
+	public ArrayList<Country> getMapCountries()
+	{
+		return country_list;
 	}
 
 }

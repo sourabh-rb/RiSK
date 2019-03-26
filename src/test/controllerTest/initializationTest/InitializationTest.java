@@ -85,7 +85,7 @@ public class InitializationTest {
 
 		continentList.add(continent1);
 		continentList.add(continent2);
-		 initialize = new StartUpPhase();
+		StartUpPhase initialize = StartUpPhase.getInstance();
 	}
 	/**
 	 * This method is used to test the method that calculates the number of armies that are to be given to 
