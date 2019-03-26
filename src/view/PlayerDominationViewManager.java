@@ -95,8 +95,8 @@ public class PlayerDominationViewManager
 			IntegerProperty armies = new SimpleIntegerProperty();
 			armies.set(playerList.get(i).getArmies());
 			
-			DoubleProperty totalCountries = new SimpleDoubleProperty(startObject.getMapCountries().size());
-			//int totalCountries = startObject.getMapCountries().size();
+			DoubleProperty totalCountries = new SimpleDoubleProperty();
+			totalCountries.set(startObject.getMapCountries().size());
 			NumberBinding percentage = countryOwned.divide(totalCountries).multiply(100);
 			ObservableList<Country> observableCountries = 
 					FXCollections.observableArrayList(playerList.get(i).getCountries());
