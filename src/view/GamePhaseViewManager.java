@@ -27,6 +27,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.util.StringConverter;
+import model.Country;
 import model.PhaseManager;
 import model.Player;
 import view.ui_elements.RiskButton;
@@ -84,7 +86,6 @@ public class GamePhaseViewManager
 		createBackground();
 		createLogo();
 		createPhase();
-		
 		
 		gamePhasePane.getChildren().add(phaseInfoPane);
 	}
@@ -172,20 +173,49 @@ public class GamePhaseViewManager
 		phaseInfoPane.getChildren().clear();
 		
 		RiskLabel countryLabel = new RiskLabel("Owned Countries");
-		ComboBox<String> countriesCombobox = new ComboBox<String>();
+		ComboBox<Country> countriesCombobox = new ComboBox<Country>();
+		
+		countriesCombobox.setItems(playerPhase.getCountriesOwnedObservableList());
+		
+		StringConverter<Country> converter = new StringConverter<Country>() {
+	         @Override
+	         public String toString(Country object) {
+	             return object.getName();
+	         }
+
+	         @Override
+	         public Country fromString(String string) {
+	             return null;
+	         }
+		};
+		countriesCombobox.setConverter(converter);
+		countriesCombobox.getSelectionModel().selectFirst();
+	    
 		VBox countryVBox = new VBox(20, countryLabel, countriesCombobox);
 		
 		RiskLabel armyLabel = new RiskLabel("Armies");
 		RiskLabel armyCountLabel = new RiskLabel();
+		armyCountLabel.textProperty().bind(playerPhase.armyCountProperty().asString());
 		VBox armyVBox = new VBox(20, armyLabel, armyCountLabel);
 		
 		RiskLabel armySelectLabel = new RiskLabel("Select Army");
 		Spinner<Integer> armySpinner = new Spinner<Integer>();
 		SpinnerValueFactory<Integer> armyValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 5, 0);
 		armySpinner.setValueFactory(armyValueFactory);
+		//armySpinner.getValueFactory().valueProperty().bindBidirectional();
 		VBox armySelectVBox = new VBox(20, armySelectLabel, armySpinner);
 		
 		RiskButton confirmButton = new RiskButton("CONFIRM");
+		confirmButton.setOnAction(new EventHandler<ActionEvent>()
+		{
+
+			@Override
+			public void handle(ActionEvent event)
+			{
+				// TODO Auto-generated method stub
+				
+			}
+		});
 
 		RiskLabel infoLabel = new RiskLabel("Phase Info goes here!");
 	
@@ -209,40 +239,69 @@ public class GamePhaseViewManager
 	private void createReinforcementPhaseElements()
 	{
 		phaseInfoPane.getChildren().clear();
-		
+
 		RiskLabel countryLabel = new RiskLabel("Owned Countries");
-		ComboBox<String> countriesCombobox = new ComboBox<String>();
+		ComboBox<Country> countriesCombobox = new ComboBox<Country>();
+
+		countriesCombobox.setItems(playerPhase.getCountriesOwnedObservableList());
+
+		StringConverter<Country> converter = new StringConverter<Country>() {
+			@Override
+			public String toString(Country object) {
+				return object.getName();
+			}
+
+			@Override
+			public Country fromString(String string) {
+				return null;
+			}
+		};
+		countriesCombobox.setConverter(converter);
+		countriesCombobox.getSelectionModel().selectFirst();
+
 		VBox countryVBox = new VBox(20, countryLabel, countriesCombobox);
-		
+
 		RiskLabel armyLabel = new RiskLabel("Armies");
 		RiskLabel armyCountLabel = new RiskLabel();
+		armyCountLabel.textProperty().bind(playerPhase.armyCountProperty().asString());
 		VBox armyVBox = new VBox(20, armyLabel, armyCountLabel);
-		
+
 		RiskLabel armySelectLabel = new RiskLabel("Select Army");
 		Spinner<Integer> armySpinner = new Spinner<Integer>();
 		SpinnerValueFactory<Integer> armyValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 5, 0);
 		armySpinner.setValueFactory(armyValueFactory);
+		//armySpinner.getValueFactory().valueProperty().bindBidirectional();
 		VBox armySelectVBox = new VBox(20, armySelectLabel, armySpinner);
-		
+
 		RiskButton confirmButton = new RiskButton("CONFIRM");
+		confirmButton.setOnAction(new EventHandler<ActionEvent>()
+		{
+
+			@Override
+			public void handle(ActionEvent event)
+			{
+				// TODO Auto-generated method stub
+
+			}
+		});
 
 		RiskLabel infoLabel = new RiskLabel("Phase Info goes here!");
-	
-		
+
+
 		phaseInfoPane.add(countryVBox, 1, 0);
 		phaseInfoPane.add(armyVBox, 2, 0);
 		phaseInfoPane.add(armySelectVBox, 3, 0);
 		phaseInfoPane.add(confirmButton, 3, 1);
 		phaseInfoPane.add(infoLabel, 1, 2,3,2);
-		
+
 		phaseInfoPane.setHgap(50);
 		phaseInfoPane.setVgap(20);
-		
+
 		phaseInfoPane.setLayoutX(85);
 		phaseInfoPane.setLayoutY(350);
-		
-		
-		
+
+
+
 	}
 	
 	private void createAttackPhaseElements()
@@ -250,7 +309,22 @@ public class GamePhaseViewManager
 		phaseInfoPane.getChildren().clear();
 		
 		RiskLabel countryLabel = new RiskLabel("Select Country");
-		ComboBox<String> countriesCombobox = new ComboBox<String>();
+		ComboBox<Country> countriesCombobox = new ComboBox<Country>();
+		countriesCombobox.setItems(playerPhase.getCountriesOwnedObservableList());
+
+		StringConverter<Country> converter = new StringConverter<Country>() {
+			@Override
+			public String toString(Country object) {
+				return object.getName();
+			}
+
+			@Override
+			public Country fromString(String string) {
+				return null;
+			}
+		};
+		countriesCombobox.setConverter(converter);
+		countriesCombobox.getSelectionModel().selectFirst();
 		VBox countryVBox = new VBox(20, countryLabel, countriesCombobox);
 		
 		RiskLabel armyLabel = new RiskLabel("Armies");
@@ -285,6 +359,11 @@ public class GamePhaseViewManager
 		VBox defenderDiceVBox = new VBox(20, defenderDiceLabel, defenderDiceSpinner);
 		
 		RiskButton rollButton = new RiskButton("ROLL");
+		
+		RiskButton attackButton = new RiskButton("ATTACK");
+		RiskButton allOutAttackButton = new RiskButton("ALL OUT");
+		HBox attackButtonBox = new HBox(20,attackButton, allOutAttackButton);
+		
 
 		RiskLabel infoLabel = new RiskLabel("Phase Info goes here!");
 	
@@ -299,14 +378,15 @@ public class GamePhaseViewManager
 		phaseInfoPane.add(attackDiceVBox, 1, 2);
 		phaseInfoPane.add(defenderDiceVBox, 2, 2);
 		phaseInfoPane.add(rollButton, 3, 2);
+		phaseInfoPane.add(attackButtonBox, 1, 3);
 		
-		phaseInfoPane.add(infoLabel, 1, 3,3,3);
+		phaseInfoPane.add(infoLabel, 1, 4,4,4);
 		
 		phaseInfoPane.setHgap(50);
 		phaseInfoPane.setVgap(20);
 		
 		phaseInfoPane.setLayoutX(85);
-		phaseInfoPane.setLayoutY(350);
+		phaseInfoPane.setLayoutY(250);
 		
 		
 	}
@@ -316,7 +396,22 @@ public class GamePhaseViewManager
 		phaseInfoPane.getChildren().clear();
 		
 		RiskLabel countryLabel = new RiskLabel("Select Country");
-		ComboBox<String> countriesCombobox = new ComboBox<String>();
+		ComboBox<Country> countriesCombobox = new ComboBox<Country>();
+		countriesCombobox.setItems(playerPhase.getCountriesOwnedObservableList());
+
+		StringConverter<Country> converter = new StringConverter<Country>() {
+			@Override
+			public String toString(Country object) {
+				return object.getName();
+			}
+
+			@Override
+			public Country fromString(String string) {
+				return null;
+			}
+		};
+		countriesCombobox.setConverter(converter);
+		countriesCombobox.getSelectionModel().selectFirst();
 		VBox countryVBox = new VBox(20, countryLabel, countriesCombobox);
 		
 		RiskLabel armyLabel = new RiskLabel("Armies");

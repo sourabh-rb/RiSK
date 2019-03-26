@@ -3,6 +3,9 @@ package model;
 import java.util.ArrayList;
 
 import constants.GamePhase;
+import controller.initialization.StartUpPhase;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
@@ -22,6 +25,15 @@ public class PhaseManager
 {
 	private StringProperty playerName;
 	private StringProperty phaseName;
+	private ObservableList<Country> countriesOwned;
+	private ObservableList<Country> neighbourCountriesOwned;
+	private ObservableList<Country> attackableCountries;
+	private IntegerProperty armyCount;
+	private IntegerProperty armyLeft;
+	private IntegerProperty armyInCountry;
+	private Player currentPlayer;
+	
+	private StartUpPhase startUpPhaseObject;
 	
 
 	
@@ -36,47 +48,67 @@ public class PhaseManager
 			currentPhase = GamePhase.INITIALIZATION;
 			phaseName.set("INITIALIZATION");
 			//TODO: bind required fields.
+			countriesOwned = FXCollections.observableArrayList(currentPlayer.getCountries());
+			armyCount.set(currentPlayer.getArmies());
+			//armyLeft.set();
 			break;
 		case REINFORCEMENT:
 			currentPhase = GamePhase.REINFORCEMENT;
 			phaseName.set("REINFORCEMENT");
 			//TODO: bind required fields.
+			countriesOwned = FXCollections.observableArrayList(currentPlayer.getCountries());
+			armyCount.set(currentPlayer.getArmies());
+			//armyLeft.set(0);
 			break;
 		case ATTACK:
 			currentPhase = GamePhase.ATTACK;
 			phaseName.set("ATTACK");
 			//TODO: bind required fields.
+			countriesOwned = FXCollections.observableArrayList(currentPlayer.getCountries());
+			armyCount.set(currentPlayer.getArmies());
+			//armyLeft.set(0);
+			
+			//attackable countries
 			break;
 		case FORTIFICATION:
 			currentPhase = GamePhase.FORTIFICATION;
 			phaseName.set("FORTIFICATION");
 			//TODO: bind required fields.
+			
+			//neighbour countries owned
 			break;
 		case END:
 			currentPhase = GamePhase.END;
 			phaseName.set("TURN ENDS");
 			//TODO: bind required fields.
-			
+			//Change player here !! @Charan
 			break;
 		}
 	}
 	
 	public PhaseManager()
 	{
+		startUpPhaseObject = StartUpPhase.getInstance();
 		playerName = new SimpleStringProperty(this, "playerName", "");
 		phaseName = new SimpleStringProperty(this, "phaseName", "");
+		armyCount = new SimpleIntegerProperty();
+		armyLeft = new SimpleIntegerProperty();
+		armyInCountry = new SimpleIntegerProperty();
 		playerName.set("Player 1");
-		currentPhase = GamePhase.INITIALIZATION;
-		updateGamePhase(currentPhase);
+		currentPhase = GamePhase.START;
+		nextPhase();
 		
 	}
 	
 	public void nextPhase()
 	{
 		GamePhase nextPhase = GamePhase.END;
-		
+		currentPlayer = getCurrentPlayer();
 		switch(currentPhase)
 		{
+		case START:
+			nextPhase = GamePhase.INITIALIZATION;
+			break;
 		case INITIALIZATION:
 			//TODO:Check if initialization using round robin has been completed then go to reinforce.
 			nextPhase = GamePhase.REINFORCEMENT;
@@ -104,7 +136,10 @@ public class PhaseManager
 		
 	}
 	
-	
+	private Player getCurrentPlayer()
+	{
+		return startUpPhaseObject.player_List.get(0);
+	}
 	public GamePhase getCurrentGamePhase()
 	{
 		return currentPhase;
@@ -117,6 +152,36 @@ public class PhaseManager
 	public StringProperty phaseNameProperty()
 	{
 		return phaseName;
+	}
+	
+	public ObservableList<Country> getCountriesOwnedObservableList()
+	{
+		return countriesOwned;
+	}
+	
+	public ObservableList<Country> neighbourCountriesOwned()
+	{
+		return neighbourCountriesOwned;
+	}
+	
+	public ObservableList<Country> attackableCountries()
+	{
+		return attackableCountries;
+	}
+	
+	public IntegerProperty armyCountProperty()
+	{
+		return armyCount;
+	}
+	
+	public IntegerProperty armyLeftProperty()
+	{
+		return armyLeft;
+	}
+	
+	public IntegerProperty armyInCountryProperty()
+	{
+		return armyInCountry;
 	}
 	
 	
