@@ -56,8 +56,7 @@ public class Reinforcement {
 					+ " || Stage: Reinforcement Armies || Cannot give armies to reinforce!! ", LogLevel.ERROR);
 			return false;
 		}
-	}
-
+  }
 
 	/**
 	 * This method is used to make changes in the number of armies in a country when

@@ -276,7 +276,7 @@ public class MainMenuViewManager
 	                			alertDialog.setContentText("Map Valid! Click START to play game.");
 	                			alertDialog.showAndWait();
 	                			
-	                			startPhase = new StartUpPhase();
+	                			StartUpPhase startPhase = StartUpPhase.getInstance();
 	                			startPhase.mappingElements(continentHashMap, territoryHashMap, players);
 	                			startButton.setDisable(false);
 	                			
@@ -317,6 +317,7 @@ public class MainMenuViewManager
 				//Load main game screen
 				mainStage.hide();
 				GamePhaseViewManager gamePhase = new GamePhaseViewManager();
+				gamePhase.showView();
 			}
 		});
 		
@@ -612,5 +613,6 @@ public class MainMenuViewManager
 	{
 		return mainStage;
 	}
+	
 
 }

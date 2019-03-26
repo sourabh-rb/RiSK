@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 import view.GamePhaseViewManager;
 import view.MainMenuViewManager;
+import view.PlayerDominationViewManager;
 
 
 
@@ -14,6 +15,7 @@ public class Main extends Application {
 			MainMenuViewManager mainMenu = new MainMenuViewManager();
 			primaryStage = mainMenu.getMainStage();
 			primaryStage.show();
+			
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
