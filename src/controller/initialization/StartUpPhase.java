@@ -37,7 +37,8 @@ public class StartUpPhase {
 	/**
 	 * 
 	 */
-	private StartUpPhase() 
+
+	public StartUpPhase() 
 	{
 		
 	}
