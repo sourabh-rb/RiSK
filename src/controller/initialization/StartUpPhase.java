@@ -23,16 +23,88 @@ import utilities.Utilities;
  *
  */
 public class StartUpPhase {
-	int noOfPlayers;
-	ArrayList<Continent> continentList = new ArrayList<Continent>();
-	ArrayList<Country> neighborCountries = new ArrayList<Country>();
-	ArrayList<Country> countriesInContinent = new ArrayList<Country>();
-	public ArrayList<Player> player_List = new ArrayList<Player>();
-	HashMap<String, Country> country_name2obj = new HashMap<String, Country>();
-	HashMap<String, Continent> continent_name2obj = new HashMap<String, Continent>();
-	ArrayList<Country> country_list = new ArrayList<Country>();
+	private int noOfPlayers;
+	private ArrayList<Continent> continentList = new ArrayList<Continent>();
+	private ArrayList<Country> neighborCountries = new ArrayList<Country>();
+	private ArrayList<Country> countriesInContinent = new ArrayList<Country>();
+	private  ArrayList<Player> playerList = new ArrayList<Player>();
+	private HashMap<String, Country> countryNameToObj = new HashMap<String, Country>();
+	private HashMap<String, Continent> continentNameToObj = new HashMap<String, Continent>();
+	private ArrayList<Country> countryList = new ArrayList<Country>();
 	private static StartUpPhase startPhaseObject = null;
 
+
+	public int getNoOfPlayers() {
+		return noOfPlayers;
+	}
+
+	public void setNoOfPlayers(int noOfPlayers) {
+		this.noOfPlayers = noOfPlayers;
+	}
+
+	public ArrayList<Continent> getContinentList() {
+		return continentList;
+	}
+
+	public void setContinentList(ArrayList<Continent> continentList) {
+		this.continentList = continentList;
+	}
+
+	public ArrayList<Country> getNeighborCountries() {
+		return neighborCountries;
+	}
+
+	public void setNeighborCountries(ArrayList<Country> neighborCountries) {
+		this.neighborCountries = neighborCountries;
+	}
+
+	public ArrayList<Country> getCountriesInContinent() {
+		return countriesInContinent;
+	}
+
+	public void setCountriesInContinent(ArrayList<Country> countriesInContinent) {
+		this.countriesInContinent = countriesInContinent;
+	}
+
+	public ArrayList<Player> getPlayerList() {
+		return playerList;
+	}
+
+	public void setPlayerList(ArrayList<Player> playerList) {
+		this.playerList = playerList;
+	}
+
+	public HashMap<String, Country> getCountryNameToObj() {
+		return countryNameToObj;
+	}
+
+	public void setCountryNameToObj(HashMap<String, Country> countryNameToObj) {
+		this.countryNameToObj = countryNameToObj;
+	}
+
+	public HashMap<String, Continent> getContinentNameToObj() {
+		return continentNameToObj;
+	}
+
+	public void setContinentNameToObj(HashMap<String, Continent> continentNameToObj) {
+		this.continentNameToObj = continentNameToObj;
+	}
+
+	public ArrayList<Country> getCountryList() {
+		return countryList;
+	}
+
+	public void setCountryList(ArrayList<Country> countryList) {
+		this.countryList = countryList;
+	}
+
+	public static StartUpPhase getStartPhaseObject() {
+		return startPhaseObject;
+	}
+
+	public static void setStartPhaseObject(StartUpPhase startPhaseObject) {
+		StartUpPhase.startPhaseObject = startPhaseObject;
+	}
 
 	/**
 	 * 
@@ -323,7 +395,7 @@ public class StartUpPhase {
 	
 	public ArrayList<Country> getMapCountries()
 	{
-		return country_list;
+		return countryList;
 	}
 
 }
