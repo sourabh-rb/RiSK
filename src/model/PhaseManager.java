@@ -138,7 +138,7 @@ public class PhaseManager
 	
 	private Player getCurrentPlayer()
 	{
-		return startUpPhaseObject.player_List.get(0);
+		return startUpPhaseObject.getPlayerList().get(0);
 	}
 	public GamePhase getCurrentGamePhase()
 	{

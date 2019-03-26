@@ -149,9 +149,9 @@ public class AttackTest {
 	 */
 	@Test
 	public void gameWinner() {
-		StartUpPhase.countryList.add(country1);
-		StartUpPhase.countryList.add(country2);
-		StartUpPhase.countryList.add(country3);
+		StartUpPhase.getInstance().getCountryList().add(country1);
+		StartUpPhase.getInstance().getCountryList().add(country2);
+		StartUpPhase.getInstance().getCountryList().add(country3);
 		country1.setOwner(player3);
 		country2.setOwner(player3);
 		country3.setOwner(player4);

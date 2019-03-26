@@ -38,7 +38,7 @@ public class Player {
 	private ArrayList<Country> countries = new ArrayList<Country>();
 	// The continents that the player owns
 	private ArrayList<Continent> continents;
-	StartUpPhase start = new StartUpPhase();
+	
 
 	ArrayList<Card> cardTypeList = new ArrayList<Card>();
 	ArrayList<Country> lostCountries = new ArrayList<Country>();
@@ -51,6 +51,8 @@ public class Player {
 	
 	static Country country1;
 	static Country country5;
+	StartUpPhase start=StartUpPhase.getInstance();
+	
 
 	public void set() {
 		Player player1 = new Player();
@@ -426,8 +428,8 @@ public class Player {
 				defendingCountry.setOwner(attackingCountry.getOwner());// change the defeated country owner to attacked country owner
 				attackingCountry.getOwner().getCountries().add(defendingCountry); //assign the defeated country to winner
 				System.out.println("Number of countries attacker has after attacking: "+attackingCountry.getOwner().getCountries().size());
-				System.out.println("Number of total countries in the game: "+start.countryList.size());
-				if(attackingCountry.getOwner().getCountries().size() == start.countryList.size()) {
+				System.out.println("Number of total countries in the game: "+start.getCountryList().size());
+				if(attackingCountry.getOwner().getCountries().size() == start.getCountryList().size()) {
 					return "champion";
 				}
 				// can give this player a card
