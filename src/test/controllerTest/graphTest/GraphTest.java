@@ -41,7 +41,7 @@ public class GraphTest {
 	 */
 	@Test
 	public void testDisconnectedGraph() throws IOException {
-		filePath = "/home/charan/group_project/RiSK/graph_tests/disconnected_graph_mini.map";
+		filePath = ".//graph_tests/disconnected_graph_mini.map";
 		continentHashMap.put("North America", 5);
 		continentHashMap.put("Australia",2);
 		territoryHashMap.put("Alaska",new ArrayList<String>( Arrays.asList("North America","Northwest Territory")));
@@ -66,15 +66,15 @@ public class GraphTest {
 	 * This method checks if the connection between countries is bidirectional, if India has China as its neighbor then China should also have India as its neighbor.
 	 * @throws IOException
 	 */
-	/*@Test
+	@Test
 	public void testBidirectionalConnectivity() throws IOException {
-		file_path ="D:\\graph_tests\\bidirectional_connectivity_check_mini.map"; 
+		filePath =".//graph_tests/bidirectional_connectivity_check_mini.map"; 
 		continentHashMap.put("North America", 5);
 		continentHashMap.put("Australia", 2);
 		territoryHashMap.put("Northwest Territory",new ArrayList<String>( Arrays.asList("North America", "Alaska") ));
 		territoryHashMap.put("Solo_country",new ArrayList<String>( Arrays.asList("Australia") ));
 		territoryHashMap.put("Alaska",new ArrayList<String>( Arrays.asList("North America", "Northwest Territory") ));
-		String mapFileContent = mapRead(file_path);
+		String mapFileContent = mapRead(filePath);
 		List<String> lines = Arrays.asList(mapFileContent.split("\n"));
 		List<Object> ls= graph.initiateCheck(mapFileContent);
 	}
@@ -83,72 +83,110 @@ public class GraphTest {
 	 * This method checks if the user has entered correct continent control value.
 	 * @throws IOException
 	 */
-/*	@Test
+	@Test
 	public void testIncorrectContinentValue() throws IOException {
-		file_path ="D:\\graph_tests\\incorrect_continent_value.txt"; 
-		String mapFileContent = mapRead(file_path);
+	   	
+		List<Object> expected= Arrays.asList("wrong continent line format", continentHashMap , territoryHashMap);
+		
+		filePath =".//graph_tests/incorrect_continent_value_mini.map"; 
+		String mapFileContent = mapRead(filePath);
 		List<String> lines = Arrays.asList(mapFileContent.split("\n"));
 		List<Object> ls= graph.initiateCheck(mapFileContent);
+		assertEquals(ls,expected);
 	}
 	
 	/**
 	 * This methods checks any incorrect spellings in the neighbor countries.
 	 * @throws IOException
 	 */
-/*	@Test
+	@Test
 	public void testMisspelledNeighborCountryName() throws IOException {
-		file_path ="D:\\graph_tests\\mispelled_neigh_country_name.txt"; 
-		String mapFileContent = mapRead(file_path);
+		
+		continentHashMap.put("North America", 5);
+		territoryHashMap.put("Alaska",new ArrayList<String>( Arrays.asList("North America","Northwest Territory", "Albrta")));
+		territoryHashMap.put("Northwest Territory",new ArrayList<String>( Arrays.asList("North America","Alaska","Alberta")));
+		territoryHashMap.put("Alberta",new ArrayList<String>( Arrays.asList("North America","Alaska","Northwest Territory")));
+		
+		List<Object> expected= Arrays.asList("country Albrta doesn't have an entry in territory list", continentHashMap , territoryHashMap);
+		
+		filePath =".//graph_tests/mispelled_neigh_country_name_mini.map"; 
+		String mapFileContent = mapRead(filePath);
 		List<String> lines = Arrays.asList(mapFileContent.split("\n"));
 		List<Object> ls= graph.initiateCheck(mapFileContent);
+		assertEquals(ls,expected);
 	}
 	
 	/**
 	 * This method checks the format in which the user enters the territories.
 	 * @throws IOException
 	 */
-/*	@Test
+	@Test
 	public void testMissingCommaBetweenTerritories() throws IOException {
-		file = Paths.get("D:\\graph_tests\\missing_comma_between_territories.txt"); 
-		String mapFileContent = mapRead(file_path);
+		continentHashMap.put("North America", 5);
+		territoryHashMap.put("Alaska",new ArrayList<String>( Arrays.asList("North America","Northwest Territory", "Alberta Kamchatka")));
+		territoryHashMap.put("Northwest Territory",new ArrayList<String>( Arrays.asList("North America","Alaska","Alberta")));
+		territoryHashMap.put("Alberta",new ArrayList<String>( Arrays.asList("North America","Alaska","Northwest Territory")));
+		
+		List<Object> expected= Arrays.asList("country Alberta Kamchatka doesn't have an entry in territory list", continentHashMap , territoryHashMap);
+		
+		filePath = ".//graph_tests/missing_comma_between_territories_mini.map"; 
+		String mapFileContent = mapRead(filePath);
 		List<String> lines = Arrays.asList(mapFileContent.split("\n"));
 		List<Object> ls= graph.initiateCheck(mapFileContent);
+		assertEquals(ls,expected);
 	}
 	
 	/**
 	 * This method checks if each country is a part of a continent.
 	 * @throws IOException
 	 */
-/*	@Test
+	@Test
 	public void testMissingContinentCountry() throws IOException {
-		file_path ="D:\\graph_tests\\missing_continent_for_country.txt"; 
-		String mapFileContent = mapRead(file_path);
+	    continentHashMap.put("North America", 5);
+		
+		List<Object> expected= Arrays.asList("No continent with the name Northwest Territory", continentHashMap , territoryHashMap);
+		
+		filePath =".//graph_tests/missing_continent_for_country_mini.map"; 
+		String mapFileContent = mapRead(filePath);
 		List<String> lines = Arrays.asList(mapFileContent.split("\n"));
 		List<Object> ls= graph.initiateCheck(mapFileContent);
+		assertEquals(ls,expected);
 	}
 	
 	/**
 	 * This method is used to validate that the user has entered continents that exist.
 	 * @throws IOException
 	 */
-/*	@Test
+	@Test
 	public void testNonExistingContinent() throws IOException {
-		file_path ="D:\\graph_tests\\Non_existing_continent_in_territories.txt"; 
-		String mapFileContent = mapRead(file_path);
+	continentHashMap.put("North America", 5);
+		
+		List<Object> expected= Arrays.asList("No continent with the name North India", continentHashMap , territoryHashMap);
+		
+		filePath =".//graph_tests/Non_existing_continent_in_territories_mini.map"; 
+		String mapFileContent = mapRead(filePath);
 		List<String> lines = Arrays.asList(mapFileContent.split("\n"));
 		List<Object> ls= graph.initiateCheck(mapFileContent);
+		assertEquals(ls,expected);
 	}
 	
 	/**
 	 * This method is used to check if a territory is a part of multiple countries. 
 	 * @throws IOException
 	 */
-/*	@Test
+	@Test
 	public void testTerritoryInMultipleContinents() throws IOException {
-		file_path ="D:\\graph_tests\\territory_belongs_to_multiple_continents.txt"; 
-		String mapFileContent = mapRead(file_path);
+	continentHashMap.put("North America", 5);
+		territoryHashMap.put("Alaska",new ArrayList<String>( Arrays.asList("North America","Northwest Territory")));
+		territoryHashMap.put("Northwest Territory",new ArrayList<String>( Arrays.asList("North America","Alaska")));
+		
+		List<Object> expected= Arrays.asList("Territory repeated", continentHashMap , territoryHashMap);
+		
+		filePath =".//graph_tests/territory_belongs_to_multiple_continents_mini.map"; 
+		String mapFileContent = mapRead(filePath);
 		List<String> lines = Arrays.asList(mapFileContent.split("\n"));
 		List<Object> ls= graph.initiateCheck(mapFileContent);
+		assertEquals(ls,expected);
 	}
 	
 	/**
@@ -160,7 +198,6 @@ public class GraphTest {
 	public static String mapRead(String file) throws IOException {
         String line;
         String fileContents="";
-//        System.out.println("came here");
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
 
 	        
@@ -168,7 +205,6 @@ public class GraphTest {
 	        	fileContents=fileContents+line + "\n";
 
 	    } catch (IOException e) {
-	    	System.out.println("came here 2");
 	        e.printStackTrace();
 	    }
 		return fileContents;
