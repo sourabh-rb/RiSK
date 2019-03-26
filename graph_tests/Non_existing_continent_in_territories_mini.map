@@ -1,0 +1,16 @@
+Error - Alaska belongs to a continent "North India" which is not present in list of continents
+[Map]
+author=Sean O'Connor
+image=world.bmp
+wrap=no
+scroll=horizontal
+warn=yes
+
+[Continents]
+North America=5
+
+
+[Territories]
+Alaska,70,126,North India,Northwest Territory
+Northwest Territory,148,127,North America,Alaska
+

@@ -1,6 +1,9 @@
 package view;
 
+import java.util.ArrayList;
+
 import constants.GamePhase;
+import controller.initialization.StartUpPhase;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -25,6 +28,8 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import model.PhaseManager;
+import model.Player;
+import utilities.Utilities;
 import view.ui_elements.RiskButton;
 import view.ui_elements.RiskLabel;
 /**
@@ -180,6 +185,8 @@ public class GamePhaseViewManager
 		RiskButton confirmButton = new RiskButton("CONFIRM");
 
 		RiskLabel infoLabel = new RiskLabel("Phase Info goes here!");
+		
+		createCardsPhaseElements();
 	
 		
 		phaseInfoPane.add(countryVBox, 1, 0);
@@ -192,9 +199,62 @@ public class GamePhaseViewManager
 		phaseInfoPane.setVgap(20);
 		
 		phaseInfoPane.setLayoutX(85);
-		phaseInfoPane.setLayoutY(350);
+		phaseInfoPane.setLayoutY(350);	
+		
+	}
+	
+	/**
+	 * This method is used to display the Cards phase in the Reinforcement mode
+	 */
+	
+	private void createCardsPhaseElements()
+	{
+		ArrayList<Player> playerList=StartUpPhase.player_List;
+		Player currentPlayer = new Player();
+		
+		int[] count=Utilities.cardCount(currentPlayer);
+		
+		for(int i=0;i<playerList.size();i++) {
+		if(playerList.get(i).getName().equals(playerName)) {
+			currentPlayer=playerList.get(i);
+		}
+		}
+		
+		//create card type text,display count of each type of card and add spinner to select count for exchange
+		RiskLabel InfantryCountLabel = new RiskLabel("Infantry :" +count[1]);
+		Spinner<Integer> infantrySpinner = new Spinner<Integer>();
+		SpinnerValueFactory<Integer> infantryValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, count[1], 0);
+		infantrySpinner.setValueFactory(infantryValueFactory);
+		int infantrySpinnerValue=infantrySpinner.getValue();
 		
 		
+		RiskLabel CavalryCountLabel = new RiskLabel("Cavalry :" + count[2]);
+		Spinner<Integer> cavalrySpinner = new Spinner<Integer>();
+		SpinnerValueFactory<Integer> cavalaryValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, count[2], 0);
+		cavalrySpinner.setValueFactory(cavalaryValueFactory);
+		int cavalrySpinnerValue=cavalrySpinner.getValue();
+		
+		RiskLabel ArtilleryCountLabel = new RiskLabel("Artillery :" +count[0]);
+		Spinner<Integer> artillerySpinner = new Spinner<Integer>();
+		SpinnerValueFactory<Integer> artilleryValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, count[0], 0);
+		artillerySpinner.setValueFactory(artilleryValueFactory);
+		int artillerySpinnerValue=artillerySpinner.getValue();
+		
+		RiskButton cardsExchangeButton=new RiskButton("Exchange");
+		cardsExchangeButton.setOnAction(new EventHandler<ActionEvent>() {
+			
+			@Override
+			public void handle(ActionEvent event) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		
+		RiskLabel cardCountLabel = new RiskLabel("Total Cards :" + (count[0]+count[1]+count[2]));
+		VBox cardsVBox = new VBox(20, InfantryCountLabel,CavalryCountLabel,ArtilleryCountLabel,cardCountLabel);
+		phaseInfoPane.add(cardsVBox, 4, 0);
+		VBox spinnerBox=new VBox(20,infantrySpinner,cavalrySpinner,artillerySpinner,cardsExchangeButton);
+		phaseInfoPane.add(spinnerBox, 5, 0);
 		
 	}
 	
