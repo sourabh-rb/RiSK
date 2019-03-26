@@ -28,9 +28,14 @@ public class PhaseManager
 	private ObservableList<Country> countriesOwned;
 	private ObservableList<Country> neighbourCountriesOwned;
 	private ObservableList<Country> attackableCountries;
+	private ObservableList<Integer> cardTypeCountList;
+	private IntegerProperty infantryCardCount;
+	private IntegerProperty cavalryCardCount;
+	private IntegerProperty artilleryCardCount;
 	private IntegerProperty armyCount;
 	private IntegerProperty armyLeft;
 	private IntegerProperty armyInCountry;
+	private IntegerProperty totalCardsCount;
 	private Player currentPlayer;
 	
 	private StartUpPhase startUpPhaseObject;
@@ -58,6 +63,14 @@ public class PhaseManager
 			//TODO: bind required fields.
 			countriesOwned = FXCollections.observableArrayList(currentPlayer.getCountries());
 			armyCount.set(currentPlayer.getArmies());
+			cardTypeCountList = FXCollections.observableArrayList(currentPlayer.cardCount());
+			System.out.println(cardTypeCountList);
+			System.out.println(cardTypeCountList.get(2));
+			artilleryCardCount.set(cardTypeCountList.get(0).intValue());
+			infantryCardCount.set(cardTypeCountList.get(1).intValue());
+			cavalryCardCount.set(cardTypeCountList.get(2).intValue());
+			
+			totalCardsCount.set(cardTypeCountList.get(0)+cardTypeCountList.get(1)+cardTypeCountList.get(2));
 			//armyLeft.set(0);
 			break;
 		case ATTACK:
@@ -91,10 +104,14 @@ public class PhaseManager
 		startUpPhaseObject = StartUpPhase.getInstance();
 		playerName = new SimpleStringProperty(this, "playerName", "");
 		phaseName = new SimpleStringProperty(this, "phaseName", "");
+		infantryCardCount = new SimpleIntegerProperty();
+		cavalryCardCount = new SimpleIntegerProperty();
+		artilleryCardCount = new SimpleIntegerProperty();
 		armyCount = new SimpleIntegerProperty();
 		armyLeft = new SimpleIntegerProperty();
 		armyInCountry = new SimpleIntegerProperty();
-		playerName.set("Player 1");
+		totalCardsCount = new SimpleIntegerProperty();
+		playerName.set("Player1");
 		currentPhase = GamePhase.START;
 		nextPhase();
 		
@@ -138,7 +155,7 @@ public class PhaseManager
 	
 	private Player getCurrentPlayer()
 	{
-		return startUpPhaseObject.player_List.get(0);
+		return startUpPhaseObject.playerList.get(0);
 	}
 	public GamePhase getCurrentGamePhase()
 	{
@@ -169,6 +186,11 @@ public class PhaseManager
 		return attackableCountries;
 	}
 	
+	public ObservableList<Integer> cardTypeCountList()
+	{
+		return cardTypeCountList;
+	}
+	
 	public IntegerProperty armyCountProperty()
 	{
 		return armyCount;
@@ -182,6 +204,41 @@ public class PhaseManager
 	public IntegerProperty armyInCountryProperty()
 	{
 		return armyInCountry;
+	}
+	
+	public IntegerProperty infantryCardCountProperty()
+	{
+		return infantryCardCount;
+	}
+	
+	public IntegerProperty cavalryCardCountProperty()
+	{
+		return cavalryCardCount;
+	}
+	
+	public IntegerProperty artilleryCardCountProperty()
+	{
+		return artilleryCardCount;
+	}
+	
+	public IntegerProperty totalcardsCountProperty()
+	{
+		return totalCardsCount;
+	}
+	
+	public int cavalryCardCountForSpinner()
+	{
+		return cavalryCardCount.intValue();
+	}
+	
+	public int infantryCardCountForSpinner()
+	{
+		return infantryCardCount.intValue();
+	}
+	
+	public int artilleryCardCountForSpinner()
+	{
+		return artilleryCardCount.intValue();
 	}
 	
 	
