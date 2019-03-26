@@ -1,8 +1,4 @@
 
-
-/**
- * 
- */
 package controller.initialization;
 
 import java.util.ArrayList;
@@ -28,13 +24,13 @@ import utilities.Utilities;
  */
 public class StartUpPhase {
 	int noOfPlayers;
-	ArrayList<Continent> continent_list = new ArrayList<Continent>();
-	ArrayList<Country> neigh_countries = new ArrayList<Country>();
+	ArrayList<Continent> continentList = new ArrayList<Continent>();
+	ArrayList<Country> neighborCountries = new ArrayList<Country>();
 	ArrayList<Country> countriesInContinent = new ArrayList<Country>();
-	public static ArrayList<Player> player_List = new ArrayList<Player>();
-	HashMap<String, Country> country_name2obj = new HashMap<String, Country>();
-	HashMap<String, Continent> continent_name2obj = new HashMap<String, Continent>();
-	ArrayList<Country> country_list = new ArrayList<Country>();
+	public ArrayList<Player> playerList = new ArrayList<Player>();
+	HashMap<String, Country> countryNameToObj = new HashMap<String, Country>();
+	HashMap<String, Continent> continentNameToObj = new HashMap<String, Continent>();
+	public static ArrayList<Country> countryList = new ArrayList<Country>();
 
 	/**
 	 * 
@@ -61,10 +57,10 @@ public class StartUpPhase {
 
 		int i = 0;
 		for (String key : continentHashMap.keySet()) {
-			continent_list.add(new Continent());
-			continent_list.get(i).setName(key);
-			continent_list.get(i).setControlValue(continentHashMap.get(key));
-			continent_name2obj.put(key, continent_list.get(i));
+			continentList.add(new Continent());
+			continentList.get(i).setName(key);
+			continentList.get(i).setControlValue(continentHashMap.get(key));
+			continentNameToObj.put(key, continentList.get(i));
 			int h = continentHashMap.get(key);
 			i++;
 		}
@@ -72,43 +68,39 @@ public class StartUpPhase {
 		int j = 0;
 		for (String key : terrritoryHashMap.keySet()) {
 			ArrayList<Country> countryListInContinent = new ArrayList<Country>();
-			country_list.add(new Country());
-			country_list.get(j).setName(key);
-			Continent conObj = continent_name2obj.get(terrritoryHashMap.get(key).get(0));
-			conObj.getCountriesComprised().add(country_list.get(j));
-			country_name2obj.put(key, country_list.get(j));
+			countryList.add(new Country());
+			countryList.get(j).setName(key);
+			Continent conObj = continentNameToObj.get(terrritoryHashMap.get(key).get(0));
+			conObj.getCountriesComprised().add(countryList.get(j));
+			countryNameToObj.put(key, countryList.get(j));
 			j++;
 		}
 		// Setting neighboring countries for each country
-		for (Country c : country_list) {
-		
+		for (Country c : countryList) {
 			for (String neigh_country : terrritoryHashMap.get(c.getName()).subList(1,
 					terrritoryHashMap.get(c.getName()).size())) {
-				neigh_countries.add(country_name2obj.get(neigh_country));
-				
+				neighborCountries.add(countryNameToObj.get(neigh_country));
 			}
 			System.out.println("Neighboring countries for "+c.getName());
-			for(int g=0;g<neigh_countries.size();g++) {
-		    	System.out.println(neigh_countries.get(g).getName());
+			for(int g=0;g<neighborCountries.size();g++) {
+		    	System.out.println(neighborCountries.get(g).getName());
 		    }
-			
-			
-			c.setNeighborCounties((ArrayList<Country>) neigh_countries.clone());
-			neigh_countries.clear();
+			c.setNeighborCounties((ArrayList<Country>) neighborCountries.clone());
+			neighborCountries.clear();
 		}
 		// Creating player objects
 		int playerNumber = 1;
 		for (int k = 0; k < noOfPlayers; k++) {
-			player_List.add(new Player());
-			player_List.get(k).setName("Player" + playerNumber);
+			playerList.add(new Player());
+			playerList.get(k).setName("Player" + playerNumber);
 			playerNumber++;
 		}
-		System.out.println("PLayerlist size: " + player_List.size());
-		Utilities.gameLog("Number of Player objects created: " + player_List.size(), LogLevel.INFO);
-		initialSetUp(player_List, continent_list, country_list);
+		System.out.println("PLayerlist size: " + playerList.size());
+		Utilities.gameLog("Number of Player objects created: " + playerList.size(), LogLevel.INFO);
+		initialSetUp(playerList, continentList, countryList);
 	}
 
-	/**
+/**
  * This function return number of players in the game
  * @param playerList list of player objects
  * @return It is returning number of players
@@ -139,14 +131,9 @@ public class StartUpPhase {
 	 * This function takes care of initial setup of the game based on the input
 	 * given by the user. It provides certain number of armies to each player and
 	 * certain countries in the selected map.
-	 * 
-	 * 
-	 * 
 	 * @param playerList    This contains all the player objects
 	 * @param continentList contains all continent objects
 	 * @param countryList   contains country objects
-	 * 
-	 * 
 	 */
 	public void initialSetUp(ArrayList<Player> playerList, ArrayList<Continent> continentList,
 			ArrayList<Country> countryList) {
@@ -291,10 +278,10 @@ public class StartUpPhase {
 	}
 	
 	public void assignLeftOVerArmies(String countryName, int noOfArmies) {
-		for(int i=0;i<country_list.size();i++) {
-			if(countryName.equals(country_list.get(i).getName())){
-				country_list.get(i).setArmies(country_list.get(i).getArmies()+noOfArmies);
-				i=country_list.size();
+		for(int i=0;i<countryList.size();i++) {
+			if(countryName.equals(countryList.get(i).getName())){
+				countryList.get(i).setArmies(countryList.get(i).getArmies()+noOfArmies);
+				i=countryList.size();
 			}
 		}
 	}
@@ -315,7 +302,6 @@ public class StartUpPhase {
 			return 0;
 		}
 	}
-
 	/**
 	 * @param args
 	 */
