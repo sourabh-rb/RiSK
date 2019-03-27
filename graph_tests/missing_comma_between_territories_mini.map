@@ -1,0 +1,15 @@
+Error- Missing a comma in the first line of territories ,hence a new country "Alberta Kamchatka " will be created.
+[Map]
+author=Sean O'Connor
+image=world.bmp
+wrap=no
+scroll=horizontal
+warn=yes
+
+[Continents]
+North America=5
+
+[Territories]
+Alaska,70,126,North America,Northwest Territory,Alberta Kamchatka
+Northwest Territory,148,127,North America,Alaska,Alberta
+Alberta,147,163,North America,Alaska,Northwest Territory

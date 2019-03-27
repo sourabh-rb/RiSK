@@ -10,5 +10,7 @@ public enum GamePhase {
 	INITIALIZATION, 
 	REINFORCEMENT, 
 	FORTIFICATION, 
-	ATTACK;
+	ATTACK,
+	START,
+	END;
 }

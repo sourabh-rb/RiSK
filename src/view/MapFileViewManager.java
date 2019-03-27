@@ -7,7 +7,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 import constants.LogLevel;
-import controller.GraphTest;
+import gameEngine.ValidateGraph;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -148,7 +148,7 @@ public class MapFileViewManager
 				Utilities.gameLog("Stage: Map File Editor || State: Save Initiated", LogLevel.INFO);
 				
 				
-				GraphTest gt=new GraphTest();
+				ValidateGraph gt=new ValidateGraph();
 				
 				try {
 						List<Object> mapValidation;

@@ -12,8 +12,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Logger;
 import constants.LogLevel;
-import controller.GraphTest;
-import controller.initialization.StartUpPhase;
+import gameEngine.StartUpPhase;
+import gameEngine.ValidateGraph;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -240,7 +240,7 @@ public class MainMenuViewManager
                 	StringBuffer contents = new StringBuffer();
 
 
-                	GraphTest gt=new GraphTest();
+                	ValidateGraph gt=new ValidateGraph();
                 	
                 	//Read file
                 	try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
@@ -276,7 +276,7 @@ public class MainMenuViewManager
 	                			alertDialog.setContentText("Map Valid! Click START to play game.");
 	                			alertDialog.showAndWait();
 	                			
-	                			startPhase = new StartUpPhase();
+	                			StartUpPhase startPhase = StartUpPhase.getInstance();
 	                			startPhase.mappingElements(continentHashMap, territoryHashMap, players);
 	                			startButton.setDisable(false);
 	                			
@@ -316,7 +316,8 @@ public class MainMenuViewManager
 				//Initiate start up sequence
 				//Load main game screen
 				mainStage.hide();
-				GameScreenViewManager gsvm=new GameScreenViewManager(startPhase);	
+				GamePhaseViewManager gamePhase = new GamePhaseViewManager();
+				gamePhase.showView();
 			}
 		});
 		
@@ -612,5 +613,6 @@ public class MainMenuViewManager
 	{
 		return mainStage;
 	}
+	
 
 }
