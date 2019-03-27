@@ -10,10 +10,9 @@ import java.util.Random;
 import constants.Constants;
 import constants.GamePhase;
 import constants.LogLevel;
-import controller.initialization.StartUpPhase;
-import model.Card;
-import model.Country;
-import model.Player;
+import gameEngine.Card;
+import gameEngine.Country;
+import gameEngine.Player;
 
 public class Utilities {
 
