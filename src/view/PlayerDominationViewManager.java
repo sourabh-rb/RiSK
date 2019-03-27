@@ -79,7 +79,7 @@ public class PlayerDominationViewManager
 				BackgroundPosition.DEFAULT, null);
 		mainLayout.setBackground(new Background(background));
 		StartUpPhase startObject = StartUpPhase.getInstance();
-		ArrayList<Player> playerList = startObject.player_List;
+		ArrayList<Player> playerList = startObject.getPlayerList();
 		
 		for(int i = 0; i < playerList.size(); i++)
 		{
