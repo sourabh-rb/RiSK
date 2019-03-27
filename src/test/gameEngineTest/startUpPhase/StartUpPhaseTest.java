@@ -7,10 +7,10 @@ import java.util.ArrayList;
 import org.junit.Before;
 import org.junit.Test;
 
-import controller.initialization.StartUpPhase;
-import model.Continent;
-import model.Country;
-import model.Player;
+import gameEngine.Continent;
+import gameEngine.Country;
+import gameEngine.Player;
+import gameEngine.StartUpPhase;
 
 /**
  * This class tests the start up phase of the game. This class has a total of 3

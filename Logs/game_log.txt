@@ -6150,3 +6150,286 @@ INFO: Stage: Main Menu View displayed
 INFO: Stage: Main Menu || State: PLAY selected
 INFO: Stage: Play || State: CHOOSE MAP selected
 INFO: Stage: Main Menu || State: Exited Game
+INFO: Stage: Main Menu View displayed
+INFO: Stage: Main Menu || State: Exited Game
+INFO: Stage: Main Menu View displayed
+INFO: Stage: Main Menu || State: PLAY selected
+INFO: Stage: Play || State: CHOOSE MAP selected
+INFO: Stage: CHOOSE MAP || File selected: World.map
+INFO: Stage: Main Menu View displayed
+INFO: Stage: Main Menu || State: PLAY selected
+INFO: Stage: Play || State: CHOOSE MAP selected
+INFO: Stage: CHOOSE MAP || File selected: World.map
+INFO: Created continent objects and added their values to the respective objects
+INFO: Number of Player objects created: 3
+INFO: Total number of Players playing the game 3
+INFO: Total number of continents in the whole map 6
+INFO: Total number of countries in the whole map 42
+INFO: Assigned 35 armies to each player
+INFO: Assigned countries randomly to all the players
+INFO: Total number of armies assigned to Player1 is 35
+INFO: No of armies left with Player1 is 34
+INFO: No of armies left with Player1 is 33
+INFO: No of armies left with Player1 is 32
+INFO: No of armies left with Player1 is 31
+INFO: No of armies left with Player1 is 30
+INFO: No of armies left with Player1 is 29
+INFO: No of armies left with Player1 is 28
+INFO: No of armies left with Player1 is 27
+INFO: No of armies left with Player1 is 26
+INFO: No of armies left with Player1 is 25
+INFO: No of armies left with Player1 is 24
+INFO: No of armies left with Player1 is 23
+INFO: No of armies left with Player1 is 22
+INFO: No of armies left with Player1 is 21
+INFO: Total number of armies assigned to Player2 is 35
+INFO: No of armies left with Player2 is 34
+INFO: No of armies left with Player2 is 33
+INFO: No of armies left with Player2 is 32
+INFO: No of armies left with Player2 is 31
+INFO: No of armies left with Player2 is 30
+INFO: No of armies left with Player2 is 29
+INFO: No of armies left with Player2 is 28
+INFO: No of armies left with Player2 is 27
+INFO: No of armies left with Player2 is 26
+INFO: No of armies left with Player2 is 25
+INFO: No of armies left with Player2 is 24
+INFO: No of armies left with Player2 is 23
+INFO: No of armies left with Player2 is 22
+INFO: No of armies left with Player2 is 21
+INFO: Total number of armies assigned to Player3 is 35
+INFO: No of armies left with Player3 is 34
+INFO: No of armies left with Player3 is 33
+INFO: No of armies left with Player3 is 32
+INFO: No of armies left with Player3 is 31
+INFO: No of armies left with Player3 is 30
+INFO: No of armies left with Player3 is 29
+INFO: No of armies left with Player3 is 28
+INFO: No of armies left with Player3 is 27
+INFO: No of armies left with Player3 is 26
+INFO: No of armies left with Player3 is 25
+INFO: No of armies left with Player3 is 24
+INFO: No of armies left with Player3 is 23
+INFO: No of armies left with Player3 is 22
+INFO: No of armies left with Player3 is 21
+INFO: Stage: PLAY|| File Valid: World.map
+INFO: Stage: PLAY || Player Count: 3
+INFO: Stage: Main Menu View displayed
+INFO: Stage: Main Menu || State: PLAY selected
+INFO: Stage: Play || State: CHOOSE MAP selected
+INFO: Stage: CHOOSE MAP || File selected: World.map
+INFO: Created continent objects and added their values to the respective objects
+INFO: Number of Player objects created: 3
+INFO: Total number of Players playing the game 3
+INFO: Total number of continents in the whole map 6
+INFO: Total number of countries in the whole map 42
+INFO: Assigned 35 armies to each player
+INFO: Assigned countries randomly to all the players
+INFO: Total number of armies assigned to Player1 is 35
+INFO: No of armies left with Player1 is 34
+INFO: No of armies left with Player1 is 33
+INFO: No of armies left with Player1 is 32
+INFO: No of armies left with Player1 is 31
+INFO: No of armies left with Player1 is 30
+INFO: No of armies left with Player1 is 29
+INFO: No of armies left with Player1 is 28
+INFO: No of armies left with Player1 is 27
+INFO: No of armies left with Player1 is 26
+INFO: No of armies left with Player1 is 25
+INFO: No of armies left with Player1 is 24
+INFO: No of armies left with Player1 is 23
+INFO: No of armies left with Player1 is 22
+INFO: No of armies left with Player1 is 21
+INFO: Total number of armies assigned to Player2 is 35
+INFO: No of armies left with Player2 is 34
+INFO: No of armies left with Player2 is 33
+INFO: No of armies left with Player2 is 32
+INFO: No of armies left with Player2 is 31
+INFO: No of armies left with Player2 is 30
+INFO: No of armies left with Player2 is 29
+INFO: No of armies left with Player2 is 28
+INFO: No of armies left with Player2 is 27
+INFO: No of armies left with Player2 is 26
+INFO: No of armies left with Player2 is 25
+INFO: No of armies left with Player2 is 24
+INFO: No of armies left with Player2 is 23
+INFO: No of armies left with Player2 is 22
+INFO: No of armies left with Player2 is 21
+INFO: Total number of armies assigned to Player3 is 35
+INFO: No of armies left with Player3 is 34
+INFO: No of armies left with Player3 is 33
+INFO: No of armies left with Player3 is 32
+INFO: No of armies left with Player3 is 31
+INFO: No of armies left with Player3 is 30
+INFO: No of armies left with Player3 is 29
+INFO: No of armies left with Player3 is 28
+INFO: No of armies left with Player3 is 27
+INFO: No of armies left with Player3 is 26
+INFO: No of armies left with Player3 is 25
+INFO: No of armies left with Player3 is 24
+INFO: No of armies left with Player3 is 23
+INFO: No of armies left with Player3 is 22
+INFO: No of armies left with Player3 is 21
+INFO: Stage: PLAY|| File Valid: World.map
+INFO: Stage: PLAY || Player Count: 3
+INFO: Stage: Main Menu View displayed
+INFO: Stage: Main Menu || State: PLAY selected
+INFO: Stage: Play || State: CHOOSE MAP selected
+INFO: Stage: CHOOSE MAP || File selected: World.map
+INFO: Created continent objects and added their values to the respective objects
+INFO: Number of Player objects created: 3
+INFO: Total number of Players playing the game 3
+INFO: Total number of continents in the whole map 6
+INFO: Total number of countries in the whole map 42
+INFO: Assigned 35 armies to each player
+INFO: Assigned countries randomly to all the players
+INFO: Total number of armies assigned to Player1 is 35
+INFO: No of armies left with Player1 is 34
+INFO: No of armies left with Player1 is 33
+INFO: No of armies left with Player1 is 32
+INFO: No of armies left with Player1 is 31
+INFO: No of armies left with Player1 is 30
+INFO: No of armies left with Player1 is 29
+INFO: No of armies left with Player1 is 28
+INFO: No of armies left with Player1 is 27
+INFO: No of armies left with Player1 is 26
+INFO: No of armies left with Player1 is 25
+INFO: No of armies left with Player1 is 24
+INFO: No of armies left with Player1 is 23
+INFO: No of armies left with Player1 is 22
+INFO: No of armies left with Player1 is 21
+INFO: Total number of armies assigned to Player2 is 35
+INFO: No of armies left with Player2 is 34
+INFO: No of armies left with Player2 is 33
+INFO: No of armies left with Player2 is 32
+INFO: No of armies left with Player2 is 31
+INFO: No of armies left with Player2 is 30
+INFO: No of armies left with Player2 is 29
+INFO: No of armies left with Player2 is 28
+INFO: No of armies left with Player2 is 27
+INFO: No of armies left with Player2 is 26
+INFO: No of armies left with Player2 is 25
+INFO: No of armies left with Player2 is 24
+INFO: No of armies left with Player2 is 23
+INFO: No of armies left with Player2 is 22
+INFO: No of armies left with Player2 is 21
+INFO: Total number of armies assigned to Player3 is 35
+INFO: No of armies left with Player3 is 34
+INFO: No of armies left with Player3 is 33
+INFO: No of armies left with Player3 is 32
+INFO: No of armies left with Player3 is 31
+INFO: No of armies left with Player3 is 30
+INFO: No of armies left with Player3 is 29
+INFO: No of armies left with Player3 is 28
+INFO: No of armies left with Player3 is 27
+INFO: No of armies left with Player3 is 26
+INFO: No of armies left with Player3 is 25
+INFO: No of armies left with Player3 is 24
+INFO: No of armies left with Player3 is 23
+INFO: No of armies left with Player3 is 22
+INFO: No of armies left with Player3 is 21
+INFO: Stage: PLAY|| File Valid: World.map
+INFO: Stage: PLAY || Player Count: 3
+INFO: Player: Aravind|| Stage: Fortification || Countries involved: Canada,Italy
+INFO: Player: Aravind|| Countries fortified!! || Canada : 8 || Italy : 9
+INFO: Player: Aravind|| Stage: Fortification || Countries involved: Canada,Italy
+WARN: Player: Aravind|| Countries could not be fortified
+ERROR: Player: null || Stage: Reinforcement Armies || Invalid card selection!! 
+INFO: Player: Shivani|| Stage: Reinforcement || Country reinforced: Canada
+INFO: Player: Shivani|| Country reinforced!!
+INFO: Player: Shivani || Stage: Reinforcement Armies || Number of armies given: 4
+INFO: Player: Sourabh || Stage: Reinforcement Armies || Number of armies given: 0
+INFO: Player: Aravind|| Stage: Fortification || Countries involved: Canada,Italy
+INFO: Player: Aravind|| Countries fortified!! || Canada : 8 || Italy : 9
+INFO: Player: Aravind|| Stage: Fortification || Countries involved: Canada,Italy
+WARN: Player: Aravind|| Countries could not be fortified
+ERROR: Player: null || Stage: Reinforcement Armies || Invalid card selection!! 
+INFO: Player: Shivani|| Stage: Reinforcement || Country reinforced: Canada
+INFO: Player: Shivani|| Country reinforced!!
+INFO: Player: Shivani || Stage: Reinforcement Armies || Number of armies given: 4
+INFO: Player: Sourabh || Stage: Reinforcement Armies || Number of armies given: 0
+INFO: Player: Aravind|| Stage: Fortification || Countries involved: Canada,Italy
+INFO: Player: Aravind|| Countries fortified!! || Canada : 8 || Italy : 9
+INFO: Player: Aravind|| Stage: Fortification || Countries involved: Canada,Italy
+WARN: Player: Aravind|| Countries could not be fortified
+ERROR: Player: null || Stage: Reinforcement Armies || Invalid card selection!! 
+INFO: Player: Shivani|| Stage: Reinforcement || Country reinforced: Canada
+INFO: Player: Shivani|| Country reinforced!!
+INFO: Player: Shivani || Stage: Reinforcement Armies || Number of armies given: 4
+INFO: Player: Sourabh || Stage: Reinforcement Armies || Number of armies given: 0
+INFO: Player: Aravind|| Stage: Fortification || Countries involved: Canada,Italy
+INFO: Player: Aravind|| Countries fortified!! || Canada : 8 || Italy : 9
+INFO: Player: Aravind|| Stage: Fortification || Countries involved: Canada,Italy
+WARN: Player: Aravind|| Countries could not be fortified
+ERROR: Player: null || Stage: Reinforcement Armies || Invalid card selection!! 
+INFO: Player: Shivani|| Stage: Reinforcement || Country reinforced: Canada
+INFO: Player: Shivani|| Country reinforced!!
+INFO: Player: Shivani || Stage: Reinforcement Armies || Number of armies given: 4
+INFO: Player: Sourabh || Stage: Reinforcement Armies || Number of armies given: 0
+INFO: Player: Aravind|| Stage: Fortification || Countries involved: Canada,Italy
+INFO: Player: Aravind|| Countries fortified!! || Canada : 8 || Italy : 9
+INFO: Player: Aravind|| Stage: Fortification || Countries involved: Canada,Italy
+WARN: Player: Aravind|| Countries could not be fortified
+ERROR: Player: null || Stage: Reinforcement Armies || Invalid card selection!! 
+INFO: Player: Shivani|| Stage: Reinforcement || Country reinforced: Canada
+INFO: Player: Shivani|| Country reinforced!!
+INFO: Player: Shivani || Stage: Reinforcement Armies || Number of armies given: 4
+INFO: Player: Sourabh || Stage: Reinforcement Armies || Number of armies given: 0
+INFO: Stage: Main Menu View displayed
+INFO: Stage: Main Menu || State: PLAY selected
+INFO: Stage: Play || State: CHOOSE MAP selected
+INFO: Stage: CHOOSE MAP || File selected: World.map
+INFO: Created continent objects and added their values to the respective objects
+INFO: Number of Player objects created: 3
+INFO: Total number of Players playing the game 3
+INFO: Total number of continents in the whole map 6
+INFO: Total number of countries in the whole map 42
+INFO: Assigned 35 armies to each player
+INFO: Assigned countries randomly to all the players
+INFO: Total number of armies assigned to Player1 is 35
+INFO: No of armies left with Player1 is 34
+INFO: No of armies left with Player1 is 33
+INFO: No of armies left with Player1 is 32
+INFO: No of armies left with Player1 is 31
+INFO: No of armies left with Player1 is 30
+INFO: No of armies left with Player1 is 29
+INFO: No of armies left with Player1 is 28
+INFO: No of armies left with Player1 is 27
+INFO: No of armies left with Player1 is 26
+INFO: No of armies left with Player1 is 25
+INFO: No of armies left with Player1 is 24
+INFO: No of armies left with Player1 is 23
+INFO: No of armies left with Player1 is 22
+INFO: No of armies left with Player1 is 21
+INFO: Total number of armies assigned to Player2 is 35
+INFO: No of armies left with Player2 is 34
+INFO: No of armies left with Player2 is 33
+INFO: No of armies left with Player2 is 32
+INFO: No of armies left with Player2 is 31
+INFO: No of armies left with Player2 is 30
+INFO: No of armies left with Player2 is 29
+INFO: No of armies left with Player2 is 28
+INFO: No of armies left with Player2 is 27
+INFO: No of armies left with Player2 is 26
+INFO: No of armies left with Player2 is 25
+INFO: No of armies left with Player2 is 24
+INFO: No of armies left with Player2 is 23
+INFO: No of armies left with Player2 is 22
+INFO: No of armies left with Player2 is 21
+INFO: Total number of armies assigned to Player3 is 35
+INFO: No of armies left with Player3 is 34
+INFO: No of armies left with Player3 is 33
+INFO: No of armies left with Player3 is 32
+INFO: No of armies left with Player3 is 31
+INFO: No of armies left with Player3 is 30
+INFO: No of armies left with Player3 is 29
+INFO: No of armies left with Player3 is 28
+INFO: No of armies left with Player3 is 27
+INFO: No of armies left with Player3 is 26
+INFO: No of armies left with Player3 is 25
+INFO: No of armies left with Player3 is 24
+INFO: No of armies left with Player3 is 23
+INFO: No of armies left with Player3 is 22
+INFO: No of armies left with Player3 is 21
+INFO: Stage: PLAY|| File Valid: World.map
+INFO: Stage: PLAY || Player Count: 3
