@@ -1,5 +1,5 @@
 
-package controller.initialization;
+package gameEngine;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -7,9 +7,9 @@ import java.util.HashSet;
 import java.util.Iterator;
 
 import constants.LogLevel;
-import model.Continent;
-import model.Country;
-import model.Player;
+import gameEngine.Continent;
+import gameEngine.Country;
+import gameEngine.Player;
 import utilities.Utilities;
 
 /**

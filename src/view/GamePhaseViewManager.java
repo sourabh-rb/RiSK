@@ -2,9 +2,11 @@
 package view;
 
 import java.util.ArrayList;
-
 import constants.GamePhase;
-import controller.initialization.StartUpPhase;
+import gameEngine.Card;
+import gameEngine.Country;
+import gameEngine.PhaseManager;
+import gameEngine.Player;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -30,10 +32,6 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.StringConverter;
-import model.Card;
-import model.Country;
-import model.PhaseManager;
-import model.Player;
 import view.ui_elements.RiskButton;
 import view.ui_elements.RiskLabel;
 /**
@@ -251,6 +249,10 @@ public class GamePhaseViewManager
 		
 	}
 	
+	/**
+	 * This method is used to display and manage Reinforcement phase elements
+	 */
+	
 	private void createReinforcementPhaseElements()
 	{
 		phaseInfoPane.getChildren().clear();
@@ -318,6 +320,11 @@ public class GamePhaseViewManager
 
 	}
 
+	/**
+	 * This method is used to display and manage card exchange phase in the 
+	 * Reinforcement phase
+	 * @return cardsHBox is the cards exchange view
+	 */
 	
 	private HBox createCardsPhaseElements()
 	{	
@@ -354,20 +361,22 @@ public class GamePhaseViewManager
 		SpinnerValueFactory<Integer> artilleryValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, playerPhase.artilleryCardCountForSpinner(), 0);
 		artillerySpinner.setValueFactory(artilleryValueFactory);
 		
+		
 		RiskLabel cardCountHeader = new RiskLabel("Total Cards:");
 		RiskLabel cardCountLabel = new RiskLabel();
 		cardCountLabel.textProperty().bind(playerPhase.totalcardsCountProperty().asString());
 		HBox totCardsBox = new HBox(10, cardCountHeader, cardCountLabel);
 		
 		RiskButton cardsExchangeButton=new RiskButton("Exchange");
+		//to implement card exchange for armies on click of the EXCHANGE button
 		cardsExchangeButton.setOnAction(new EventHandler<ActionEvent>() {
 			
 			@Override
 		public void handle(ActionEvent event) {
 				
-			int armyReceivedAfterExchange=playerPhase.armiesFromCardExchange(artillerySpinner.getValue(), infantrySpinner.getValue(), 
+			int armyReceivedAfterExchange=playerPhase.getArmiesForCards(artillerySpinner.getValue(), infantrySpinner.getValue(), 
 					cavalrySpinner.getValue());
-				
+				System.out.println(cavalrySpinner.getValue());
 			if(armyReceivedAfterExchange==0)
 				{
 					cardExchangeMessage.setText("Invalid user input. Please select 3 cards of same type or 3 cards of different type");
@@ -391,6 +400,9 @@ public class GamePhaseViewManager
 		
 	}
 	
+	/**
+	 * This method is used to create and manage Attack phase elements
+	 */
 	private void createAttackPhaseElements()
 	{
 		phaseInfoPane.getChildren().clear();
@@ -478,6 +490,10 @@ public class GamePhaseViewManager
 		
 	}
 	
+	/**
+	 * This method is used to display and manage Fortification phase elements
+	 *
+	 */
 	private void createFortificationPhaseElements()
 	{
 		phaseInfoPane.getChildren().clear();
@@ -542,6 +558,10 @@ public class GamePhaseViewManager
 		
 	}
 	
+	/**
+	 * This method is used to bind and display the current player
+	 */
+	
 	private void createPhaseHeader()
 	{
 		playerName.textProperty().bind(playerPhase.playerNameProperty());
@@ -554,6 +574,9 @@ public class GamePhaseViewManager
 		
 	}
 	
+	/**
+	 * Creates the DONE button in each phase
+	 */
 	private void createPhaseButtons()
 	{
 		doneButton = new RiskButton("DONE");

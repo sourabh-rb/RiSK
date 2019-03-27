@@ -1,4 +1,4 @@
-package model;
+package gameEngine;
 
 import java.util.ArrayList;
 import java.util.Objects;

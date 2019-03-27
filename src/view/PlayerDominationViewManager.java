@@ -3,7 +3,9 @@ package view;
 
 import java.util.ArrayList;
 
-import controller.initialization.StartUpPhase;
+import gameEngine.Country;
+import gameEngine.Player;
+import gameEngine.StartUpPhase;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -26,8 +28,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
-import model.Country;
-import model.Player;
 import view.ui_elements.RiskLabel;
 
 public class PlayerDominationViewManager
