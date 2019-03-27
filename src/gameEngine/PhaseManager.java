@@ -29,7 +29,7 @@ public class PhaseManager
 	private ObservableList<Country> attackableCountries;
 
 	private ObservableList<Integer> cardTypeCountList;
-	
+	private TurnManager turnManager;
 	private IntegerProperty infantryCardCount;
 	private IntegerProperty cavalryCardCount;
 	private IntegerProperty artilleryCardCount;
@@ -42,9 +42,6 @@ public class PhaseManager
 	private Player currentPlayer;
 	
 	private StartUpPhase startUpPhaseObject;
-	
-
-	
 	
 	private GamePhase currentPhase;
 	
@@ -63,7 +60,7 @@ public class PhaseManager
 			//TODO: bind required fields.
 			countriesOwned = FXCollections.observableArrayList(currentPlayer.getCountries());
 			armyCount.set(currentPlayer.getArmies());
-			//armyLeft.set();
+			armyLeft.set(currentPlayer.getNumberOfArmiesLeft());
 			break;
 		case REINFORCEMENT:
 			currentPhase = GamePhase.REINFORCEMENT;
@@ -105,6 +102,12 @@ public class PhaseManager
 			phaseName.set("TURN ENDS");
 			//TODO: bind required fields.
 			//Change player here !! @Charan
+			System.out.println("Update game phase");
+			currentPlayer=getNextPlayer();
+        System.out.println(currentPlayer.getName());
+			                       playerName.set(currentPlayer.getName());
+			                       updateGamePhase(GamePhase.INITIALIZATION);
+			                       //nextPhase();
 			break;
 		}
 	}
@@ -115,9 +118,9 @@ public class PhaseManager
 	public PhaseManager()
 	{
 		startUpPhaseObject = StartUpPhase.getInstance();
-		playerName = new SimpleStringProperty(this, "playerName", "");
+		playerName = new SimpleStringProperty();
 		phaseName = new SimpleStringProperty(this, "phaseName", "");
-
+		turnManager=new TurnManager();
 		infantryCardCount = new SimpleIntegerProperty();
 		cavalryCardCount = new SimpleIntegerProperty();
 		artilleryCardCount = new SimpleIntegerProperty();
@@ -130,6 +133,7 @@ public class PhaseManager
 		currentPhase = GamePhase.START;
 		nextPhase();
 		
+		
 	}
 	
 	/**
@@ -137,6 +141,7 @@ public class PhaseManager
 	 */
 	public void nextPhase()
 	{
+		int leftCount=0;
 		GamePhase nextPhase = GamePhase.END;
 		currentPlayer = getCurrentPlayer();
 		switch(currentPhase)
@@ -146,7 +151,16 @@ public class PhaseManager
 			break;
 		case INITIALIZATION:
 			//TODO:Check if initialization using round robin has been completed then go to reinforce.
-			nextPhase = GamePhase.REINFORCEMENT;
+			for(Player playerObj: startUpPhaseObject.getPlayerList())
+			{
+                   leftCount+=playerObj.getNumberOfArmiesLeft();
+
+			}
+
+			System.out.println("Printing left count "+leftCount);
+
+			if(leftCount==0) nextPhase = GamePhase.REINFORCEMENT;
+			else nextPhase = GamePhase.END;
 			break;
 			
 		case REINFORCEMENT:
@@ -170,11 +184,15 @@ public class PhaseManager
 		updateGamePhase(nextPhase);
 		
 	}
+	public Player getNextPlayer()
+	{
+		return turnManager.nextPlayer(playerName.get());
+	}
 	
-	private Player getCurrentPlayer()
+	public Player getCurrentPlayer()
 	{
 
-		return startUpPhaseObject.getPlayerList().get(0);
+		return turnManager.currentPlayer(playerName.get());
 
 	}
 	public GamePhase getCurrentGamePhase()
@@ -264,6 +282,13 @@ public class PhaseManager
 		return artilleryCardCount.intValue();
 	}
 	
+	/**
+	 * Calls the method used to retrieve armies in exchange for cards
+	 * @param a artillery spinner value	
+	 * @param i infantry spinner value	
+	 * @param c cavalry spinner value	
+	 * @return armycount
+	 */
 	public int getArmiesForCards(int a,int i,int c)
 	{
 		System.out.println(c);

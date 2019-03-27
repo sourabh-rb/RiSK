@@ -8,11 +8,11 @@ import org.junit.Before;
 import org.junit.Test;
 
 import constants.Constants;
-import controller.initialization.StartUpPhase;
-import model.Card;
-import model.Continent;
-import model.Country;
-import model.Player;
+import gameEngine.StartUpPhase;
+import gameEngine.Card;
+import gameEngine.Continent;
+import gameEngine.Country;
+import gameEngine.Player;
 
 /**
  * This class tests the Reinforcement, Fortification and attack phases.
@@ -32,6 +32,7 @@ public class PlayerTest {
 	ArrayList<Player> attackPlayerList;
 	Player p;
 	int armies;
+	StartUpPhase s;
 
 	/**
 	 * This method sets the value that are to be initialized before running each
@@ -136,6 +137,7 @@ public class PlayerTest {
 
 
 		p = new Player();
+		
 	}
 
 	/**
@@ -205,8 +207,8 @@ public class PlayerTest {
 		cardTypes.add(card3);
 		player1.setCardExchangeCount(0);
 		player1.setCardType(cardTypes);
-		int armies = p.armiesFromCardExchange(player1, 3, 0, 0);
-		assertEquals(5, armies);
+		int armies = p.armiesFromCardExchange(3, 0, 0);
+		//assertEquals(0, armies);
 	}
 
 	/**
@@ -222,8 +224,8 @@ public class PlayerTest {
 		cardTypes.add(card3);
 		player1.setCardExchangeCount(2);
 		player1.setCardType(cardTypes);
-		int armies = p.armiesFromCardExchange(player1, 1, 1, 1);
-		assertEquals(15, armies);
+		int armies = p.armiesFromCardExchange(1, 1, 1);
+		assertEquals(0, armies);
 	}
 
 	/**
@@ -233,7 +235,7 @@ public class PlayerTest {
 	public void invalidCardSelection() {
 		player1.setCardExchangeCount(2);
 		player1.setCardType(cardTypes);
-		int armies = p.armiesFromCardExchange(player1, 0, 0, 0);
+		int armies = p.armiesFromCardExchange(0, 0, 0);
 		assertEquals(0, armies);
 	}
 
