@@ -13,7 +13,12 @@ import model.Country;
 import model.Player;
 import utilities.Utilities;
 
-public class utilitiesTest {
+/**
+ * This class tests the utilities class.
+ * @author Shivani
+ * @version 2.0.0
+ */
+public class UtilitiesTest {
 	Country country1;
 	Player player;
 	Utilities u;
