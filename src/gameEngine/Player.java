@@ -63,79 +63,7 @@ public class Player {
 	
 
 
-	public void set() {
-		Player player1 = new Player();
-		Player player2 = new Player();
-		Player player3 = new Player();
-		Player player4 = new Player();
-		player1.setName("Aravind");
-		player2.setName("charan");
-		player3.setName("shivani");
-		player4.setName("Sourabh");
-
-		playerList.add(player1);
-		playerList.add(player2);
-		playerList.add(player3);
-		// playerList.add(player4);
-
-		Continent continent1 = new Continent();
-		country1 = new Country();
-		country1.setName("India");
-		Country country2 = new Country();
-		country2.setName("china");
-		Country country3 = new Country();
-		country3.setName("pakistan");
-		Country country7 = new Country();
-		country7.setName("japan");
-		Country country8 = new Country();
-		country8.setName("Iran");
-		Country country9 = new Country();
-		country9.setName("Iraq");
-
-		Continent continent2 = new Continent();
-		Country country4 = new Country();
-		country4.setName("France");
-		country5 = new Country();
-		country5.setName("Germany");
-		Country country6 = new Country();
-		country6.setName("Sweden");
-
-		ArrayList<Country> countryList = new ArrayList<Country>();
-		countryList.add(country1);
-		countryList.add(country2);
-		countryList.add(country3);
-		countryList.add(country7);
-		countryList.add(country8);
-
-		continent1.setCountriesComprised(countryList);
-
-		europeCountryList.add(country4);
-		europeCountryList.add(country5);
-		europeCountryList.add(country6);
-		continent2.setCountriesComprised(europeCountryList);
-
-		continentList.add(continent1);
-		continentList.add(continent2);
-
-		countryListPlayer1.add(country1);
-		countryListPlayer1.add(country2);
-		countryListPlayer1.add(country3);
-		countryListPlayer1.add(country4);
-		countryListPlayer1.add(country6);
-
-		country1.setArmies(3);
-
-		country1.setOwner(player1);
-		country2.setOwner(player1);
-
-		countryListPlayer2.add(country5);
-		//countryListPlayer2.add(country6);
-		country5.setArmies(2);
-		country5.setOwner(player2);
-		player1.setCountries(countryListPlayer1);
-		player2.setCountries(countryListPlayer2);
-
-	}
+	
 
 	public Player()
 	{
@@ -513,7 +441,7 @@ public class Player {
 
 	public static void main(String[] args) {
 		Player play = new Player();
-		play.set();
+		//play.set();
 
 		StartUpPhase start = StartUpPhase.getInstance();
 
@@ -549,19 +477,19 @@ public class Player {
 				|| (cavalryCount == 3 && infantryCount == 0 && artilleryCount == 0))
 				|| (artilleryCount == 1 && infantryCount == 1 && cavalryCount == 1)) {
 			
-			ArrayList<Card> testList = new ArrayList();
-	        Card testCard1=new Card();
-	        Card testCard2=new Card();
-	        Card testCard3=new Card();
-	        testCard1.setType(Constants.ARTILLERY);
-	        testCard2.setType(Constants.CAVALRY);
-	        testCard3.setType(Constants.INFANTRY);
-	        testList.add(testCard1);
-	        testList.add(testCard1);
-	        testList.add(testCard1);
-	        testList.add(testCard2);
-	        testList.add(testCard3);
-	        this.setCardType(testList);
+//			ArrayList<Card> testList = new ArrayList();
+//	        Card testCard1=new Card();
+//	        Card testCard2=new Card();
+//	        Card testCard3=new Card();
+//	        testCard1.setType(Constants.ARTILLERY);
+//	        testCard2.setType(Constants.CAVALRY);
+//	        testCard3.setType(Constants.INFANTRY);
+//	        testList.add(testCard1);
+//	        testList.add(testCard1);
+//	        testList.add(testCard1);
+//	        testList.add(testCard2);
+//	        testList.add(testCard3);
+//	        this.setCardType(testList);
 
 			playerCards = this.getCardType();
 			System.out.println(playerCards.toString());
