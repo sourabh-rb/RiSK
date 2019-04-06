@@ -16,6 +16,15 @@ public class TurnManager {
 		currentPlayerObj=startUpPhase.getPlayerList().get(0);
 	}
 	
+	
+	public TurnManager(StartUpPhase sObj)
+	{
+		startUpPhase=sObj;
+		System.out.println(startUpPhase.getPlayerList().size());
+		currentPlayerObj=startUpPhase.getPlayerList().get(0);
+		
+	}
+	
 	public  Player currentPlayer(String currentPlayer )
 	{
 		

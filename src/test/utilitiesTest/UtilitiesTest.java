@@ -9,8 +9,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import constants.GamePhase;
-import model.Country;
-import model.Player;
+import gameEngine.Country;
+import gameEngine.Player;
 import utilities.Utilities;
 
 /**
