@@ -743,7 +743,7 @@ public class GamePhaseViewManager
 		
 		RiskButton confirmButton = new RiskButton("CONFIRM");
 		
-		RiskLabel infoLabel = new RiskLabel("Phase Info goes here!");
+		RiskLabel infoLabel = new RiskLabel("In this phase Players can transfer armies between countries");
 		confirmButton.setOnAction(new EventHandler<ActionEvent>()
 		{
 
@@ -759,9 +759,23 @@ public class GamePhaseViewManager
 				//incrementing selected country armies
 				playerPhase.getCurrentPlayer().fortifyArmies(selectedFirstCountryObj,selectedSecondCountryObj,armySpinner.getValue());
 				
+				RiskButton oKButton = new RiskButton("OK");
+				infoLabel.setText("Armies moved to neighbour country");
+				//oKButton.setLayoutX(800);
+				//oKButton.setLayoutY(900);
+				phaseInfoPane.add(oKButton,6,0);
 				
-				playerPhase.nextPhase();
-				createPhaseInfo();
+				oKButton.setOnAction(new EventHandler<ActionEvent>() {
+					
+					@Override
+					public void handle(ActionEvent arg0) {
+						// TODO Auto-generated method stub
+						playerPhase.nextPhase();
+						createPhaseInfo();
+					}
+				});
+				
+				
 			}
 		});
 		
