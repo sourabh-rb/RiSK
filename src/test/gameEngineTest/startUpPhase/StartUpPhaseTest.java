@@ -7,10 +7,10 @@ import java.util.ArrayList;
 import org.junit.Before;
 import org.junit.Test;
 
+import gameEngine.StartUpPhase;
 import gameEngine.Continent;
 import gameEngine.Country;
 import gameEngine.Player;
-import gameEngine.StartUpPhase;
 
 /**
  * This class tests the start up phase of the game. This class has a total of 3
@@ -35,6 +35,7 @@ public class StartUpPhaseTest {
 	 */
 	@Before
 	public void set() {
+		initialize= new StartUpPhase();
 		player1 = new Player();
 		player2 = new Player();
 		player3 = new Player();
@@ -91,6 +92,8 @@ public class StartUpPhaseTest {
 
 		continentList.add(continent1);
 		continentList.add(continent2);
+		
+		
 	}
 
 	/**
