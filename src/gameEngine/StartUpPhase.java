@@ -389,6 +389,24 @@ public class StartUpPhase {
 	{
 		return countryList;
 	}
+	
+	/**
+	 * This method is used to get all the neighbor enemy countries of the country passed
+	 * 
+	 * @param player
+	 * @param country
+	 * @return
+	 */
+	public ArrayList<Country> getEnemyList(Player player,Country country) {
+		//System.out.println(country.getName());
+		ArrayList<Country> neighborList = new ArrayList<>();
+		for (Country neighbor : country.getNeighborCounties()) {
+			if (!(neighbor.getOwner().equals(player))) {
+				neighborList.add(neighbor);
+			}
+		}
+		return neighborList;
+	}
 
 }
 
