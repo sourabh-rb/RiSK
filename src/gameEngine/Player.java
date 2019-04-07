@@ -12,7 +12,6 @@ import org.junit.Before;
 
 import constants.Constants;
 import constants.LogLevel;
-
 import utilities.Utilities;
 
 /**
@@ -735,13 +734,14 @@ public class Player {
 	 *         false.
 	 */
 
-	public boolean reinforceArmies(Country country, int armies) {
+	public boolean reinforceArmies(Country country, int armies, String mode) {
+		//String gameMode=mode;
 		Utilities.gameLog(
-				"Player: " + this.getName() + "|| Stage: Reinforcement || Country reinforced: " + country.getName(),
-				LogLevel.INFO);
-
+				"Player: " + this.getName() + "|| Stage: Reinforcement",LogLevel.INFO);
 		ArrayList<Country> countries = this.getCountries();
-		if (countries != null && countries.contains(country)) {
+		if(countries!=null) {
+		if(Constants.HUMAN.equals(mode)) {
+			if (countries.contains(country)) {
 			int i = countries.indexOf(country);
 			Country country1 = countries.get(i);
 			country1.setArmies(country1.getArmies() + armies);
@@ -750,13 +750,109 @@ public class Player {
 			this.setCountries(countries);
 			this.setNumberOfArmiesLeft(this.getNumberOfArmiesLeft() - armies);
 			Utilities.gameLog("Player: " + this.getName() + "|| Country reinforced!!", LogLevel.INFO);
-			return true;
-		} else {
+		}
+		}else if(Constants.AGGRESSIVE.equals(mode)) {
+			ArrayList<Integer> cards=this.cardCount();
+			int armiesForReinforcement=0; 
+			int maxArmies=0; 
+			int index=0;
+			Country countryToReinforce=new Country(); 
+			if(cards.get(0)+cards.get(1)+cards.get(2)==5) {
+				if(cards.get(0)==3) {
+					armiesForReinforcement=this.armiesFromCardExchange(3,0,0);
+				}else if(cards.get(1)==3){
+					armiesForReinforcement=this.armiesFromCardExchange(0,3,0);
+				}else if(cards.get(2)==3){
+					armiesForReinforcement=this.armiesFromCardExchange(0,0,3);
+				}else {
+					armiesForReinforcement=this.armiesFromCardExchange(1,1,1);
+				}
+				}else {
+					this.getReinforcementArmies();
+					armiesForReinforcement=this.getNumberOfArmiesLeft();
+				}
+			for(int i=0; i<countries.size();i++) {
+				if(maxArmies<countries.get(i).getArmies()) {
+				maxArmies= countries.get(i).getArmies();
+				countryToReinforce=countries.get(i);
+				index=i;
+				}
+			}
+			countries.remove(countryToReinforce);
+			countryToReinforce.setArmies(countryToReinforce.getArmies()+armiesForReinforcement);
+			countries.add(countryToReinforce);
+			this.setCountries(countries);
+			//this.attack(attackingCountry, defendingCountry, noOfDiceForAttackingCountry, noOFDiceForDefendingCountry, action);
+		}else if(Constants.BENEVOLENT.equals(mode)) {
+			ArrayList<Integer> cards=this.cardCount();
+			int armiesForReinforcement=0; 
+			 
+			int index=0;
+			Country countryToReinforce=new Country(); 
+			if(cards.get(0)+cards.get(1)+cards.get(2)==5) {
+				if(cards.get(0)==3) {
+					armiesForReinforcement=this.armiesFromCardExchange(3,0,0);
+				}else if(cards.get(1)==3){
+					armiesForReinforcement=this.armiesFromCardExchange(0,3,0);
+				}else if(cards.get(2)==3){
+					armiesForReinforcement=this.armiesFromCardExchange(0,0,3);
+				}else {
+					armiesForReinforcement=this.armiesFromCardExchange(1,1,1);
+				}
+				}else {
+					this.getReinforcementArmies();
+					armiesForReinforcement=this.getNumberOfArmiesLeft();
+				}
+			int minArmies=countries.get(0).getArmies();
+			for(int i=0; i<countries.size();i++) {
+				if(minArmies>countries.get(i).getArmies()) {
+					minArmies= countries.get(i).getArmies();
+					countryToReinforce=countries.get(i);
+					index=i;
+				}
+			}
+			countries.remove(countryToReinforce);
+			countryToReinforce.setArmies(countryToReinforce.getArmies()+armiesForReinforcement);
+			countries.add(countryToReinforce);
+			this.setCountries(countries);
+			//this.fortifyArmies(fromCountry, toCountry, minArmies);
+		}else if(Constants.RANDOM.equals(mode)) {
+			ArrayList<Integer> cards=this.cardCount();
+				int armiesForReinforcement=0; 
+				ThreadLocalRandom random = ThreadLocalRandom.current();
+				int randomValue = random.nextInt(0, countries.size()-1);
+				if(cards.get(0)+cards.get(1)+cards.get(2)==5) {
+					if(cards.get(0)==3) {
+						armiesForReinforcement=this.armiesFromCardExchange(3,0,0);
+					}else if(cards.get(1)==3){
+						armiesForReinforcement=this.armiesFromCardExchange(0,3,0);
+					}else if(cards.get(2)==3){
+						armiesForReinforcement=this.armiesFromCardExchange(0,0,3);
+					}else {
+						armiesForReinforcement=this.armiesFromCardExchange(1,1,1);
+					}
+					}else {
+						this.getReinforcementArmies();
+						armiesForReinforcement=this.getNumberOfArmiesLeft();
+					}
+				Country countryToReinforce = countries.get(randomValue);
+				countries.remove(countryToReinforce);
+				countryToReinforce.setArmies(countryToReinforce.getArmies()+armiesForReinforcement);
+				countries.add(countryToReinforce);
+				//this.attack(attackingCountry, defendingCountry, noOfDiceForAttackingCountry, noOFDiceForDefendingCountry, action);
+			
+		}else if(Constants.CHEATER.equals(mode)) {
+			for(int i=0; i<countries.size();i++) {
+				int prevArmies=countries.get(i).getArmies();
+				countries.get(i).setArmies(prevArmies*2);
+			}
+		}	else {
 			Utilities.gameLog("Player: " + this.getName() + "|| Country could not be reinforced!!", LogLevel.WARN);
 			return false;
 		}
 	}
-	
+		return false;
+	}
 	/**
 	 * This method is used to perform the fortification stage in the game. In this stage the user can move an army from one
 	 * country that he owns to another if they are connected.
