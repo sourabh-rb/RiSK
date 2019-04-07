@@ -1,6 +1,8 @@
 package view;
 
 import java.util.ArrayList;
+
+import constants.Constants;
 import constants.GamePhase;
 import gameEngine.Card;
 import gameEngine.Country;
@@ -262,7 +264,7 @@ public class GamePhaseViewManager
 				selectedCountryObj=countriesCombobox.getSelectionModel().getSelectedItem();
                 //decrementing player's left over armies
 				//incrementing selected country armies
-				playerPhase.getCurrentPlayer().reinforceArmies(selectedCountryObj,armyValueFactory.getValue());
+				playerPhase.getCurrentPlayer().reinforceArmies(selectedCountryObj,armyValueFactory.getValue(),Constants.HUMAN);
 				
 				
 				playerPhase.nextPhase();
@@ -360,7 +362,7 @@ public class GamePhaseViewManager
 				selectedCountryObj=countriesCombobox.getSelectionModel().getSelectedItem();
 				//incrementing selected country armies
 				//decrementing player's left over armies 
-				playerPhase.getCurrentPlayer().reinforceArmies(selectedCountryObj,armyValueFactory.getValue());
+				playerPhase.getCurrentPlayer().reinforceArmies(selectedCountryObj,armyValueFactory.getValue(),Constants.HUMAN);
 				
 				playerPhase.nextPhase();
 				createPhaseInfo();
