@@ -11,6 +11,7 @@ import gameEngine.Player;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -363,8 +364,9 @@ public class GamePhaseViewManager
 				//incrementing selected country armies
 				//decrementing player's left over armies 
 				playerPhase.getCurrentPlayer().reinforceArmies(selectedCountryObj,armyValueFactory.getValue(),Constants.HUMAN);
-				
-				playerPhase.nextPhase();
+				playerPhase.setReinforcementArmies();
+				System.out.println(playerPhase.getCurrentPlayer().getNumberOfArmiesLeft());
+				//playerPhase.nextPhase();
 				createPhaseInfo();
 				domView.updateDominationView();
 				
@@ -507,9 +509,7 @@ public class GamePhaseViewManager
 				};
 				attackCombobox.setConverter(attackConverter);
 				attackCombobox.getSelectionModel().selectFirst();
-				
-				
-				
+								
 			}
 		});
 
@@ -553,8 +553,8 @@ public class GamePhaseViewManager
 			{
 				
 				armyCountLabel.setText("" + newValue.getArmies());
-				SpinnerValueFactory<Integer> armyValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, (newValue.getArmies() - 1), 0);
-				armySpinner.setValueFactory(armyValueFactory);
+//				SpinnerValueFactory<Integer> armyValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, (newValue.getArmies() - 1), 0);
+//				armySpinner.setValueFactory(armyValueFactory);
 				
 				attackerSpinnerValue = playerPhase.getMaxAttackerDice(newValue);
 				System.out.println(attackerSpinnerValue);
@@ -622,15 +622,16 @@ public class GamePhaseViewManager
 			public void handle(ActionEvent arg0) {
 				// TODO Auto-generated method stub
 				attackResult.setText(playerPhase.attackButtonFunctionality(selectedCountry, enemyCountry, attackerSpinnerValue, defenderSpinnerValue, "allOutWinner"));
+				attackResult.setWrapText(true);
 			}
 		});
 		
-		HBox attackButtonBox = new HBox(20,attackButton, allOutAttackButton,attackResult);
+		HBox attackButtonBox = new HBox(20,attackButton, allOutAttackButton);
 		
 
 		RiskLabel infoLabel = new RiskLabel("In this phase players attack their neighbouring enemies.");
 	
-		
+		phaseInfoPane.add(attackResult, 6, 0);
 		phaseInfoPane.add(countryVBox, 1, 0);
 		phaseInfoPane.add(armyVBox, 2, 0);
 		phaseInfoPane.add(armySelectVBox, 3, 0);
