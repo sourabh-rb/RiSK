@@ -379,6 +379,10 @@ public class Player {
 			if (attackRes.equals("defeated")) {
 				defendingCountry.setOwner(attackingCountry.getOwner());// change the defeated country owner to attacked country owner
 				attackingCountry.getOwner().getCountries().add(defendingCountry); //assign the defeated country to winner
+				if(attackingCountry.getArmies()>noOfDiceForAttackingCountry) {
+				attackingCountry.setArmies(attackingCountry.getArmies()-noOfDiceForAttackingCountry);
+				}
+				defendingCountry.setArmies(noOfDiceForAttackingCountry);
 				System.out.println("Number of countries attacker has after attacking: "+attackingCountry.getOwner().getCountries().size());
 				System.out.println("Number of total countries in the game: "+start.getCountryList().size());
 				if(attackingCountry.getOwner().getCountries().size() == start.getCountryList().size()) {
@@ -394,21 +398,21 @@ public class Player {
 				// ASk player if wants to continue attacking
 				
 				System.out.println("Defeated the country");
-				return "defeated";
+				return "The enemy has been defeated";
 				// If player do not want to continue, he must fortify
 			} else if (attackRes.equals("notDefeated")) {
 				// ASk player if wants to continue attacking
 				System.out.println("not Defeated the country yet");
-				return "notdefeated";
+				return "The enemy was not defeated.";
 			} else if (attackRes.equals("onlyOneArmy")) {
 				System.out.println("Only one army left in the attacking country So, cannot attack");
 				// ASk player if wants to continue attacking with another country
-				return "onlyOneArmy";
+				return "Only one army left"+"\n"+"in the attacking country."+"\n"+"Attack not possible";
 			}
 		} else
 			System.out.println("cannot attack because there should be atleast 2 armies in the attacking country");
 		// ASk player if wants to continue attacking with another country
-		return "cannotAttack";
+		return "Cannot attack."+"\n"+"Attacking country must have atleast"+"\n"+"2 countries to attack";
 
 	}
 
@@ -804,6 +808,7 @@ public class Player {
 				+ playerList.get(1).getCountries().get(0).getArmies());
 		play.attack(playerList.get(0).getCountries().get(0), playerList.get(1).getCountries().get(0), 1, 1, "allOutWinner");
 	}
+	
 	
 	
 
