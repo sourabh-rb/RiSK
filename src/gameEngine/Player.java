@@ -436,23 +436,44 @@ public class Player {
 		} else
 			maxNoOfDiceForDefending = 1;
 		return Integer.toString(maxNoOfDiceForAttacking)+" "+Integer.toString(maxNoOfDiceForDefending);//Concating 2 dice values
-
-	}
-
-	public static void main(String[] args) {
-		Player play = new Player();
-		//play.set();
-
-		StartUpPhase start = StartUpPhase.getInstance();
-
-
-		System.out.println("Attacking country armies: " + playerList.get(0).getCountries().get(0).getName() + " "
-				+ playerList.get(0).getCountries().get(0).getArmies());
-		System.out.println("Defending country armies: " + playerList.get(1).getCountries().get(0).getName() + " "
-				+ playerList.get(1).getCountries().get(0).getArmies());
-		play.attack(playerList.get(0).getCountries().get(0), playerList.get(1).getCountries().get(0), 1, 1, "allOutWinner");
 	}
 	
+	/**
+	 * This function gives maximum number of dice for particular attacking  country
+	 * 
+	 * @param attackingCountry attacking country object is sent from the user
+	 * 
+	 * @return provides max number of dice for attacker
+	 */
+	public int maxNoOfDiceForAttack(Country attackingCountry) {
+		int maxNoOfDiceForAttacking = 0;
+		
+		if (attackingCountry.getArmies() > 1) {
+			if (attackingCountry.getArmies() > 3) {
+				maxNoOfDiceForAttacking = 3;
+			} else {
+				maxNoOfDiceForAttacking = attackingCountry.getArmies() - 1;
+			}
+		}
+		return maxNoOfDiceForAttacking;
+	}
+	
+	/**
+	 * This function gives maximum number of dice for particular
+	 * defending country
+	 * 
+	 * @param defendingCountry defending country object is sent from the user
+	 * @return provides max number of dice for defender
+	 */
+	public int maxNoOfDiceForDefence(Country defendingCountry) {
+		
+		int maxNoOfDiceForDefending = 0;
+		if (defendingCountry.getArmies() > 1) {
+			maxNoOfDiceForDefending = 2;
+		} else
+			maxNoOfDiceForDefending = 1;
+		return maxNoOfDiceForDefending;
+	}
 
 	/**
 	 * This method determines the number of armies a player gets when he exchanges
@@ -492,7 +513,6 @@ public class Player {
 //	        this.setCardType(testList);
 
 			playerCards = this.getCardType();
-			System.out.println(playerCards.toString());
 		} else {
 			Utilities.gameLog(
 					"Player: " + this.getName() + " || Stage: Reinforcement Armies || Invalid card selection!! ",
@@ -507,6 +527,8 @@ public class Player {
 					j++;
 				}
 			}
+			Arrays.sort(indexes);
+			
 			for (int i = 2; i >= 0; i--) {
 				playerCards.remove(indexes[i]);
 			}
@@ -518,6 +540,7 @@ public class Player {
 					j++;
 				}
 			}
+			Arrays.sort(indexes);
 			for (int i = 2; i >= 0; i--) {
 				playerCards.remove(indexes[i]);
 			}
@@ -529,10 +552,10 @@ public class Player {
 					j++;
 				}
 			}
-			System.out.println(playerCards.toString());
+			
 			Arrays.sort(indexes);
 			for (int i = 2; i >=0; i--) {
-				System.out.println("here");
+				
 				playerCards.remove(indexes[i]);
 				
 			}
@@ -558,7 +581,8 @@ public class Player {
 					break;
 				}
 			}
-			for (int i = 2; i >= 0; i--) {
+			Arrays.sort(indexes);
+			for (int i = 2; i >=0; i--) {
 				playerCards.remove(indexes[i]);
 			}
 			result = true;
@@ -602,19 +626,19 @@ public class Player {
 //		cardCount.add(1);
 //		cardCount.add(3);
 		
-//		ArrayList<Card> testList = new ArrayList();
-//        Card testCard1=new Card();
-//        Card testCard2=new Card();
-//        Card testCard3=new Card();
-//        testCard1.setType(Constants.ARTILLERY);
-//        testCard2.setType(Constants.CAVALRY);
-//        testCard3.setType(Constants.INFANTRY);
-//        testList.add(testCard1);
-//        testList.add(testCard1);
-//        testList.add(testCard1);
-//        testList.add(testCard2);
-//        testList.add(testCard3);
-//        player.setCardType(testList);
+		ArrayList<Card> testList = new ArrayList();
+        Card testCard1=new Card();
+        Card testCard2=new Card();
+        Card testCard3=new Card();
+        testCard1.setType(Constants.ARTILLERY);
+        testCard2.setType(Constants.CAVALRY);
+        testCard3.setType(Constants.INFANTRY);
+        testList.add(testCard1);
+        testList.add(testCard1);
+        testList.add(testCard1);
+        testList.add(testCard2);
+        testList.add(testCard3);
+        this.setCardType(testList);
 //		if (this.getCardType() != null && this.getCardType().size() != 0) {
 //			cards = this.getCardType();
 //		} else {
@@ -669,7 +693,7 @@ public class Player {
 	 *            Contains all the details of the player.
 	 * @return The number of armies that the player will get for reinforcement.
 	 */
-	public boolean getReinforcementArmies(Player player) {
+	public boolean getReinforcementArmies() {
 		// Number of armies to be given to the player for reinforcement
 		int armies = 0;
 		// The control value associated with the continents owned by the player
@@ -677,22 +701,22 @@ public class Player {
 		// If the player owns continents then the number of armies
 		// given to him is the sum of the control values
 		try {
-			if (player.getContinents() != null && player.getContinents().size() != 0) {
-				for (int i = 0; i < player.getContinents().size(); i++) {
-					controlValue = player.getContinents().get(i).getControlValue();
+			if (this.getContinents() != null && this.getContinents().size() != 0) {
+				for (int i = 0; i < this.getContinents().size(); i++) {
+					controlValue = this.getContinents().get(i).getControlValue();
 					armies = armies + controlValue;
 				}
 			} else {
-				armies = player.getCountries().size() / 3;
+				armies = this.getCountries().size() / 3;
 			}
 			// Update the number of armies the player owns.
-			player.setArmies(player.getArmies() + armies);
-			player.setNumberOfArmiesLeft(armies);
-			Utilities.gameLog("Player: " + player.getName()
+			this.setArmies(this.getArmies() + armies);
+			this.setNumberOfArmiesLeft(armies);
+			Utilities.gameLog("Player: " + this.getName()
 					+ " || Stage: Reinforcement Armies || Number of armies given: " + armies, LogLevel.INFO);
 			return true;
 		} catch (Exception e) {
-			Utilities.gameLog("Player: " + player.getName()
+			Utilities.gameLog("Player: " + this.getName()
 					+ " || Stage: Reinforcement Armies || Cannot give armies to reinforce!! ", LogLevel.ERROR);
 			return false;
 		}
@@ -711,24 +735,24 @@ public class Player {
 	 *         false.
 	 */
 
-	public boolean reinforceArmies(Player player, Country country, int armies) {
+	public boolean reinforceArmies(Country country, int armies) {
 		Utilities.gameLog(
-				"Player: " + player.getName() + "|| Stage: Reinforcement || Country reinforced: " + country.getName(),
+				"Player: " + this.getName() + "|| Stage: Reinforcement || Country reinforced: " + country.getName(),
 				LogLevel.INFO);
 
-		ArrayList<Country> countries = player.getCountries();
+		ArrayList<Country> countries = this.getCountries();
 		if (countries != null && countries.contains(country)) {
 			int i = countries.indexOf(country);
 			Country country1 = countries.get(i);
 			country1.setArmies(country1.getArmies() + armies);
 			countries.remove(i);
 			countries.add(country1);
-			player.setCountries(countries);
-			player.setNumberOfArmiesLeft(player.getNumberOfArmiesLeft() - armies);
-			Utilities.gameLog("Player: " + player.getName() + "|| Country reinforced!!", LogLevel.INFO);
+			this.setCountries(countries);
+			this.setNumberOfArmiesLeft(this.getNumberOfArmiesLeft() - armies);
+			Utilities.gameLog("Player: " + this.getName() + "|| Country reinforced!!", LogLevel.INFO);
 			return true;
 		} else {
-			Utilities.gameLog("Player: " + player.getName() + "|| Country could not be reinforced!!", LogLevel.WARN);
+			Utilities.gameLog("Player: " + this.getName() + "|| Country could not be reinforced!!", LogLevel.WARN);
 			return false;
 		}
 	}
@@ -742,10 +766,10 @@ public class Player {
 	 * @param toCountry Thecountry to which the army will be moved.
 	 * @return true if the fortification was successful, else false.
 	 */
-	public static boolean fortifyArmies(Player player, Country fromCountry,Country toCountry, int armies) {
+	public boolean fortifyArmies(Country fromCountry,Country toCountry, int armies) {
 		
-		Utilities.gameLog("Player: "+player.getName()+"|| Stage: Fortification || Countries involved: "+fromCountry.getName()+","+toCountry.getName(),LogLevel.INFO);
-		ArrayList<Country> playerCountries = player.getCountries();
+		Utilities.gameLog("Player: "+this.getName()+"|| Stage: Fortification || Countries involved: "+fromCountry.getName()+","+toCountry.getName(),LogLevel.INFO);
+		ArrayList<Country> playerCountries = this.getCountries();
 		if(playerCountries != null && playerCountries.contains(fromCountry) && playerCountries.contains(toCountry) && armies>0) {
 			//Update the number for armies in the fortifying country.
 			int i = playerCountries.indexOf(fromCountry);
@@ -759,13 +783,28 @@ public class Player {
 			country2.setArmies(country2.getArmies()+armies);
 			playerCountries.remove(j);
 			playerCountries.add(country2);
-			player.setCountries(playerCountries);
-			Utilities.gameLog("Player: "+player.getName()+"|| Countries fortified!! || "
+			this.setCountries(playerCountries);
+			Utilities.gameLog("Player: "+this.getName()+"|| Countries fortified!! || "
 					+ country1.getName() +" : "+country1.getArmies()+" || "+ country2.getName() +" : "+country2.getArmies(),LogLevel.INFO);
 			return true;
 		}
-		Utilities.gameLog("Player: "+player.getName()+"|| Countries could not be fortified",LogLevel.WARN);
+		Utilities.gameLog("Player: "+this.getName()+"|| Countries could not be fortified",LogLevel.WARN);
 		return false;
 	}
+	public static void main(String[] args) {
+		Player play = new Player();
+		//play.set();
+
+		StartUpPhase start = StartUpPhase.getInstance();
+
+
+		System.out.println("Attacking country armies: " + playerList.get(0).getCountries().get(0).getName() + " "
+				+ playerList.get(0).getCountries().get(0).getArmies());
+		System.out.println("Defending country armies: " + playerList.get(1).getCountries().get(0).getName() + " "
+				+ playerList.get(1).getCountries().get(0).getArmies());
+		play.attack(playerList.get(0).getCountries().get(0), playerList.get(1).getCountries().get(0), 1, 1, "allOutWinner");
+	}
+	
+	
 
 }

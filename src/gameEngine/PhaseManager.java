@@ -9,6 +9,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import view.GamePhaseViewManager;
 
 /**
 * <h1>PhaseManager</h1>
@@ -33,7 +34,7 @@ public class PhaseManager
 	private IntegerProperty infantryCardCount;
 	private IntegerProperty cavalryCardCount;
 	private IntegerProperty artilleryCardCount;
-	
+	private IntegerProperty reinforcementArmies;
 	private IntegerProperty armyCount;
 	private IntegerProperty armyLeft;
 	private IntegerProperty armyInCountry;
@@ -63,11 +64,16 @@ public class PhaseManager
 			armyLeft.set(currentPlayer.getNumberOfArmiesLeft());
 			break;
 		case REINFORCEMENT:
+			//updating the player object
+			currentPlayer=getNextPlayer();
+            playerName.set(currentPlayer.getName());
+            if(currentPlayer.getReinforcementArmies()) reinforcementArmies.set(currentPlayer.getNumberOfArmiesLeft());
 			currentPhase = GamePhase.REINFORCEMENT;
 			phaseName.set("REINFORCEMENT");
 			//TODO: bind required fields.
 			countriesOwned = FXCollections.observableArrayList(currentPlayer.getCountries());
 			armyCount.set(currentPlayer.getArmies());
+			armyLeft.set(currentPlayer.getNumberOfArmiesLeft());
 
 			cardTypeCountList = FXCollections.observableArrayList(currentPlayer.cardCount());
 			
@@ -86,6 +92,7 @@ public class PhaseManager
 			//TODO: bind required fields.
 			countriesOwned = FXCollections.observableArrayList(currentPlayer.getCountries());
 			armyCount.set(currentPlayer.getArmies());
+			//attackableCountries = FXCollections.observableArrayList(startUpPhaseObject.getEnemyList(currentPlayer, GamePhaseViewManager.sendOwnerCountry()));			
 			//armyLeft.set(0);
 			
 			//attackable countries
@@ -98,17 +105,20 @@ public class PhaseManager
 			//neighbor countries owned
 			break;
 		case END:
-			currentPhase = GamePhase.END;
-			phaseName.set("TURN ENDS");
+			//currentPhase = GamePhase.END;
+			//phaseName.set("TURN ENDS");
 			//TODO: bind required fields.
 			//Change player here !! @Charan
-			System.out.println("Update game phase");
+			//System.out.println("Update game phase");
 			currentPlayer=getNextPlayer();
-        System.out.println(currentPlayer.getName());
-			                       playerName.set(currentPlayer.getName());
-			                       updateGamePhase(GamePhase.INITIALIZATION);
+            //System.out.println(currentPlayer.getName());
+            playerName.set(currentPlayer.getName());
+            updateGamePhase(GamePhase.INITIALIZATION);
 			                       //nextPhase();
 			break;
+			
+		
+	
 		}
 	}
 	
@@ -128,6 +138,7 @@ public class PhaseManager
 		armyLeft = new SimpleIntegerProperty();
 		armyInCountry = new SimpleIntegerProperty();
 		totalCardsCount = new SimpleIntegerProperty();
+		reinforcementArmies=new SimpleIntegerProperty();
 		playerName.set("Player1");
 
 		currentPhase = GamePhase.START;
@@ -154,13 +165,10 @@ public class PhaseManager
 			for(Player playerObj: startUpPhaseObject.getPlayerList())
 			{
                    leftCount+=playerObj.getNumberOfArmiesLeft();
-
 			}
-
 			System.out.println("Printing left count "+leftCount);
 
-			if(leftCount==0) nextPhase = GamePhase.REINFORCEMENT;
-			else nextPhase = GamePhase.END;
+			if(leftCount==0)  nextPhase = GamePhase.REINFORCEMENT;
 			break;
 			
 		case REINFORCEMENT:
@@ -172,7 +180,8 @@ public class PhaseManager
 			break;
 			
 		case FORTIFICATION:
-			nextPhase = GamePhase.FORTIFICATION;
+			//updating the player object
+			nextPhase = GamePhase.REINFORCEMENT;
 			
 			break;
 			
@@ -184,6 +193,11 @@ public class PhaseManager
 		updateGamePhase(nextPhase);
 		
 	}
+	
+	public IntegerProperty getReinforcementArmies() {
+		return reinforcementArmies;
+	}
+	
 	public Player getNextPlayer()
 	{
 		return turnManager.nextPlayer(playerName.get());
@@ -219,9 +233,9 @@ public class PhaseManager
 		return neighbourCountriesOwned;
 	}
 	
-	public ObservableList<Country> attackableCountries()
+	public ObservableList<Country> attackableCountries(Country country)
 	{
-		return attackableCountries;
+		return attackableCountries=FXCollections.observableArrayList(startUpPhaseObject.getEnemyList(currentPlayer,country));
 	}
 	
 
@@ -246,7 +260,7 @@ public class PhaseManager
 		return armyInCountry;
 	}
 	
-
+	
 	public IntegerProperty infantryCardCountProperty()
 	{
 		return infantryCardCount;
@@ -295,5 +309,38 @@ public class PhaseManager
 		return currentPlayer.armiesFromCardExchange(a,i,c);
 	}
 	
+	/**
+	 * Used to call the function in Player class to get max dice rolls for attacker
+	 * @param country The attacker's country
+	 * @return max dice rolls for attacker
+	 */
+	
+	public int getMaxAttackerDice(Country country)
+	{
+		return currentPlayer.maxNoOfDiceForAttack(country);
+	}
+	
+	/**
+	 * Used to call the function in Player class to get max dice rolls for defender
+	 * @param country The defender's country
+	 * @return max dice rolls for defender
+	 */
+	public int getMaxDefenderDice(Country country)
+	{
+		return currentPlayer.maxNoOfDiceForDefence(country);
+	}
+	
+	public String attackButtonFunctionality(Country attackingCountry, Country defendingCountry, int noOfDiceForAttackingCountry,
+			int noOFDiceForDefendingCountry, String action)
+	{
+		return currentPlayer.attack(attackingCountry, defendingCountry, noOfDiceForAttackingCountry, noOFDiceForDefendingCountry, action);
+	}
+	
+	public String allOutButtonFunctionality(Country attackingCountry, Country defendingCountry, int noOfDiceForAttackingCountry,
+			int noOFDiceForDefendingCountry, String action)
+	{
+		return currentPlayer.attack(attackingCountry, defendingCountry, noOfDiceForAttackingCountry, noOFDiceForDefendingCountry, action);
+	}
+	 
 	
 }
