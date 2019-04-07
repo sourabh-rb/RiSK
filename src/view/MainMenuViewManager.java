@@ -141,6 +141,7 @@ public class MainMenuViewManager
 	private void createMenuButtons()
 	{
 		addPlayButton();
+		addTournamentButton();
 		addMapEditorButton();
 		addHelpButton();
 		addCreditsButton();
@@ -478,6 +479,29 @@ public class MainMenuViewManager
 			{
 				showSubScene(playSubScene);
 				Utilities.gameLog("Stage: Main Menu || State: PLAY selected", LogLevel.INFO);
+				
+			}
+		});
+	}
+	
+	/**
+	 * This method creates and initializes PLAY Button.
+	 * 
+	 */
+	private void addTournamentButton()
+	{
+		RiskButton tournamentButton = new RiskButton("TOURNAMENT MODE");
+		addMenuButton(tournamentButton);
+		
+		tournamentButton.setOnAction(new EventHandler<ActionEvent>()
+		{
+
+			@Override
+			public void handle(ActionEvent event)
+			{
+				TournamentModeViewManager tournamentMode = new TournamentModeViewManager();
+				tournamentMode.showTournamentView();
+				Utilities.gameLog("Stage: Main Menu || State: TOURNAMENT MODE selected", LogLevel.INFO);
 				
 			}
 		});
