@@ -508,9 +508,7 @@ public class GamePhaseViewManager
 				};
 				attackCombobox.setConverter(attackConverter);
 				attackCombobox.getSelectionModel().selectFirst();
-				
-				
-				
+								
 			}
 		});
 
