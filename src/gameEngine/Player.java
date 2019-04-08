@@ -9,7 +9,6 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import org.junit.Before;
 
-
 import constants.Constants;
 import constants.LogLevel;
 
@@ -44,31 +43,23 @@ public class Player {
 	// The continents that the player owns
 	private ArrayList<Continent> continents;
 
-	
-
-
 	ArrayList<Card> cardTypeList = new ArrayList<Card>();
 	ArrayList<Country> lostCountries = new ArrayList<Country>();
-	
+
 	ArrayList<Country> europeCountryList = new ArrayList<Country>();
 	static ArrayList<Player> playerList = new ArrayList<Player>();
 	ArrayList<Continent> continentList = new ArrayList<Continent>();
 	ArrayList<Country> countryListPlayer1 = new ArrayList<Country>();
 	ArrayList<Country> countryListPlayer2 = new ArrayList<Country>();
-	
+
 	static Country country1;
 	static Country country5;
 
-	StartUpPhase start=StartUpPhase.getInstance();
-	
+	StartUpPhase start = StartUpPhase.getInstance();
+	TurnManager turn = new TurnManager();
 
-
-	
-
-	public Player()
-	{
-			}
-
+	public Player() {
+	}
 
 	/**
 	 * This method gets the name of the player.
@@ -242,6 +233,12 @@ public class Player {
 		return randomDiceValue;
 	}
 
+	public int random(int maxNumber) {
+		ThreadLocalRandom random = ThreadLocalRandom.current();
+		int randomValue = random.nextInt(1, maxNumber);
+		return randomValue;
+	}
+
 	/**
 	 * This function decreases one army from the defeated country every time either
 	 * attacking country or defending country looses
@@ -271,8 +268,8 @@ public class Player {
 			int noOFDiceForDefendingCountry, String action) {
 
 		int noOfArmiesInDefeatedCountry = 0;
-		
-		//int noOfArmiesInAttackingCountry = 0;
+
+		// int noOfArmiesInAttackingCountry = 0;
 
 		for (int i = 0; i < noOfDiceForAttackingCountry; i++) {
 			attackingCountryDiceValues.add(randomDiceValue());
@@ -298,7 +295,7 @@ public class Player {
 			if (attackingCountryDiceValues.get(i) > defendingCountryDiceValues.get(i)) {
 
 				noOfArmiesInDefeatedCountry = decreaseOneArmy(defendingCountry);
-				System.out.println("Armies left in defending country after atatck: "+noOfArmiesInDefeatedCountry);
+				System.out.println("Armies left in defending country after atatck: " + noOfArmiesInDefeatedCountry);
 			} else if (attackingCountryDiceValues.get(i) == defendingCountryDiceValues.get(i)) {
 				noOfArmiesInDefeatedCountry = decreaseOneArmy(attackingCountry);
 			} else {
@@ -345,7 +342,8 @@ public class Player {
 
 	/**
 	 * This function takes care of attack phase of the game and it has all the
-	 * constraints and criteria
+	 * constraints and criteria In Aggressive player mode attack function gets
+	 * strongest reinforced country to attack from.
 	 * 
 	 * @param attackingCountry            attacking country object from which user
 	 *                                    wants to attack
@@ -360,12 +358,16 @@ public class Player {
 	 * @param action                      action specifies whether to perform all
 	 *                                    out operation or just one time attack
 	 */
-	public String attack(Country attackingCountry, Country defendingCountry, int noOfDiceForAttackingCountry,
+	public String attack(Country attackingCountry, Country enemyCountry, int noOfDiceForAttackingCountry,
 			int noOFDiceForDefendingCountry, String action) {
+		Country defendingCountry = enemyCountry;
 		int noOfSuccesfullAttacks = 0;
+		Country strongestCountryToAttack = null;
+		ArrayList<Country> enemyCountriesList = null;
 		System.out.println("Inside attack method");
 		String attackRes = null;
-		System.out.println("Number of countries attacker has before attacking: "+attackingCountry.getOwner().getCountries().size());
+		System.out.println("Number of countries attacker has before attacking: "
+				+ attackingCountry.getOwner().getCountries().size());
 		if (attackingCountry.getArmies() >= 2) {
 			if (action.equals("allOutWinner")) {
 				attackRes = noOfDiceOnAllOut(attackingCountry, defendingCountry);
@@ -373,27 +375,78 @@ public class Player {
 
 				attackRes = winner(attackingCountry, defendingCountry, noOfDiceForAttackingCountry,
 						noOFDiceForDefendingCountry, "attack");
+			} else if (action.equals("aggressivePlayerAttack")) {
+				strongestCountryToAttack = attackingCountry;
+				enemyCountriesList = start.getEnemyList(strongestCountryToAttack.getOwner(), strongestCountryToAttack);
+				int leastArmies = 0;
+				Country weakestCountry = null;
+				for (int i = 0; i < enemyCountriesList.size() - 1; i++) {
+					if (enemyCountriesList.get(i).getArmies() <= enemyCountriesList.get(i + 1).getArmies()) {
+						leastArmies = enemyCountriesList.get(i).getArmies();
+						weakestCountry = enemyCountriesList.get(i);
+					}
+				}
+				defendingCountry = weakestCountry;
+				System.out.println(
+						"The weakest among the enemies is " + weakestCountry.getName() + " with " + leastArmies);
+				enemyCountriesList.clear();
+				attackRes = noOfDiceOnAllOut(strongestCountryToAttack, weakestCountry);
+				System.out.println("Result after aggressive player attacks: " + attackRes);
+
+			} else if (action.equals("cheatingPlayerAttack")) {
+
+				// Code to get the current player
+				Player playerObj = turn.currentPlayer("Player1");
+				for (int i = 0; i < playerObj.getCountries().size(); i++) {
+					enemyCountriesList = start.getEnemyList(playerObj, playerObj.getCountries().get(i));
+					for (Country enemy : enemyCountriesList) {
+						enemy.setOwner(playerObj);
+						playerObj.getCountries().add(enemy);
+						// How many armies should i give to defeated countries?
+					}
+					System.out.println(
+							"Number of countries attacker has after attacking one set of enemies under one country "
+									+ playerObj.getCountries().size());
+				}
+				if (playerObj.getCountries().size() == start.getCountryList().size()) {
+
+					return "champion";// Declared as winner of the game
+				}
+				// Call fortification method for cheater
+			}
+			else if(action.equals("randomPlayerAttack")) {
+				
 			}
 
-			System.out.println("Result of attacking : "+attackRes);
+			System.out.println("Result of attacking : " + attackRes);
 			if (attackRes.equals("defeated")) {
-				defendingCountry.setOwner(attackingCountry.getOwner());// change the defeated country owner to attacked country owner
-				attackingCountry.getOwner().getCountries().add(defendingCountry); //assign the defeated country to winner
-				System.out.println("Number of countries attacker has after attacking: "+attackingCountry.getOwner().getCountries().size());
-				System.out.println("Number of total countries in the game: "+start.getCountryList().size());
-				if(attackingCountry.getOwner().getCountries().size() == start.getCountryList().size()) {
+				defendingCountry.setOwner(attackingCountry.getOwner());// change the defeated country owner to attacked
+																		// country owner
+				attackingCountry.getOwner().getCountries().add(defendingCountry); // assign the defeated country to
+																					// winner
+				System.out.println("Number of countries attacker has after attacking: "
+						+ attackingCountry.getOwner().getCountries().size());
+				System.out.println("Number of total countries in the game: " + start.getCountryList().size());
+
+				if (attackingCountry.getOwner().getCountries().size() == start.getCountryList().size()) {
+
 					return "champion";
 				}
 				// can give this player a card
-			 cardTypeList = attackingCountry.getOwner().getCardType();
+				cardTypeList = attackingCountry.getOwner().getCardType();
 
 				cardTypeList.add(Utilities.giveCard());
 				attackingCountry.getOwner().setCardType(cardTypeList);
 				cardTypeList.clear();
-				
+
 				// ASk player if wants to continue attacking
-				
+
 				System.out.println("Defeated the country");
+				if (action.equals("aggressivePlayerAttack")) {
+					System.out.println(
+							"Defeated the country in Aggressive player mode and it continues attacking untill one army is left");
+					attack(attackingCountry, null, 0, 0, "aggressivePlayerAttack");
+				}
 				return "defeated";
 				// If player do not want to continue, he must fortify
 			} else if (attackRes.equals("notDefeated")) {
@@ -402,7 +455,11 @@ public class Player {
 				return "notdefeated";
 			} else if (attackRes.equals("onlyOneArmy")) {
 				System.out.println("Only one army left in the attacking country So, cannot attack");
-				// ASk player if wants to continue attacking with another country
+				// ASk player if wants to continue attacking with another country - Single game
+				// mode
+				if (action.equals("aggressivePlayerAttack")) {
+					// call fortification phase of aggressive player
+				}
 				return "onlyOneArmy";
 			}
 		} else
@@ -435,11 +492,13 @@ public class Player {
 			maxNoOfDiceForDefending = 2;
 		} else
 			maxNoOfDiceForDefending = 1;
-		return Integer.toString(maxNoOfDiceForAttacking)+" "+Integer.toString(maxNoOfDiceForDefending);//Concating 2 dice values
+		return Integer.toString(maxNoOfDiceForAttacking) + " " + Integer.toString(maxNoOfDiceForDefending);// Concating
+																											// 2 dice
+																											// values
 	}
-	
+
 	/**
-	 * This function gives maximum number of dice for particular attacking  country
+	 * This function gives maximum number of dice for particular attacking country
 	 * 
 	 * @param attackingCountry attacking country object is sent from the user
 	 * 
@@ -447,7 +506,7 @@ public class Player {
 	 */
 	public int maxNoOfDiceForAttack(Country attackingCountry) {
 		int maxNoOfDiceForAttacking = 0;
-		
+
 		if (attackingCountry.getArmies() > 1) {
 			if (attackingCountry.getArmies() > 3) {
 				maxNoOfDiceForAttacking = 3;
@@ -457,16 +516,15 @@ public class Player {
 		}
 		return maxNoOfDiceForAttacking;
 	}
-	
+
 	/**
-	 * This function gives maximum number of dice for particular
-	 * defending country
+	 * This function gives maximum number of dice for particular defending country
 	 * 
 	 * @param defendingCountry defending country object is sent from the user
 	 * @return provides max number of dice for defender
 	 */
 	public int maxNoOfDiceForDefence(Country defendingCountry) {
-		
+
 		int maxNoOfDiceForDefending = 0;
 		if (defendingCountry.getArmies() > 1) {
 			maxNoOfDiceForDefending = 2;
@@ -497,7 +555,7 @@ public class Player {
 				|| (infantryCount == 3 && artilleryCount == 0 && cavalryCount == 0)
 				|| (cavalryCount == 3 && infantryCount == 0 && artilleryCount == 0))
 				|| (artilleryCount == 1 && infantryCount == 1 && cavalryCount == 1)) {
-			
+
 //			ArrayList<Card> testList = new ArrayList();
 //	        Card testCard1=new Card();
 //	        Card testCard2=new Card();
@@ -528,7 +586,7 @@ public class Player {
 				}
 			}
 			Arrays.sort(indexes);
-			
+
 			for (int i = 2; i >= 0; i--) {
 				playerCards.remove(indexes[i]);
 			}
@@ -552,12 +610,12 @@ public class Player {
 					j++;
 				}
 			}
-			
+
 			Arrays.sort(indexes);
-			for (int i = 2; i >=0; i--) {
-				
+			for (int i = 2; i >= 0; i--) {
+
 				playerCards.remove(indexes[i]);
-				
+
 			}
 			result = true;
 		}
@@ -582,7 +640,7 @@ public class Player {
 				}
 			}
 			Arrays.sort(indexes);
-			for (int i = 2; i >=0; i--) {
+			for (int i = 2; i >= 0; i--) {
 				playerCards.remove(indexes[i]);
 			}
 			result = true;
@@ -611,7 +669,7 @@ public class Player {
 			return 0;
 		}
 	}
-	
+
 	/**
 	 * This method gives the count of each type of card that the player has.
 	 * 
@@ -621,24 +679,23 @@ public class Player {
 	 */
 	public ArrayList<Integer> cardCount() {
 
-		
 //		cardCount.add(1);
 //		cardCount.add(1);
 //		cardCount.add(3);
-		
+
 		ArrayList<Card> testList = new ArrayList();
-        Card testCard1=new Card();
-        Card testCard2=new Card();
-        Card testCard3=new Card();
-        testCard1.setType(Constants.ARTILLERY);
-        testCard2.setType(Constants.CAVALRY);
-        testCard3.setType(Constants.INFANTRY);
-        testList.add(testCard1);
-        testList.add(testCard1);
-        testList.add(testCard1);
-        testList.add(testCard2);
-        testList.add(testCard3);
-        this.setCardType(testList);
+		Card testCard1 = new Card();
+		Card testCard2 = new Card();
+		Card testCard3 = new Card();
+		testCard1.setType(Constants.ARTILLERY);
+		testCard2.setType(Constants.CAVALRY);
+		testCard3.setType(Constants.INFANTRY);
+		testList.add(testCard1);
+		testList.add(testCard1);
+		testList.add(testCard1);
+		testList.add(testCard2);
+		testList.add(testCard3);
+		this.setCardType(testList);
 //		if (this.getCardType() != null && this.getCardType().size() != 0) {
 //			cards = this.getCardType();
 //		} else {
@@ -655,13 +712,11 @@ public class Player {
 		int cavalryCount = 0;
 		int infantryCount = 0;
 		ArrayList<Integer> cardCount = new ArrayList<Integer>();
-		
-		if(this.cards != null && this.cards.size() != 0)
-		{
+
+		if (this.cards != null && this.cards.size() != 0) {
 			System.out.println(this.cards);
-			
-			for (Card card : this.cards)
-			{
+
+			for (Card card : this.cards) {
 				if (card.getType().equals(Constants.ARTILLERY)) {
 					artilleryCount++;
 				} else if (card.getType().equals(Constants.INFANTRY)) {
@@ -670,27 +725,24 @@ public class Player {
 					cavalryCount++;
 				}
 			}
-			
+
 		}
 
 		cardCount.add(artilleryCount);
 		cardCount.add(infantryCount);
 		cardCount.add(cavalryCount);
-			
-			return cardCount;
-		
-			
-		
+
+		return cardCount;
+
 	}
-	
+
 	/**
 	 * This method returns the number of armies that the player will get in the
 	 * reinforcement phase of the game. The player gets (Number of countries
 	 * owned/3) armies if he does not own any continent, otherwise he gets the sum
 	 * all control values of the continents owned by him.
 	 * 
-	 * @param player
-	 *            Contains all the details of the player.
+	 * @param player Contains all the details of the player.
 	 * @return The number of armies that the player will get for reinforcement.
 	 */
 	public boolean getReinforcementArmies() {
@@ -720,17 +772,15 @@ public class Player {
 					+ " || Stage: Reinforcement Armies || Cannot give armies to reinforce!! ", LogLevel.ERROR);
 			return false;
 		}
-  }
+	}
 
 	/**
 	 * This method is used to make changes in the number of armies in a country when
 	 * the player is in the reinforcement stage.
 	 * 
-	 * @param player
-	 *            Contains all the details of the player.
-	 * @param country
-	 *            Contains all the details of the country that the player chooses to
-	 *            reinforce.
+	 * @param player  Contains all the details of the player.
+	 * @param country Contains all the details of the country that the player
+	 *                chooses to reinforce.
 	 * @return returns true if the number of armies is successfully updated else
 	 *         false.
 	 */
@@ -756,55 +806,59 @@ public class Player {
 			return false;
 		}
 	}
-	
+
 	/**
-	 * This method is used to perform the fortification stage in the game. In this stage the user can move an army from one
-	 * country that he owns to another if they are connected.
-	 *   
-	 * @param player Contains the details of the player.
+	 * This method is used to perform the fortification stage in the game. In this
+	 * stage the user can move an army from one country that he owns to another if
+	 * they are connected.
+	 * 
+	 * @param player      Contains the details of the player.
 	 * @param fromCountry The country from which the army will be moved.
-	 * @param toCountry Thecountry to which the army will be moved.
+	 * @param toCountry   Thecountry to which the army will be moved.
 	 * @return true if the fortification was successful, else false.
 	 */
-	public boolean fortifyArmies(Country fromCountry,Country toCountry, int armies) {
-		
-		Utilities.gameLog("Player: "+this.getName()+"|| Stage: Fortification || Countries involved: "+fromCountry.getName()+","+toCountry.getName(),LogLevel.INFO);
+	public boolean fortifyArmies(Country fromCountry, Country toCountry, int armies) {
+
+		Utilities.gameLog("Player: " + this.getName() + "|| Stage: Fortification || Countries involved: "
+				+ fromCountry.getName() + "," + toCountry.getName(), LogLevel.INFO);
 		ArrayList<Country> playerCountries = this.getCountries();
-		if(playerCountries != null && playerCountries.contains(fromCountry) && playerCountries.contains(toCountry) && armies>0) {
-			//Update the number for armies in the fortifying country.
+		if (playerCountries != null && playerCountries.contains(fromCountry) && playerCountries.contains(toCountry)
+				&& armies > 0) {
+			// Update the number for armies in the fortifying country.
 			int i = playerCountries.indexOf(fromCountry);
 			Country country1 = playerCountries.get(i);
-			country1.setArmies(country1.getArmies()-armies);
+			country1.setArmies(country1.getArmies() - armies);
 			playerCountries.remove(i);
 			playerCountries.add(country1);
-			//Update the number for armies in the fortified country.
+			// Update the number for armies in the fortified country.
 			int j = playerCountries.indexOf(toCountry);
 			Country country2 = playerCountries.get(j);
-			country2.setArmies(country2.getArmies()+armies);
+			country2.setArmies(country2.getArmies() + armies);
 			playerCountries.remove(j);
 			playerCountries.add(country2);
 			this.setCountries(playerCountries);
-			Utilities.gameLog("Player: "+this.getName()+"|| Countries fortified!! || "
-					+ country1.getName() +" : "+country1.getArmies()+" || "+ country2.getName() +" : "+country2.getArmies(),LogLevel.INFO);
+			Utilities.gameLog(
+					"Player: " + this.getName() + "|| Countries fortified!! || " + country1.getName() + " : "
+							+ country1.getArmies() + " || " + country2.getName() + " : " + country2.getArmies(),
+					LogLevel.INFO);
 			return true;
 		}
-		Utilities.gameLog("Player: "+this.getName()+"|| Countries could not be fortified",LogLevel.WARN);
+		Utilities.gameLog("Player: " + this.getName() + "|| Countries could not be fortified", LogLevel.WARN);
 		return false;
 	}
+
 	public static void main(String[] args) {
 		Player play = new Player();
-		//play.set();
+		// play.set();
 
 		StartUpPhase start = StartUpPhase.getInstance();
-
 
 		System.out.println("Attacking country armies: " + playerList.get(0).getCountries().get(0).getName() + " "
 				+ playerList.get(0).getCountries().get(0).getArmies());
 		System.out.println("Defending country armies: " + playerList.get(1).getCountries().get(0).getName() + " "
 				+ playerList.get(1).getCountries().get(0).getArmies());
-		play.attack(playerList.get(0).getCountries().get(0), playerList.get(1).getCountries().get(0), 1, 1, "allOutWinner");
+		play.attack(playerList.get(0).getCountries().get(0), playerList.get(1).getCountries().get(0), 1, 1,
+				"allOutWinner");
 	}
-	
-	
 
 }
