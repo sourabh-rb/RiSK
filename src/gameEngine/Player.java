@@ -411,7 +411,7 @@ public class Player {
 		} else
 			System.out.println("cannot attack because there should be atleast 2 armies in the attacking country");
 		// ASk player if wants to continue attacking with another country
-		return "Cannot attack."+"\n"+"Attacking country must have atleast"+"\n"+"2 countries to attack";
+		return "Cannot attack. Attacking country must have atleast 2 countries to attack";
 
 	}
 
@@ -630,7 +630,7 @@ public class Player {
 //		cardCount.add(3);
 		
 		ArrayList<Card> testList = new ArrayList();
-        Card testCard1=new Card();
+    /*    Card testCard1=new Card();
         Card testCard2=new Card();
         Card testCard3=new Card();
         testCard1.setType(Constants.ARTILLERY);
@@ -641,7 +641,7 @@ public class Player {
         testList.add(testCard1);
         testList.add(testCard2);
         testList.add(testCard3);
-        this.setCardType(testList);
+        this.setCardType(testList);*/
 //		if (this.getCardType() != null && this.getCardType().size() != 0) {
 //			cards = this.getCardType();
 //		} else {
@@ -708,6 +708,7 @@ public class Player {
 				for (int i = 0; i < this.getContinents().size(); i++) {
 					controlValue = this.getContinents().get(i).getControlValue();
 					armies = armies + controlValue;
+					System.out.println("Control value sum+ :"+armies+"---"+i);
 				}
 			} else {
 				armies = this.getCountries().size() / 3;
@@ -753,10 +754,11 @@ public class Player {
 			countries.add(country1);
 			this.setCountries(countries);
 			this.setNumberOfArmiesLeft(this.getNumberOfArmiesLeft() - armies);
-			Utilities.gameLog("Player: " + this.getName() + "|| Country reinforced!!", LogLevel.INFO);
+			Utilities.gameLog("Player: " + this.getName() + "|| Country reinforced for human!!", LogLevel.INFO);
 		}
 		}else if(Constants.AGGRESSIVE.equals(mode)) {
 			ArrayList<Integer> cards=this.cardCount();
+			System.out.println(this.getCardType());
 			int armiesForReinforcement=0; 
 			int maxArmies=0; 
 			int index=0;
@@ -775,17 +777,22 @@ public class Player {
 					this.getReinforcementArmies();
 					armiesForReinforcement=this.getNumberOfArmiesLeft();
 				}
+			
 			for(int i=0; i<countries.size();i++) {
 				if(maxArmies<countries.get(i).getArmies()) {
+					
 				maxArmies= countries.get(i).getArmies();
 				countryToReinforce=countries.get(i);
 				index=i;
 				}
 			}
+			System.out.println("Before reinforcement Aggressive : "+countryToReinforce.getArmies());
 			countries.remove(countryToReinforce);
 			countryToReinforce.setArmies(countryToReinforce.getArmies()+armiesForReinforcement);
 			countries.add(countryToReinforce);
 			this.setCountries(countries);
+			System.out.println("After reinforcement Aggressive : "+countryToReinforce+"--"+countryToReinforce.getArmies());
+			Utilities.gameLog("Player: " + this.getName() + "|| Country reinforced for aggressive!!: "+countryToReinforce.getName(), LogLevel.INFO);
 			//this.attack(attackingCountry, defendingCountry, noOfDiceForAttackingCountry, noOFDiceForDefendingCountry, action);
 		}else if(Constants.BENEVOLENT.equals(mode)) {
 			ArrayList<Integer> cards=this.cardCount();
@@ -819,6 +826,8 @@ public class Player {
 			countryToReinforce.setArmies(countryToReinforce.getArmies()+armiesForReinforcement);
 			countries.add(countryToReinforce);
 			this.setCountries(countries);
+			Utilities.gameLog("Player: " + this.getName() + "|| Country reinforced for benevolent!!: "+countryToReinforce.getName(), LogLevel.INFO);
+			
 			//this.fortifyArmies(fromCountry, toCountry, minArmies);
 		}else if(Constants.RANDOM.equals(mode)) {
 			ArrayList<Integer> cards=this.cardCount();
@@ -843,19 +852,22 @@ public class Player {
 				countries.remove(countryToReinforce);
 				countryToReinforce.setArmies(countryToReinforce.getArmies()+armiesForReinforcement);
 				countries.add(countryToReinforce);
+				Utilities.gameLog("Player: " + this.getName() + "|| Country reinforced for Random!!: "+countryToReinforce.getName(), LogLevel.INFO);
+				
 				//this.attack(attackingCountry, defendingCountry, noOfDiceForAttackingCountry, noOFDiceForDefendingCountry, action);
 			
 		}else if(Constants.CHEATER.equals(mode)) {
 			for(int i=0; i<countries.size();i++) {
 				int prevArmies=countries.get(i).getArmies();
 				countries.get(i).setArmies(prevArmies*2);
+				Utilities.gameLog("Player: " + this.getName() + "|| Country reinforced for cheater!!: "+countries.get(i).getName(), LogLevel.INFO);
 			}
 		}	else {
 			Utilities.gameLog("Player: " + this.getName() + "|| Country could not be reinforced!!", LogLevel.WARN);
 			return false;
 		}
 	}
-		return false;
+		return true;
 	}
 	/**
 	 * This method is used to perform the fortification stage in the game. In this stage the user can move an army from one
