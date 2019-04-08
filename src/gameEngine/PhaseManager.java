@@ -193,7 +193,10 @@ public class PhaseManager
 		updateGamePhase(nextPhase);
 		
 	}
-	
+	public void setReinforcementArmies()
+	{
+		reinforcementArmies.set(currentPlayer.getNumberOfArmiesLeft());
+	}
 	public IntegerProperty getReinforcementArmies() {
 		return reinforcementArmies;
 	}

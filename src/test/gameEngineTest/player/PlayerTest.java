@@ -197,7 +197,7 @@ public class PlayerTest {
 		player1.setContinents(continents);
 		int armies = 2;
 		// To test if the reinforceArmies() method returns correct number of armies.
-		assertTrue(player1.reinforceArmies(country1, armies));
+		assertTrue(player1.reinforceArmies(country1, armies,Constants.HUMAN));
 	}
 
 	/**
