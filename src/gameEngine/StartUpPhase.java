@@ -8,6 +8,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.concurrent.ThreadLocalRandom;
 
+import constants.Constants;
 import constants.LogLevel;
 import gameEngine.Continent;
 import gameEngine.Country;
@@ -267,7 +268,7 @@ public class StartUpPhase implements Serializable {
 					"Total number of armies assigned to " + playerList.get(j).getName() + " is " + numberOfArmiesEach,
 					LogLevel.INFO);
 
-			if (playerList.get(j).getStrategies().equals("human")) {
+			if (playerList.get(j).getStrategies().equals(Constants.HUMAN)) {
 				for (int k = 0; k < playerList.get(j).getCountries().size(); k++) {
 					playerList.get(j).getCountries().get(k).setArmies(1);
 					System.out.println("1 army given to " + playerList.get(j).getCountries().get(k).getName());

@@ -14,9 +14,17 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Logger;
+
+import com.mxgraph.swing.util.mxGraphActions.UpdateGroupBoundsAction;
+
+import constants.Constants;
 import constants.LogLevel;
 import gameEngine.StartUpPhase;
 import gameEngine.ValidateGraph;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -76,6 +84,14 @@ public class MainMenuViewManager
 	private RiskSubScene sceneToHide;
 	
 	List<RiskButton> menuButtons;
+	ArrayList<String> strategyList;
+	
+	ComboBox<String> playerCombobox1;
+	ComboBox<String> playerCombobox2;
+	ComboBox<String> playerCombobox3;
+	ComboBox<String> playerCombobox4;
+	ComboBox<String> playerCombobox5;
+	ComboBox<String> playerCombobox6;
 	
 	
 	
@@ -94,6 +110,8 @@ public class MainMenuViewManager
 		mainStage.initStyle(StageStyle.UNDECORATED);
 		
 		menuButtons = new ArrayList<RiskButton>();
+		
+		strategyList = new ArrayList<String>();
 		
 		createBackground();
 		createMenuButtons();
@@ -206,9 +224,89 @@ public class MainMenuViewManager
 		
 		ComboBox<Integer> playerCount = new ComboBox<>();
 		playerCount.getItems().addAll(3, 4, 5, 6);
+		
+		ObservableList<String> playerOptions = 
+				FXCollections.observableArrayList(
+						"null",
+						Constants.HUMAN,
+						Constants.AGGRESSIVE,
+						Constants.BENEVOLENT,
+						Constants.RANDOM,
+						Constants.CHEATER
+						);
+		int xCord = 420;
+		int yCord = 100;
+
+
+
+		RiskLabel playerLabel1 = new RiskLabel("P1");
+		playerCombobox1 = new ComboBox<String>();
+		playerCombobox1.setItems(playerOptions);
+		playerCombobox1.getSelectionModel().selectFirst();
+		HBox playerBox1 = new HBox(5, playerLabel1, playerCombobox1);
+		playerBox1.setLayoutX(xCord);
+		playerBox1.setLayoutY(yCord);
+		yCord += 50;
+		playSubScene.getPane().getChildren().add(playerBox1);
+
+		RiskLabel playerLabel2 = new RiskLabel("P2");
+		playerCombobox2 = new ComboBox<String>();
+		playerCombobox2.setItems(playerOptions);
+		playerCombobox2.getSelectionModel().selectFirst();
+		HBox playerBox2 = new HBox(5, playerLabel2, playerCombobox2);
+		playerBox2.setLayoutX(xCord);
+		playerBox2.setLayoutY(yCord);
+		yCord += 50;
+		playSubScene.getPane().getChildren().add(playerBox2);
+
+		RiskLabel playerLabel3 = new RiskLabel("P3");
+		playerCombobox3 = new ComboBox<String>();
+		playerCombobox3.setItems(playerOptions);
+		playerCombobox3.getSelectionModel().selectFirst();
+		HBox playerBox3 = new HBox(5, playerLabel3, playerCombobox3);
+		playerBox3.setLayoutX(xCord);
+		playerBox3.setLayoutY(yCord);
+		yCord += 50;
+		playSubScene.getPane().getChildren().add(playerBox3);
+
+
+		RiskLabel playerLabel4 = new RiskLabel("P4");
+		playerCombobox4 = new ComboBox<String>();
+		playerCombobox4.setItems(playerOptions);
+		playerCombobox4.getSelectionModel().selectFirst();
+		HBox playerBox4 = new HBox(5, playerLabel4, playerCombobox4);
+		playerBox4.setLayoutX(xCord);
+		playerBox4.setLayoutY(yCord);
+		yCord += 50;
+		playSubScene.getPane().getChildren().add(playerBox4);
+
+		RiskLabel playerLabel5 = new RiskLabel("P5");
+		playerCombobox5 = new ComboBox<String>();
+		playerCombobox5.setItems(playerOptions);
+		playerCombobox5.getSelectionModel().selectFirst();
+		HBox playerBox5 = new HBox(5, playerLabel5, playerCombobox5);
+		playerBox5.setLayoutX(xCord);
+		playerBox5.setLayoutY(yCord);
+		yCord += 50;
+		playSubScene.getPane().getChildren().add(playerBox5);
+
+		RiskLabel playerLabel6 = new RiskLabel("P6");
+		playerCombobox6 = new ComboBox<String>();
+		playerCombobox6.setItems(playerOptions);
+		playerCombobox6.getSelectionModel().selectFirst();
+		HBox playerBox6 = new HBox(5, playerLabel6, playerCombobox6);
+		playerBox6.setLayoutX(xCord);
+		playerBox6.setLayoutY(yCord);
+		yCord += 50;
+		playSubScene.getPane().getChildren().add(playerBox6);
+
+			
+		
+		
 		playerCount.getSelectionModel().select(0);
 		playerCount.setLayoutX(350);
 		playerCount.setLayoutY(155);
+		
 		
 		RiskLabel mapLabel = new RiskLabel("Choose map:");
 		mapLabel.setLayoutX(10);
@@ -219,7 +317,7 @@ public class MainMenuViewManager
 		mapButton.setLayoutY(220);
 		
 		RiskButton startButton = new RiskButton("START");
-		startButton.setLayoutX(350);
+		startButton.setLayoutX(150);
 		startButton.setLayoutY(300);
 		startButton.setDisable(true);
 		//Map Button Handler
@@ -283,8 +381,17 @@ public class MainMenuViewManager
 	                			alertDialog.setContentText("Map Valid! Click START to play game.");
 	                			alertDialog.showAndWait();
 	                			
+	                			addPlayerComboBoxData(1);
+	                			addPlayerComboBoxData(2);
+	                			addPlayerComboBoxData(3);
+	                			addPlayerComboBoxData(4);
+	                			addPlayerComboBoxData(5);
+	                			addPlayerComboBoxData(6);
+	                			System.out.println(strategyList);
+	                			
 	                			StartUpPhase startPhase = StartUpPhase.getInstance();
-	                			startPhase.mappingElements(continentHashMap, territoryHashMap, players);
+	                			
+	                			startPhase.mappingElements(continentHashMap, territoryHashMap, players, strategyList);
 	                			startButton.setDisable(false);
 	                			
 	                			Utilities.gameLog("Stage: PLAY|| File Valid: " + file.getName(), LogLevel.INFO);
@@ -322,6 +429,8 @@ public class MainMenuViewManager
 			{
 				//Initiate start up sequence
 				//Load main game screen
+				
+				
 				mainStage.hide();
 				GamePhaseViewManager gamePhase = new GamePhaseViewManager();
 				gamePhase.showView();
@@ -659,6 +768,50 @@ public class MainMenuViewManager
 		});
 	}
 	
+	
+	private void addPlayerComboBoxData(int val)
+	{
+		switch(val)
+		{
+		case 1:
+			if(playerCombobox1.getSelectionModel().getSelectedItem()!= "null")
+			{
+				
+				strategyList.add(playerCombobox1.getSelectionModel().getSelectedItem());
+			}
+			break;
+		case 2:
+			if(playerCombobox2.getSelectionModel().getSelectedItem()!= "null")
+			{
+				strategyList.add(playerCombobox2.getSelectionModel().getSelectedItem());
+			}
+			break;
+		case 3:
+			if(playerCombobox3.getSelectionModel().getSelectedItem()!= "null")
+			{
+				strategyList.add(playerCombobox3.getSelectionModel().getSelectedItem());
+			}
+			break;
+		case 4:
+			if(playerCombobox4.getSelectionModel().getSelectedItem()!= "null")
+			{
+				strategyList.add(playerCombobox4.getSelectionModel().getSelectedItem());
+			}
+			break;
+		case 5:
+			if(playerCombobox5.getSelectionModel().getSelectedItem()!= "null")
+			{
+				strategyList.add(playerCombobox5.getSelectionModel().getSelectedItem());
+			}
+			break;
+		case 6:
+			if(playerCombobox6.getSelectionModel().getSelectedItem()!= "null")
+			{
+				strategyList.add(playerCombobox6.getSelectionModel().getSelectedItem());
+			}
+			break;
+		}
+	}
 	
 	/**
 	 * This method is used to show only the current chosen sub-scene.

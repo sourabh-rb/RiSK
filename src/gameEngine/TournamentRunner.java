@@ -61,7 +61,7 @@ public class TournamentRunner {
 			continentHashMap = (HashMap<String,Integer>)mapValidation.get(1);
 			territoryHashMap = (HashMap<String,ArrayList<String>>)mapValidation.get(2);
 			StartUpPhase startPhase = StartUpPhase.getInstance();
-			startPhase.mappingElements(continentHashMap, territoryHashMap, noOfPlayers);
+			//startPhase.mappingElements(continentHashMap, territoryHashMap, noOfPlayers);
 			return startPhase;
 			
 		}
