@@ -415,7 +415,21 @@ public class Player {
 				// Call fortification method for cheater
 			}
 			else if(action.equals("randomPlayerAttack")) {
+				Player playerObj = turn.currentPlayer("Player1");
+				int noOfPlayerCountries = playerObj.getCountries().size();
+				int randomCountryIndex= random(noOfPlayerCountries);
+				Country randomCountryForAttacking=playerObj.getCountries().get(randomCountryIndex);
+				enemyCountriesList = start.getEnemyList(playerObj, randomCountryForAttacking);
+				int noOfEnemyCountries = enemyCountriesList.size();
+				int randomDefendingCountryIndex= random(noOfEnemyCountries);
+				Country randomCountryForDefending = enemyCountriesList.get(randomDefendingCountryIndex);
+				int attackRandomTimes = random(noOfEnemyCountries);
+				attackRes = noOfDiceOnAllOut(randomCountryForAttacking, randomCountryForDefending);
 				
+				
+			}
+			else if(action.equals("benevolentPlayerAttack")) {
+				// Call fortification method for benevolent player
 			}
 
 			System.out.println("Result of attacking : " + attackRes);
@@ -447,6 +461,9 @@ public class Player {
 							"Defeated the country in Aggressive player mode and it continues attacking untill one army is left");
 					attack(attackingCountry, null, 0, 0, "aggressivePlayerAttack");
 				}
+				else if(action.equals("randomPlayerAttack")) {
+					
+				}
 				return "defeated";
 				// If player do not want to continue, he must fortify
 			} else if (attackRes.equals("notDefeated")) {
@@ -455,10 +472,13 @@ public class Player {
 				return "notdefeated";
 			} else if (attackRes.equals("onlyOneArmy")) {
 				System.out.println("Only one army left in the attacking country So, cannot attack");
-				// ASk player if wants to continue attacking with another country - Single game
+				// ASk player if wants to continue attacking with another country - Single game mode
 				// mode
 				if (action.equals("aggressivePlayerAttack")) {
 					// call fortification phase of aggressive player
+				}
+				else if(action.equals("randomPlayerAttack")){
+					// call fortification phase of random player
 				}
 				return "onlyOneArmy";
 			}
