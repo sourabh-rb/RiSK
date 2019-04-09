@@ -256,7 +256,7 @@ public class Player implements Serializable{
 
 	public int random(int maxNumber) {
 		ThreadLocalRandom random = ThreadLocalRandom.current();
-		int randomValue = random.nextInt(1, maxNumber);
+		int randomValue = random.nextInt(0, maxNumber);
 		return randomValue;
 	}
 
