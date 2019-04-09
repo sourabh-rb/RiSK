@@ -44,6 +44,25 @@ public class Player implements Serializable{
 	private ArrayList<Country> countries = new ArrayList<Country>();
 	// The continents that the player owns
 	private ArrayList<Continent> continents;
+	public String getStrategies() {
+		return strategies;
+	}
+
+	public void setStrategies(String strategies) {
+		this.strategies = strategies;
+	}
+
+	private String strategies;
+
+	
+
+	public static ArrayList<Player> getPlayerList() {
+		return playerList;
+	}
+
+	public static void setPlayerList(ArrayList<Player> playerList) {
+		Player.playerList = playerList;
+	}
 
 	ArrayList<Card> cardTypeList = new ArrayList<Card>();
 	ArrayList<Country> lostCountries = new ArrayList<Country>();
@@ -414,6 +433,7 @@ public class Player implements Serializable{
 
 					return "champion";// Declared as winner of the game
 				}
+				fortifyArmies(null,null, 0,"cheater");
 				// Call fortification method for cheater
 			}
 			else if(action.equals("randomPlayerAttack")) {
@@ -432,6 +452,7 @@ public class Player implements Serializable{
 			}
 			else if(action.equals("benevolentPlayerAttack")) {
 				// Call fortification method for benevolent player
+				fortifyArmies(null,null, 0,"benevolent");
 			}
 
 			System.out.println("Result of attacking : " + attackRes);
@@ -455,6 +476,9 @@ public class Player implements Serializable{
 				cardTypeList.add(Utilities.giveCard());
 				attackingCountry.getOwner().setCardType(cardTypeList);
 				cardTypeList.clear();
+				
+				
+				
 
 				// ASk player if wants to continue attacking
 
@@ -482,9 +506,11 @@ public class Player implements Serializable{
 				// mode
 				if (action.equals("aggressivePlayerAttack")) {
 					// call fortification phase of aggressive player
+					fortifyArmies(null,null, 0,"aggressive");
 				}
 				else if(action.equals("randomPlayerAttack")){
 					// call fortification phase of random player
+					fortifyArmies(null,null, 0,"random");
 				}
 				return "Only one army left"+"\n"+"in the attacking country."+"\n"+"Attack not possible";
 
@@ -865,7 +891,9 @@ public class Player implements Serializable{
 			this.setCountries(countries);
 			System.out.println("After reinforcement Aggressive : "+countryToReinforce+"--"+countryToReinforce.getArmies());
 			Utilities.gameLog("Player: " + this.getName() + "|| Country reinforced for aggressive!!: "+countryToReinforce.getName(), LogLevel.INFO);
-			//this.attack(attackingCountry, defendingCountry, noOfDiceForAttackingCountry, noOFDiceForDefendingCountry, action);
+			
+			this.attack(countryToReinforce, null, 0, 0, "aggressivePlayerAttack");
+			
 		}else if(Constants.BENEVOLENT.equals(mode)) {
 			ArrayList<Integer> cards=this.cardCount();
 			int armiesForReinforcement=0; 
@@ -898,7 +926,7 @@ public class Player implements Serializable{
 			countries.add(countryToReinforce);
 			this.setCountries(countries);
 			Utilities.gameLog("Player: " + this.getName() + "|| Country reinforced for benevolent!!: "+countryToReinforce.getName(), LogLevel.INFO);
-			
+			this.attack(null, null, 0, 0, "benevolentPlayerAttack");
 			//this.fortifyArmies(fromCountry, toCountry, minArmies);
 		}else if(Constants.RANDOM.equals(mode)) {
 			ArrayList<Integer> cards=this.cardCount();
@@ -924,7 +952,7 @@ public class Player implements Serializable{
 				countryToReinforce.setArmies(countryToReinforce.getArmies()+armiesForReinforcement);
 				countries.add(countryToReinforce);
 				Utilities.gameLog("Player: " + this.getName() + "|| Country reinforced for Random!!: "+countryToReinforce.getName(), LogLevel.INFO);
-				//this.attack(attackingCountry, defendingCountry, noOfDiceForAttackingCountry, noOFDiceForDefendingCountry, action);
+				this.attack(null, null, 0, 0, "randomPlayerAttack");
 			
 		}else if(Constants.CHEATER.equals(mode)) {
 			for(int i=0; i<countries.size();i++) {
@@ -932,6 +960,7 @@ public class Player implements Serializable{
 				countries.get(i).setArmies(prevArmies*2);
 				Utilities.gameLog("Player: " + this.getName() + "|| Country reinforced for cheater!!: "+countries.get(i).getName(), LogLevel.INFO);
 			}
+			this.attack(null, null, 0, 0, "cheaterPlayerAttack");
 		}	else {
 			Utilities.gameLog("Player: " + this.getName() + "|| Country could not be reinforced!!", LogLevel.WARN);
 			return false;
