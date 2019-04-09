@@ -2,6 +2,7 @@
 
 package gameEngine;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -23,7 +24,10 @@ import utilities.Utilities;
  * @author Aravind Reddy
  *
  */
-public class StartUpPhase {
+public class StartUpPhase implements Serializable{
+	
+	private static final long serialVersionUID = 1L;
+	
 	private int noOfPlayers;
 	private ArrayList<Continent> continentList = new ArrayList<Continent>();
 	private ArrayList<Country> neighborCountries = new ArrayList<Country>();
@@ -223,7 +227,7 @@ public class StartUpPhase {
 			ArrayList<Country> countryList) {
 		noOfPlayers = noOfPlayers(playerList);
 		System.out.println("Number of players " + noOfPlayers);
-		Utilities.gameLog("Total number of Players playing the game " + noOfPlayers, LogLevel.INFO);
+		Utilities.gameLog("Total number of players playing the game " + noOfPlayers, LogLevel.INFO);
 		int numberOfArmiesEach = 0;
 		int noOfTotalCountries = 0;
 		ArrayList<Country> listOfAllCountries = new ArrayList<Country>();

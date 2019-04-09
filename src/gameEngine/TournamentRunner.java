@@ -1,6 +1,7 @@
 package gameEngine;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -11,8 +12,8 @@ import java.util.List;
 
 public class TournamentRunner {
 	
-	ArrayList<String> Maps=null;
-	ArrayList<String> Players=null;
+	ArrayList<File> maps=null;
+	ArrayList<String> playerStrategy=null;
 	int gamesToPlay;
 	int noOfTurns;
 	int noOfPlayers;
@@ -20,13 +21,13 @@ public class TournamentRunner {
 	static PhaseManager currentPlayerPhase;
 	HashMap<String,String> gameResults;
 	
-	public TournamentRunner(ArrayList<String> maps,ArrayList<String> players,int gamesToPlay,int noOfTurns)
+	public TournamentRunner(ArrayList<File> maps,ArrayList<String> players,int gamesToPlay,int noOfTurns)
 	{
-		this.Maps=maps;
-		this.Players=players;
+		this.maps=maps;
+		this.playerStrategy=players;
 		this.gamesToPlay=gamesToPlay;
 		this.noOfTurns=noOfTurns;
-		this.noOfPlayers= 5-Collections.frequency(Players, "null");
+		this.noOfPlayers= 5-Collections.frequency(players, "null");
 		
 		this.gameResults=new HashMap<String,String>();
 		
@@ -36,13 +37,13 @@ public class TournamentRunner {
 	
 	
 	@SuppressWarnings("unchecked")
-	public StartUpPhase mapDataLoader(String file) throws IOException
+	public StartUpPhase mapDataLoader(File map) throws IOException
 	{
 		String line;
 		String fileContents = "";
 		List<Object> mapValidation;
 		String errorMessage;
-		try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+		try (BufferedReader reader = new BufferedReader(new FileReader(map))) {
 
 			while ((line = reader.readLine()) != null)
 				fileContents = fileContents + line + "\n";
@@ -72,14 +73,18 @@ public class TournamentRunner {
 	{
 		
 		
-		for(String map:Maps)
+		for(File map:maps)
 		{
-			currentStartUpPhase=mapDataLoader(map);
-			currentPlayerPhase = new PhaseManager(currentStartUpPhase);
-			for(int gameNo=0;gameNo<gamesToPlay;gameNo++)
+			
+			if(map != null)
 			{
-				gameResults.put(map,playGame());
+				currentStartUpPhase=mapDataLoader(map);
+				for(int gameNo=0;gameNo<gamesToPlay;gameNo++)
+				{
+					gameResults.put(map.getName(),playGame());
+				}
 			}
+			
 			
 			
 		}
@@ -101,14 +106,12 @@ public class TournamentRunner {
 		
 	}
 	
-	public String playGame() {
-		String playerStrategy;
+	public String playGame() 
+	{
 		
 		for(int turnNo=0;turnNo<noOfTurns;turnNo++)
 		{
-			playerStrategy=Players.get(turnNo/noOfPlayers);
-			currentPlayerPhase.getCurrentPlayer().reinforceArmies(null,0,strategyDecider(playerStrategy));
-			
+
 			
 			
 			

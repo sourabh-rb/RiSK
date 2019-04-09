@@ -1,6 +1,7 @@
 
 package gameEngine;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -25,8 +26,9 @@ import utilities.Utilities;
  * @version 1.0.0
  *
  */
-public class Player {
+public class Player implements Serializable{
 
+	private static final long serialVersionUID = 1L;
 	// Name of the player
 	private String name;
 	// Number of armies owned by the player
