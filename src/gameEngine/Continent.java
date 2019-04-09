@@ -1,5 +1,6 @@
 package gameEngine;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -16,7 +17,8 @@ import utilities.Utilities;
  * @version 1.0.0
  *
  */
-public class Continent {
+public class Continent implements Serializable{
+	private static final long serialVersionUID = 1L;
 	// Name of the continent
 	private String name;
 	// Name of player that owns the continent

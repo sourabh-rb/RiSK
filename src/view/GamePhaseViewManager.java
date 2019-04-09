@@ -1,5 +1,8 @@
 package view;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
 import constants.Constants;
@@ -8,6 +11,7 @@ import gameEngine.Card;
 import gameEngine.Country;
 import gameEngine.PhaseManager;
 import gameEngine.Player;
+import gameEngine.StartUpPhase;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -34,6 +38,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.StringConverter;
@@ -746,7 +751,7 @@ public class GamePhaseViewManager
 		
 		RiskButton confirmButton = new RiskButton("CONFIRM");
 		
-		RiskLabel infoLabel = new RiskLabel("In this phase Players can transfer armies between countries");
+		RiskLabel infoLabel = new RiskLabel("In this phase players can transfer armies between countries");
 		confirmButton.setOnAction(new EventHandler<ActionEvent>()
 		{
 
@@ -855,7 +860,8 @@ public class GamePhaseViewManager
 				
 			}
 		});
-		exitButton = new RiskButton("EXIT");
+		
+		exitButton = new RiskButton("SAVE & EXIT");
 		
 		exitButton.setOnAction(new EventHandler<ActionEvent>()
 		{
@@ -863,6 +869,31 @@ public class GamePhaseViewManager
 			@Override
 			public void handle(ActionEvent event)
 			{
+				FileChooser fileChooser = new FileChooser();
+	             
+	            //Set extension filter
+	            FileChooser.ExtensionFilter extFilter = 
+	                new FileChooser.ExtensionFilter("SER files (*.ser)", "*.ser");
+	            fileChooser.getExtensionFilters().add(extFilter);
+	            fileChooser.setInitialFileName("*.ser");
+	             
+	            //Show save file dialog
+	            File file = fileChooser.showSaveDialog(gamePhaseStage);
+	             
+	            if(file != null){
+						
+	            	try {
+	            		 
+	                    FileOutputStream fileOut = new FileOutputStream(file);
+	                    ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);
+	                    objectOut.writeObject(StartUpPhase.getInstance());
+	                    objectOut.close();
+	                    System.out.println("Start Up Object saved.");
+	         
+	                } catch (Exception ex) {
+	                    ex.printStackTrace();
+	                }
+	            }
 				gamePhaseStage.close();
 				
 			}

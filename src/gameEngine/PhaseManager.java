@@ -1,5 +1,6 @@
 package gameEngine;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import constants.GamePhase;
@@ -21,8 +22,9 @@ import view.GamePhaseViewManager;
 * @version 1.0.0
 *
 */
-public class PhaseManager
+public class PhaseManager implements Serializable
 {
+	private static final long serialVersionUID = 1L;
 	private StringProperty playerName;
 	private StringProperty phaseName;
 	private ObservableList<Country> countriesOwned;

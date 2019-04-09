@@ -1,5 +1,6 @@
 package gameEngine;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -15,7 +16,9 @@ import utilities.Utilities;
  * @version 1.0.0
  *
  */
-public class Country {
+public class Country implements Serializable{
+	
+	private static final long serialVersionUID = 1L;
 	// Name of country
 	private String name;
 	// Name of player that owns the country
