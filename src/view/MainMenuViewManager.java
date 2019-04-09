@@ -3,8 +3,11 @@ package view;
 import java.awt.Desktop;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -19,7 +22,9 @@ import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Dialog;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
@@ -55,7 +60,7 @@ public class MainMenuViewManager
 	private final static int WIDTH = 1024;
 	private final static int HEIGHT = 768;
 	private static final int MENU_BUTTON_STARTX = 100;
-	private static final int MENU_BUTTON_STARTY = 140;
+	private static final int MENU_BUTTON_STARTY = 100;
 	
 	private AnchorPane mainPane;
 	private Scene mainScene;
@@ -141,6 +146,8 @@ public class MainMenuViewManager
 	private void createMenuButtons()
 	{
 		addPlayButton();
+		addTournamentButton();
+		addLoadGameButton();
 		addMapEditorButton();
 		addHelpButton();
 		addCreditsButton();
@@ -383,7 +390,7 @@ public class MainMenuViewManager
 			@Override
 			public void handle(ActionEvent arg0)
 			{
-				File newMapFile = new File(".//Maps//default.map");
+				File newMapFile = new File(".//maps//default.map");
 				MapFileViewManager fileView = new MapFileViewManager(newMapFile);
 				
 				Utilities.gameLog("Stage: NEW MAP selected", LogLevel.INFO);
@@ -478,6 +485,86 @@ public class MainMenuViewManager
 			{
 				showSubScene(playSubScene);
 				Utilities.gameLog("Stage: Main Menu || State: PLAY selected", LogLevel.INFO);
+				
+			}
+		});
+	}
+	
+	/**
+	 * This method creates and initializes TOURNAMENT MODE Button.
+	 * 
+	 */
+	private void addTournamentButton()
+	{
+		RiskButton tournamentButton = new RiskButton("TOURNAMENT MODE");
+		addMenuButton(tournamentButton);
+		
+		tournamentButton.setOnAction(new EventHandler<ActionEvent>()
+		{
+
+			@Override
+			public void handle(ActionEvent event)
+			{
+				TournamentModeViewManager tournamentMode = new TournamentModeViewManager();
+				tournamentMode.showTournamentView();
+				Utilities.gameLog("Stage: Main Menu || State: TOURNAMENT MODE selected", LogLevel.INFO);
+				
+			}
+		});
+	}
+	
+	/**
+	 * This method creates and initializes LOAD GAME Button.
+	 * 
+	 */
+	private void addLoadGameButton()
+	{
+		RiskButton loadGameButton = new RiskButton("LOAD GAME");
+		addMenuButton(loadGameButton);
+		
+		loadGameButton.setOnAction(new EventHandler<ActionEvent>()
+		{
+
+			@Override
+			public void handle(ActionEvent event)
+			{
+				Utilities.gameLog("Stage: Main Menu || State: LOAD GAME selected", LogLevel.INFO);
+				
+				FileChooser fileChooser = new FileChooser();
+				fileChooser.setTitle("Choose a game to load");
+		        fileChooser.setInitialDirectory(new File(System.getProperty("user.dir")));
+		        fileChooser.getExtensionFilters().addAll(
+		        	     new FileChooser.ExtensionFilter("SER Files", "*.ser")
+		        	);
+		        File file = fileChooser.showOpenDialog(null);
+                if (file != null) {
+                	
+                	
+                	try {
+                	FileInputStream fi = new FileInputStream(file);
+        			ObjectInputStream oi = new ObjectInputStream(fi);
+
+        			StartUpPhase.setStartPhaseObject((StartUpPhase) oi.readObject());
+
+        			oi.close();
+        			fi.close();
+
+        		} catch (FileNotFoundException e) {
+        			System.out.println("File not found");
+        		} catch (IOException e) {
+        			System.out.println("Error initializing stream");
+        		} catch (ClassNotFoundException e) {
+        			// TODO Auto-generated catch block
+        			e.printStackTrace();
+        		}
+        			
+        			mainStage.hide();
+    				GamePhaseViewManager gamePhase = new GamePhaseViewManager();
+    				gamePhase.showView();
+
+                    
+                    Utilities.gameLog("Stage: LOAD GAME || File selected:" + file.getName(), LogLevel.INFO);
+                }
 				
 			}
 		});

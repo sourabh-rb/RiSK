@@ -180,7 +180,7 @@ public class PlayerTest {
 	 * countries correctly.
 	 */
 	@Test
-	public void positiveReinforceArmies() {
+	public void positiveReinforceArmiesHuman() {
 
 		country1.setArmies(10);
 		countries.add(country1);
@@ -197,7 +197,102 @@ public class PlayerTest {
 		player1.setContinents(continents);
 		int armies = 2;
 		// To test if the reinforceArmies() method returns correct number of armies.
-		assertTrue(player1.reinforceArmies(country1, armies));
+		assertTrue(player1.reinforceArmies(country1, armies,Constants.HUMAN));
+	}
+	
+	/**
+	 * This method tests the positive working of the aggressive mode for reinforcement phase.
+	 */
+	@Test
+	public void positiveReinforceArmiesAggressive() {
+		country1.setArmies(10);
+		countries.add(country1);
+
+		continent1.setControlValue(3);
+		continents.add(continent1);
+
+		continent2.setControlValue(1);
+		continents.add(continent2);
+
+		player1.setName("Shivani");
+		player1.setArmies(9);
+		player1.setCountries(countries);
+		player1.setContinents(continents);
+	
+		assertTrue(player1.reinforceArmies(null, 0, Constants.AGGRESSIVE));
+	}
+	
+	/**
+	 * This method tests the positive working of the benevolent mode for reinforcement phase.
+	 */
+	@Test
+	public void positiveReinforceArmiesBenevolent() {
+		country1.setArmies(10);
+		countries.add(country1);
+		
+		country2.setArmies(3);
+		countries.add(country2);
+
+		continent1.setControlValue(3);
+		continents.add(continent1);
+
+		continent2.setControlValue(1);
+		continents.add(continent2);
+
+		player1.setName("Shivani");
+		player1.setArmies(9);
+		player1.setCountries(countries);
+		player1.setContinents(continents);
+		
+		assertTrue(player1.reinforceArmies(null, 0, Constants.BENEVOLENT));
+	}
+	
+	@Test
+	public void positiveReinforceArmiesRandom() {
+		country1.setArmies(10);
+		countries.add(country1);
+		
+		country2.setArmies(3);
+		countries.add(country2);
+	
+		continent1.setControlValue(3);
+		continents.add(continent1);
+
+		continent2.setControlValue(1);
+		continents.add(continent2);
+
+		player1.setName("Shivani");
+		player1.setArmies(9);
+		player1.setCountries(countries);
+		player1.setContinents(continents);
+		
+		assertTrue(player1.reinforceArmies(null, 0, Constants.RANDOM));
+		
+		
+	}
+	
+	@Test
+	public void positiveReinforcementArmiesCheater() {
+		country1.setArmies(10);
+		countries.add(country1);
+		
+		country2.setArmies(3);
+		countries.add(country2);
+	
+		continent1.setControlValue(3);
+		continents.add(continent1);
+
+		continent2.setControlValue(1);
+		continents.add(continent2);
+
+		player1.setName("Shivani");
+		player1.setArmies(9);
+		player1.setCountries(countries);
+		player1.setContinents(continents);
+		
+		assertTrue(player1.reinforceArmies(null, 0, Constants.CHEATER));
+		
+
 	}
 
 	/**
@@ -271,7 +366,7 @@ public class PlayerTest {
 	public void positiveFortifyArmies() {
 
 		armies = 2;
-		boolean b = player.fortifyArmies(fromCountry, toCountry, armies);
+		boolean b = player.fortifyArmies(fromCountry, toCountry, armies,Constants.HUMAN);
 		assertTrue(b);
 	}
 
@@ -282,7 +377,7 @@ public class PlayerTest {
 	public void negativeFortifyArmies() {
 
 		armies = -2;
-		boolean b = player.fortifyArmies(fromCountry, toCountry, armies);
+		boolean b = player.fortifyArmies(fromCountry, toCountry, armies,Constants.HUMAN);
 		assertFalse(b);
 	}
 	
@@ -316,7 +411,7 @@ public class PlayerTest {
 			attackCountry1.setArmies(6);
 			attackCountry4.setArmies(1);
 			String atttackRes = p.attack(attackCountry1, attackCountry4, 3, 2, "allOutWinner");
-			String def = "defeated";
+			String def = "The enemy has been defeated";
 			assertEquals(atttackRes,def);
 			
 		}
@@ -328,7 +423,8 @@ public class PlayerTest {
 			attackCountry1.setArmies(1);
 			//country5.setArmies(4);
 			String atttackRes = p.attack(attackCountry1, attackCountry5, 1, 2, "attack");
-			assertEquals(atttackRes,"cannotAttack");
+			String exp="Cannot attack. Attacking country must have atleast 2 countries to attack";
+			assertEquals(atttackRes,exp);
 		}
 		/**
 		 * This function is used to test if it is providing winner of the game properly or not

@@ -1,14 +1,21 @@
 package view;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+
+import constants.Constants;
 import constants.GamePhase;
 import gameEngine.Card;
 import gameEngine.Country;
 import gameEngine.PhaseManager;
 import gameEngine.Player;
+import gameEngine.StartUpPhase;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -31,6 +38,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.StringConverter;
@@ -262,7 +270,7 @@ public class GamePhaseViewManager
 				selectedCountryObj=countriesCombobox.getSelectionModel().getSelectedItem();
                 //decrementing player's left over armies
 				//incrementing selected country armies
-				playerPhase.getCurrentPlayer().reinforceArmies(selectedCountryObj,armyValueFactory.getValue());
+				playerPhase.getCurrentPlayer().reinforceArmies(selectedCountryObj,armyValueFactory.getValue(),Constants.HUMAN);
 				
 				
 				playerPhase.nextPhase();
@@ -360,9 +368,10 @@ public class GamePhaseViewManager
 				selectedCountryObj=countriesCombobox.getSelectionModel().getSelectedItem();
 				//incrementing selected country armies
 				//decrementing player's left over armies 
-				playerPhase.getCurrentPlayer().reinforceArmies(selectedCountryObj,armyValueFactory.getValue());
-				
-				playerPhase.nextPhase();
+				playerPhase.getCurrentPlayer().reinforceArmies(selectedCountryObj,armyValueFactory.getValue(),Constants.HUMAN);
+				playerPhase.setReinforcementArmies();
+				System.out.println(playerPhase.getCurrentPlayer().getNumberOfArmiesLeft());
+				//playerPhase.nextPhase();
 				createPhaseInfo();
 				domView.updateDominationView();
 				
@@ -505,9 +514,7 @@ public class GamePhaseViewManager
 				};
 				attackCombobox.setConverter(attackConverter);
 				attackCombobox.getSelectionModel().selectFirst();
-				
-				
-				
+								
 			}
 		});
 
@@ -551,8 +558,8 @@ public class GamePhaseViewManager
 			{
 				
 				armyCountLabel.setText("" + newValue.getArmies());
-				SpinnerValueFactory<Integer> armyValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, (newValue.getArmies() - 1), 0);
-				armySpinner.setValueFactory(armyValueFactory);
+//				SpinnerValueFactory<Integer> armyValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, (newValue.getArmies() - 1), 0);
+//				armySpinner.setValueFactory(armyValueFactory);
 				
 				attackerSpinnerValue = playerPhase.getMaxAttackerDice(newValue);
 				System.out.println(attackerSpinnerValue);
@@ -608,7 +615,7 @@ public class GamePhaseViewManager
 				attackResult.setText(playerPhase.attackButtonFunctionality(selectedCountry, enemyCountry, attackerSpinnerValue, defenderSpinnerValue, "attack"));
 				//System.out.println(playerPhase.attackButtonFunctionality(selectedCountry, enemyCountry, attackerSpinnerValue, defenderSpinnerValue, "attack"));
 				//playerPhase.attackButtonFunctionality(selectedCountry, enemyCountry, attackerSpinnerValue, defenderSpinnerValue, "attack");
-				
+				attackResult.setWrapText(true);
 			}
 		});
 		
@@ -620,15 +627,16 @@ public class GamePhaseViewManager
 			public void handle(ActionEvent arg0) {
 				// TODO Auto-generated method stub
 				attackResult.setText(playerPhase.attackButtonFunctionality(selectedCountry, enemyCountry, attackerSpinnerValue, defenderSpinnerValue, "allOutWinner"));
+				attackResult.setWrapText(true);
 			}
 		});
 		
-		HBox attackButtonBox = new HBox(20,attackButton, allOutAttackButton,attackResult);
+		HBox attackButtonBox = new HBox(20,attackButton, allOutAttackButton);
 		
 
 		RiskLabel infoLabel = new RiskLabel("In this phase players attack their neighbouring enemies.");
 	
-		
+		phaseInfoPane.add(attackResult, 6, 0);
 		phaseInfoPane.add(countryVBox, 1, 0);
 		phaseInfoPane.add(armyVBox, 2, 0);
 		phaseInfoPane.add(armySelectVBox, 3, 0);
@@ -757,7 +765,7 @@ public class GamePhaseViewManager
 				
                 //decrementing player's left over armies
 				//incrementing selected country armies
-				playerPhase.getCurrentPlayer().fortifyArmies(selectedFirstCountryObj,selectedSecondCountryObj,armySpinner.getValue());
+				playerPhase.getCurrentPlayer().fortifyArmies(selectedFirstCountryObj,selectedSecondCountryObj,armySpinner.getValue(),Constants.HUMAN);
 				
 				RiskButton oKButton = new RiskButton("OK");
 				infoLabel.setText("Armies moved to neighbour country");
@@ -852,7 +860,8 @@ public class GamePhaseViewManager
 				
 			}
 		});
-		exitButton = new RiskButton("EXIT");
+		
+		exitButton = new RiskButton("SAVE & EXIT");
 		
 		exitButton.setOnAction(new EventHandler<ActionEvent>()
 		{
@@ -860,6 +869,31 @@ public class GamePhaseViewManager
 			@Override
 			public void handle(ActionEvent event)
 			{
+				FileChooser fileChooser = new FileChooser();
+	             
+	            //Set extension filter
+	            FileChooser.ExtensionFilter extFilter = 
+	                new FileChooser.ExtensionFilter("SER files (*.ser)", "*.ser");
+	            fileChooser.getExtensionFilters().add(extFilter);
+	            fileChooser.setInitialFileName("*.ser");
+	             
+	            //Show save file dialog
+	            File file = fileChooser.showSaveDialog(gamePhaseStage);
+	             
+	            if(file != null){
+						
+	            	try {
+	            		 
+	                    FileOutputStream fileOut = new FileOutputStream(file);
+	                    ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);
+	                    objectOut.writeObject(StartUpPhase.getInstance());
+	                    objectOut.close();
+	                    System.out.println("Start Up Object saved.");
+	         
+	                } catch (Exception ex) {
+	                    ex.printStackTrace();
+	                }
+	            }
 				gamePhaseStage.close();
 				
 			}
