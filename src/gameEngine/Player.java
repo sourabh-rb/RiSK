@@ -63,7 +63,7 @@ public class Player implements Serializable{
 	public static void setPlayerList(ArrayList<Player> playerList) {
 		Player.playerList = playerList;
 	}
-
+	int maxNoOfDiceForAttacker;
 	ArrayList<Card> cardTypeList = new ArrayList<Card>();
 	ArrayList<Country> lostCountries = new ArrayList<Country>();
 
@@ -77,7 +77,7 @@ public class Player implements Serializable{
 	static Country country5;
 
 	StartUpPhase start = StartUpPhase.getInstance();
-	TurnManager turn = new TurnManager();
+	
 
 	public Player() {
 	}
@@ -253,7 +253,11 @@ public class Player implements Serializable{
 		int randomDiceValue = random.nextInt(1, 7);
 		return randomDiceValue;
 	}
-
+	/**
+	 * This function gives random value if you give the maximum limit
+	 * 
+	 * @return random dice value
+	 */
 	public int random(int maxNumber) {
 		ThreadLocalRandom random = ThreadLocalRandom.current();
 		int randomValue = random.nextInt(0, maxNumber);
@@ -349,7 +353,7 @@ public class Player implements Serializable{
 	 */
 	public String noOfDiceOnAllOut(Country attackingCountry, Country defendingCountry) {
 
-		int maxNoOfDiceForAttacker = 0;
+		maxNoOfDiceForAttacker = 0;
 		int maxNoOfDiceForDefender = 0;
 		String[] maxDiceForEach = maxNoOfDice(attackingCountry, defendingCountry).split(" ");
 		maxNoOfDiceForAttacker = Integer.parseInt(maxDiceForEach[0]);
@@ -417,19 +421,19 @@ public class Player implements Serializable{
 			} else if (action.equals("cheatingPlayerAttack")) {
 
 				// Code to get the current player
-				Player playerObj = turn.currentPlayer("Player1");
-				for (int i = 0; i < playerObj.getCountries().size(); i++) {
-					enemyCountriesList = start.getEnemyList(playerObj, playerObj.getCountries().get(i));
+				
+				for (int i = 0; i < this.getCountries().size(); i++) {
+					enemyCountriesList = start.getEnemyList(this, this.getCountries().get(i));
 					for (Country enemy : enemyCountriesList) {
-						enemy.setOwner(playerObj);
-						playerObj.getCountries().add(enemy);
+						enemy.setOwner(this);
+						this.getCountries().add(enemy);
 						// How many armies should i give to defeated countries?
 					}
 					System.out.println(
 							"Number of countries attacker has after attacking one set of enemies under one country "
-									+ playerObj.getCountries().size());
+									+ this.getCountries().size());
 				}
-				if (playerObj.getCountries().size() == start.getCountryList().size()) {
+				if (this.getCountries().size() == start.getCountryList().size()) {
 
 					return "champion";// Declared as winner of the game
 				}
@@ -437,14 +441,15 @@ public class Player implements Serializable{
 				// Call fortification method for cheater
 			}
 			else if(action.equals("randomPlayerAttack")) {
-				Player playerObj = turn.currentPlayer("Player1");
-				int noOfPlayerCountries = playerObj.getCountries().size();
+				
+				int noOfPlayerCountries = this.getCountries().size();
 				int randomCountryIndex= random(noOfPlayerCountries);
-				Country randomCountryForAttacking=playerObj.getCountries().get(randomCountryIndex);
-				enemyCountriesList = start.getEnemyList(playerObj, randomCountryForAttacking);
+				Country randomCountryForAttacking=this.getCountries().get(randomCountryIndex);
+				enemyCountriesList = start.getEnemyList(this, randomCountryForAttacking);
 				int noOfEnemyCountries = enemyCountriesList.size();
 				int randomDefendingCountryIndex= random(noOfEnemyCountries);
 				Country randomCountryForDefending = enemyCountriesList.get(randomDefendingCountryIndex);
+				defendingCountry = randomCountryForDefending;
 				int attackRandomTimes = random(noOfEnemyCountries);
 				attackRes = noOfDiceOnAllOut(randomCountryForAttacking, randomCountryForDefending);
 				
@@ -461,7 +466,15 @@ public class Player implements Serializable{
 				defendingCountry.setOwner(attackingCountry.getOwner());// change the defeated country owner to attacked
 																		// country owner
 				attackingCountry.getOwner().getCountries().add(defendingCountry); // assign the defeated country to
-																					// winner
+					if(action.equals("attack"))	{															// winner
+				defendingCountry.setArmies(noOfDiceForAttackingCountry);
+				attackingCountry.setArmies(attackingCountry.getArmies()-noOfDiceForAttackingCountry);
+					}
+					else if(action.equals("allOutWinner")||action.equals("randomPlayerAttack")||action.equals("PlayerAttack")) {
+						defendingCountry.setArmies(maxNoOfDiceForAttacker);
+						attackingCountry.setArmies(attackingCountry.getArmies()-maxNoOfDiceForAttacker);
+					}
+				
 				System.out.println("Number of countries attacker has after attacking: "
 						+ attackingCountry.getOwner().getCountries().size());
 				System.out.println("Number of total countries in the game: " + start.getCountryList().size());
