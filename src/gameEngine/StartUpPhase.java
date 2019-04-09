@@ -141,7 +141,7 @@ public class StartUpPhase implements Serializable{
 	 */
 
 	public void mappingElements(HashMap<String, Integer> continentHashMap,
-			HashMap<String, ArrayList<String>> terrritoryHashMap, int noOfPlayers) {
+			HashMap<String, ArrayList<String>> terrritoryHashMap, int noOfPlayers,ArrayList<String> strategyList) {
 
 		int i = 0;
 		for (String key : continentHashMap.keySet()) {
@@ -181,6 +181,7 @@ public class StartUpPhase implements Serializable{
 		for (int k = 0; k < noOfPlayers; k++) {
 			playerList.add(new Player());
 			playerList.get(k).setName("Player" + playerNumber);
+			playerList.get(k).setStrategies(strategyList.get(k));
 			playerNumber++;
 		}
 		System.out.println("PLayerlist size: " + playerList.size());
