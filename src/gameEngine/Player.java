@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Objects;
+import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 import org.junit.Before;
@@ -413,7 +414,7 @@ public class Player implements Serializable{
 		} else
 			System.out.println("cannot attack because there should be atleast 2 armies in the attacking country");
 		// ASk player if wants to continue attacking with another country
-		return "Cannot attack. Attacking country must have atleast 2 countries to attack";
+		return "Cannot attack."+"\n"+"Attacking country must have atleast"+"\n"+"2 countries to attack";
 
 	}
 
@@ -632,7 +633,7 @@ public class Player implements Serializable{
 //		cardCount.add(3);
 		
 		ArrayList<Card> testList = new ArrayList();
-    /*    Card testCard1=new Card();
+        Card testCard1=new Card();
         Card testCard2=new Card();
         Card testCard3=new Card();
         testCard1.setType(Constants.ARTILLERY);
@@ -643,7 +644,7 @@ public class Player implements Serializable{
         testList.add(testCard1);
         testList.add(testCard2);
         testList.add(testCard3);
-        this.setCardType(testList);*/
+        this.setCardType(testList);
 //		if (this.getCardType() != null && this.getCardType().size() != 0) {
 //			cards = this.getCardType();
 //		} else {
@@ -779,10 +780,8 @@ public class Player implements Serializable{
 					this.getReinforcementArmies();
 					armiesForReinforcement=this.getNumberOfArmiesLeft();
 				}
-			
 			for(int i=0; i<countries.size();i++) {
 				if(maxArmies<countries.get(i).getArmies()) {
-					
 				maxArmies= countries.get(i).getArmies();
 				countryToReinforce=countries.get(i);
 				index=i;
@@ -855,7 +854,6 @@ public class Player implements Serializable{
 				countryToReinforce.setArmies(countryToReinforce.getArmies()+armiesForReinforcement);
 				countries.add(countryToReinforce);
 				Utilities.gameLog("Player: " + this.getName() + "|| Country reinforced for Random!!: "+countryToReinforce.getName(), LogLevel.INFO);
-				
 				//this.attack(attackingCountry, defendingCountry, noOfDiceForAttackingCountry, noOFDiceForDefendingCountry, action);
 			
 		}else if(Constants.CHEATER.equals(mode)) {
@@ -880,11 +878,15 @@ public class Player implements Serializable{
 	 * @param toCountry Thecountry to which the army will be moved.
 	 * @return true if the fortification was successful, else false.
 	 */
-	public boolean fortifyArmies(Country fromCountry,Country toCountry, int armies) {
+	public boolean fortifyArmies(Country fromCountry,Country toCountry, int armies,String mode) {
 		
 		Utilities.gameLog("Player: "+this.getName()+"|| Stage: Fortification || Countries involved: "+fromCountry.getName()+","+toCountry.getName(),LogLevel.INFO);
 		ArrayList<Country> playerCountries = this.getCountries();
-		if(playerCountries != null && playerCountries.contains(fromCountry) && playerCountries.contains(toCountry) && armies>0) {
+		
+		if(playerCountries != null && playerCountries.contains(fromCountry) && playerCountries.contains(toCountry) && armies>0) 
+		{
+			if(Constants.HUMAN.equals(mode))
+			{
 			//Update the number for armies in the fortifying country.
 			int i = playerCountries.indexOf(fromCountry);
 			Country country1 = playerCountries.get(i);
@@ -901,9 +903,210 @@ public class Player implements Serializable{
 			Utilities.gameLog("Player: "+this.getName()+"|| Countries fortified!! || "
 					+ country1.getName() +" : "+country1.getArmies()+" || "+ country2.getName() +" : "+country2.getArmies(),LogLevel.INFO);
 			return true;
+			}
+			else if(Constants.AGGRESSIVE.equals(mode))
+			{
+				Country aggressiveCountry = playerCountries.get(0);
+				Country nextAggressiveCountry = playerCountries.get(1);
+				for (int i = 0; i < playerCountries.size(); i++) 
+				{
+					if(playerCountries.get(i).getArmies()<=playerCountries.get(i+1).getArmies())
+					{
+						nextAggressiveCountry = aggressiveCountry;
+						aggressiveCountry = playerCountries.get(i+1);
+					}
+						
+				}
+				//update the number of armies in the country with second largest armies
+				int sendArmy=0;
+				for (int i = 0; i < playerCountries.size(); i++)
+				{
+					if(nextAggressiveCountry.getArmies()==playerCountries.get(i).getArmies())
+					{
+						if(playerCountries.get(i).getArmies()==1)
+						{
+							System.out.println("Cannot send anymore armies! Only one army left");;
+						}
+						else if(playerCountries.get(i).getArmies()==3)
+						{
+							sendArmy=playerCountries.get(i).getArmies()-1;
+							playerCountries.get(i).setArmies(playerCountries.get(i).getArmies()-sendArmy);
+							
+						}
+						else if (playerCountries.get(i).getArmies()>3)
+						{
+							sendArmy=playerCountries.get(i).getArmies()-3;
+							playerCountries.get(i).setArmies(3);
+						}
+						
+					}
+				}
+				//update the number of armies in the country with largest armies
+				for (int i = 0; i < playerCountries.size(); i++)
+				{
+					if(aggressiveCountry.getArmies()==playerCountries.get(i).getArmies())
+					{
+						playerCountries.get(i).setArmies(sendArmy);
+					}
+				}
+				this.setCountries(playerCountries);
+				Utilities.gameLog("Player: "+this.getName()+"|| Countries fortified!! || "
+						+ aggressiveCountry.getName() +" : "+aggressiveCountry.getArmies()+" || "+ nextAggressiveCountry.getName() +" : "+nextAggressiveCountry.getArmies(),LogLevel.INFO);
+				return true;
+			}
+			else if(Constants.BENEVOLENT.equals(mode))
+			{
+				//identify benevolent country
+				Country benevolentCountry = playerCountries.get(0);
+				
+				for (int i = 0; i < playerCountries.size(); i++) 
+				{
+					if(playerCountries.get(i).getArmies()<=playerCountries.get(i+1).getArmies())
+					{					
+						benevolentCountry = playerCountries.get(i+1);
+					}
+						
+				}			
+				//update the number of armies in the country with largest armies
+				int sendArmy=0;
+				for (int i = 0; i < playerCountries.size(); i++)
+				{
+					if(benevolentCountry.getArmies()==playerCountries.get(i).getArmies())
+					{
+						if(playerCountries.get(i).getArmies()==1)
+						{
+							System.out.println("Cannot send anymore armies! Only one army left");
+									
+						}
+						else if(playerCountries.get(i).getArmies()==3)
+						{
+							sendArmy=playerCountries.get(i).getArmies()-1;
+							playerCountries.get(i).setArmies(playerCountries.get(i).getArmies()-sendArmy);
+							
+						}
+						else if (playerCountries.get(i).getArmies()>3)
+						{
+							sendArmy=playerCountries.get(i).getArmies()-3;
+							playerCountries.get(i).setArmies(3);
+						}
+												
+					}
+				}
+				
+				//identify weakest country
+				Country weakCountry = playerCountries.get(0);
+				for (int i = 0; i < playerCountries.size(); i++)
+				{
+					if(weakCountry.getArmies()>playerCountries.get(i).getArmies())
+					{
+						weakCountry.setArmies(playerCountries.get(i).getArmies());
+					}
+				}
+				
+				//fortify weak country
+				for (int i = 0; i < playerCountries.size(); i++)
+				{
+					if(weakCountry.getArmies()==playerCountries.get(i).getArmies())
+					{
+						playerCountries.get(i).setArmies(playerCountries.get(i).getArmies()+sendArmy);
+					}
+				}
+				
+				
+				this.setCountries(playerCountries);
+				Utilities.gameLog("Player: "+this.getName()+"|| Countries fortified!! || "
+						+ benevolentCountry.getName() +" : "+benevolentCountry.getArmies()+" || "+ weakCountry.getName() +" : "+weakCountry.getArmies(),LogLevel.INFO);
+				return true;
+			}
+			
+			else if(Constants.RANDOM.equals(mode))
+			{
+				Country benevolentCountry = playerCountries.get(0);
+				
+				for (int i = 0; i < playerCountries.size(); i++) 
+				{
+					if(playerCountries.get(i).getArmies()<=playerCountries.get(i+1).getArmies())
+					{					
+						benevolentCountry = playerCountries.get(i+1);
+					}
+						
+				}			
+				//update the number of armies in the country with largest armies
+				int sendArmy=0;
+				for (int i = 0; i < playerCountries.size(); i++)
+				{
+					if(benevolentCountry.getArmies()==playerCountries.get(i).getArmies())
+					{
+						if(playerCountries.get(i).getArmies()==1)
+						{
+							System.out.println("Cannot send anymore armies! Only one army left");
+									
+						}
+						else if(playerCountries.get(i).getArmies()==3)
+						{
+							sendArmy=playerCountries.get(i).getArmies()-1;
+							playerCountries.get(i).setArmies(playerCountries.get(i).getArmies()-sendArmy);
+							
+						}
+						else if (playerCountries.get(i).getArmies()>3)
+						{
+							sendArmy=playerCountries.get(i).getArmies()-3;
+							playerCountries.get(i).setArmies(3);
+						}
+												
+					}
+				}
+				
+				//fortify a random country
+				Random randomGenerator = new Random();
+				int r = randomGenerator.nextInt(playerCountries.size());
+				Country randomCountry = new Country();
+				
+				for (int i = 0; i < playerCountries.size(); i++)
+				{
+					if(r==playerCountries.indexOf(i))
+					{
+						playerCountries.get(i).setArmies(playerCountries.get(i).getArmies()+sendArmy);
+						randomCountry = playerCountries.get(i);
+					}
+				}				
+				
+				this.setCountries(playerCountries);
+				Utilities.gameLog("Player: "+this.getName()+"|| Countries fortified!! || "
+						+ benevolentCountry.getName() +" : "+benevolentCountry.getArmies()+" || "+ randomCountry.getName() +" : "+randomCountry.getArmies(),LogLevel.INFO);
+				return true;
+			}
+			else if(Constants.CHEATER.equals(mode))
+			{
+				ArrayList<Country> cheaterCountries = new ArrayList<Country>(); 
+				ArrayList<Country> neighbours = new ArrayList<Country>();
+				for (int i = 0; i < playerCountries.size(); i++) 
+				{
+					neighbours = playerCountries.get(i).getNeighborCounties();
+					for(int j = 0; j < neighbours.size(); i++){
+						{
+							if(neighbours.get(j).getOwner() != playerCountries.get(i).getOwner())
+							{
+								playerCountries.get(i).setArmies(playerCountries.get(i).getArmies()*2);
+								cheaterCountries.add(playerCountries.get(i));
+							}
+						}
+					}
+				}
+				this.setCountries(playerCountries);
+				for (int i = 0; i < cheaterCountries.size(); i++) 
+				{
+					Utilities.gameLog("Player: "+this.getName()+"|| Countries fortified!! || "+" "+ cheaterCountries.get(i).getName() +" : "+cheaterCountries.get(i).getArmies(),LogLevel.INFO);
+				}
+				
+				return true;
+			}
+									
 		}
 		Utilities.gameLog("Player: "+this.getName()+"|| Countries could not be fortified",LogLevel.WARN);
+		
 		return false;
+		
 	}
 	public static void main(String[] args) {
 		Player play = new Player();

@@ -615,7 +615,7 @@ public class GamePhaseViewManager
 				attackResult.setText(playerPhase.attackButtonFunctionality(selectedCountry, enemyCountry, attackerSpinnerValue, defenderSpinnerValue, "attack"));
 				//System.out.println(playerPhase.attackButtonFunctionality(selectedCountry, enemyCountry, attackerSpinnerValue, defenderSpinnerValue, "attack"));
 				//playerPhase.attackButtonFunctionality(selectedCountry, enemyCountry, attackerSpinnerValue, defenderSpinnerValue, "attack");
-				
+				attackResult.setWrapText(true);
 			}
 		});
 		
@@ -751,7 +751,7 @@ public class GamePhaseViewManager
 		
 		RiskButton confirmButton = new RiskButton("CONFIRM");
 		
-		RiskLabel infoLabel = new RiskLabel("In this phase players can transfer armies between countries");
+		RiskLabel infoLabel = new RiskLabel("In this phase Players can transfer armies between countries");
 		confirmButton.setOnAction(new EventHandler<ActionEvent>()
 		{
 
@@ -765,7 +765,7 @@ public class GamePhaseViewManager
 				
                 //decrementing player's left over armies
 				//incrementing selected country armies
-				playerPhase.getCurrentPlayer().fortifyArmies(selectedFirstCountryObj,selectedSecondCountryObj,armySpinner.getValue());
+				playerPhase.getCurrentPlayer().fortifyArmies(selectedFirstCountryObj,selectedSecondCountryObj,armySpinner.getValue(),Constants.HUMAN);
 				
 				RiskButton oKButton = new RiskButton("OK");
 				infoLabel.setText("Armies moved to neighbour country");
