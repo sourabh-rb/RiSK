@@ -180,6 +180,7 @@ public class StartUpPhase implements Serializable {
 			playerList.add(new Player());
 			playerList.get(k).setName("Player" + playerNumber);
 			playerList.get(k).setStrategies(strategyList.get(k));
+			System.out.println(playerList.get(k).getName()+" strategy is "+playerList.get(k).getStrategies());
 			playerNumber++;
 		}
 		System.out.println("PLayerlist size: " + playerList.size());
@@ -279,6 +280,7 @@ public class StartUpPhase implements Serializable {
 							+ playerList.get(j).getNumberOfArmiesLeft(), LogLevel.INFO);
 				}
 			} else {
+				System.out.println("Initiliazation of strategy players");
 				for (int k = 0; k < playerList.get(j).getCountries().size(); k++) {
 					playerList.get(j).getCountries().get(k).setArmies(1);
 					System.out.println("1 army given to " + playerList.get(j).getCountries().get(k).getName());
@@ -293,6 +295,8 @@ public class StartUpPhase implements Serializable {
 					playerList.get(j).getCountries().get(random(playerList.get(j).getCountries().size())).setArmies(1);
 					noOfArmiesLeft--;
 				}
+				playerList.get(j).setNumberOfArmiesLeft(noOfArmiesLeft);
+				System.out.println("No of armies left finally after player strategy Initialization" + playerList.get(j).getNumberOfArmiesLeft());
 			}
 		}
 	}
