@@ -366,7 +366,7 @@ public class PlayerTest {
 	public void positiveFortifyArmies() {
 
 		armies = 2;
-		boolean b = player.fortifyArmies(fromCountry, toCountry, armies);
+		boolean b = player.fortifyArmies(fromCountry, toCountry, armies,Constants.HUMAN);
 		assertTrue(b);
 	}
 
@@ -377,7 +377,7 @@ public class PlayerTest {
 	public void negativeFortifyArmies() {
 
 		armies = -2;
-		boolean b = player.fortifyArmies(fromCountry, toCountry, armies);
+		boolean b = player.fortifyArmies(fromCountry, toCountry, armies,Constants.HUMAN);
 		assertFalse(b);
 	}
 	
