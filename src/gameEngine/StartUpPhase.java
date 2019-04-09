@@ -1,5 +1,4 @@
 
-
 package gameEngine;
 
 import java.io.Serializable;
@@ -7,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.concurrent.ThreadLocalRandom;
 
 import constants.LogLevel;
 import gameEngine.Continent;
@@ -24,20 +24,19 @@ import utilities.Utilities;
  * @author Aravind Reddy
  *
  */
-public class StartUpPhase implements Serializable{
-	
+public class StartUpPhase implements Serializable {
+
 	private static final long serialVersionUID = 1L;
-	
+
 	private int noOfPlayers;
 	private ArrayList<Continent> continentList = new ArrayList<Continent>();
 	private ArrayList<Country> neighborCountries = new ArrayList<Country>();
 	private ArrayList<Country> countriesInContinent = new ArrayList<Country>();
-	private  ArrayList<Player> playerList = new ArrayList<Player>();
+	private ArrayList<Player> playerList = new ArrayList<Player>();
 	private HashMap<String, Country> countryNameToObj = new HashMap<String, Country>();
 	private HashMap<String, Continent> continentNameToObj = new HashMap<String, Continent>();
 	private ArrayList<Country> countryList = new ArrayList<Country>();
 	private static StartUpPhase startPhaseObject = null;
-
 
 	public int getNoOfPlayers() {
 		return noOfPlayers;
@@ -115,18 +114,16 @@ public class StartUpPhase implements Serializable{
 	 * 
 	 */
 
-	public StartUpPhase() 
-	{
-		
-	}
-		
-	public static synchronized StartUpPhase getInstance() {
-        if(startPhaseObject == null) {
-        	startPhaseObject = new StartUpPhase();
-        }
-        return startPhaseObject;
-    }
+	public StartUpPhase() {
 
+	}
+
+	public static synchronized StartUpPhase getInstance() {
+		if (startPhaseObject == null) {
+			startPhaseObject = new StartUpPhase();
+		}
+		return startPhaseObject;
+	}
 
 	/**
 	 * This function creates objects for all the map elements like country,
@@ -141,7 +138,7 @@ public class StartUpPhase implements Serializable{
 	 */
 
 	public void mappingElements(HashMap<String, Integer> continentHashMap,
-			HashMap<String, ArrayList<String>> terrritoryHashMap, int noOfPlayers,ArrayList<String> strategyList) {
+			HashMap<String, ArrayList<String>> terrritoryHashMap, int noOfPlayers, ArrayList<String> strategyList) {
 
 		int i = 0;
 		for (String key : continentHashMap.keySet()) {
@@ -169,10 +166,10 @@ public class StartUpPhase implements Serializable{
 					terrritoryHashMap.get(c.getName()).size())) {
 				neighborCountries.add(countryNameToObj.get(neigh_country));
 			}
-			System.out.println("Neighboring countries for "+c.getName());
-			for(int g=0;g<neighborCountries.size();g++) {
-		    	System.out.println(neighborCountries.get(g).getName());
-		    }
+			System.out.println("Neighboring countries for " + c.getName());
+			for (int g = 0; g < neighborCountries.size(); g++) {
+				System.out.println(neighborCountries.get(g).getName());
+			}
 			c.setNeighborCounties((ArrayList<Country>) neighborCountries.clone());
 			neighborCountries.clear();
 		}
@@ -189,29 +186,32 @@ public class StartUpPhase implements Serializable{
 		initialSetUp(playerList, continentList, countryList);
 	}
 
-/**
- * This function return number of players in the game
- * @param playerList list of player objects
- * @return It is returning number of players
- */
+	/**
+	 * This function return number of players in the game
+	 * 
+	 * @param playerList list of player objects
+	 * @return It is returning number of players
+	 */
 	public int noOfPlayers(ArrayList<Player> playerList) {
 		return playerList.size();
 	}
 
 	/**
 	 * This function calculates number of continents in the provided map
+	 * 
 	 * @param continentList contains list of continent objects
 	 * @return returns number of continents
 	 */
 	public int noOfContinents(ArrayList<Continent> continentList) {
 		return continentList.size();
 	}
-/**
- * This function is to calculate number of countries
- * 
- * @param countryList contains country objects
- * @return number of countries
- */
+
+	/**
+	 * This function is to calculate number of countries
+	 * 
+	 * @param countryList contains country objects
+	 * @return number of countries
+	 */
 	public int noOfCountries(ArrayList<Country> countryList) {
 		return countryList.size();
 	}
@@ -220,6 +220,7 @@ public class StartUpPhase implements Serializable{
 	 * This function takes care of initial setup of the game based on the input
 	 * given by the user. It provides certain number of armies to each player and
 	 * certain countries in the selected map.
+	 * 
 	 * @param playerList    This contains all the player objects
 	 * @param continentList contains all continent objects
 	 * @param countryList   contains country objects
@@ -233,7 +234,8 @@ public class StartUpPhase implements Serializable{
 		int noOfTotalCountries = 0;
 		ArrayList<Country> listOfAllCountries = new ArrayList<Country>();
 		System.out.println("Number of continents: " + noOfContinents(continentList));
-		Utilities.gameLog("Total number of continents in the whole map " + noOfContinents(continentList), LogLevel.INFO);
+		Utilities.gameLog("Total number of continents in the whole map " + noOfContinents(continentList),
+				LogLevel.INFO);
 		for (int i = 0; i < continentList.size(); i++) {
 			for (int j = 0; j < continentList.get(i).getCountriesComprised().size(); j++) {
 				listOfAllCountries.add(continentList.get(i).getCountriesComprised().get(j));
@@ -252,23 +254,52 @@ public class StartUpPhase implements Serializable{
 		setRandomCountriesForEach(listOfAllCountries, continentList, noOfPlayers, playerList);
 
 		// Assigning an army to each of the countries for a particular player and
-		// calculating the remaining armies under each player
+		// calculating the remaining armies under each player - Happens in single mode
+
+		// For tournament mode, no initialization phase as such where player manually
+		// selects the armies.
+
 		for (int j = 0; j < playerList.size(); j++) {
 			playerList.get(j).setNumberOfArmiesLeft(numberOfArmiesEach);
 			System.out.println("Player name: " + playerList.get(j).getName());
 			System.out.println(playerList.get(j).getName() + " is assigned with " + numberOfArmiesEach + " armies");
 			Utilities.gameLog(
-					"Total number of armies assigned to " + playerList.get(j).getName() + " is " + numberOfArmiesEach, LogLevel.INFO);
-			for (int k = 0; k < playerList.get(j).getCountries().size(); k++) {
-				playerList.get(j).getCountries().get(k).setArmies(1);
-				System.out.println("1 army given to " + playerList.get(j).getCountries().get(k).getName());
-				int previousNumberOfArmiesLeft = playerList.get(j).getNumberOfArmiesLeft();
-				playerList.get(j).setNumberOfArmiesLeft(--previousNumberOfArmiesLeft);
-				System.out.println("No of armies left" + playerList.get(j).getNumberOfArmiesLeft());
-				Utilities.gameLog("No of armies left with " + playerList.get(j).getName() + " is "
-						+ playerList.get(j).getNumberOfArmiesLeft(), LogLevel.INFO);
+					"Total number of armies assigned to " + playerList.get(j).getName() + " is " + numberOfArmiesEach,
+					LogLevel.INFO);
+
+			if (playerList.get(j).getStrategies().equals("human")) {
+				for (int k = 0; k < playerList.get(j).getCountries().size(); k++) {
+					playerList.get(j).getCountries().get(k).setArmies(1);
+					System.out.println("1 army given to " + playerList.get(j).getCountries().get(k).getName());
+					int previousNumberOfArmiesLeft = playerList.get(j).getNumberOfArmiesLeft();
+					playerList.get(j).setNumberOfArmiesLeft(--previousNumberOfArmiesLeft);
+					System.out.println("No of armies left" + playerList.get(j).getNumberOfArmiesLeft());
+					Utilities.gameLog("No of armies left with " + playerList.get(j).getName() + " is "
+							+ playerList.get(j).getNumberOfArmiesLeft(), LogLevel.INFO);
+				}
+			} else {
+				for (int k = 0; k < playerList.get(j).getCountries().size(); k++) {
+					playerList.get(j).getCountries().get(k).setArmies(1);
+					System.out.println("1 army given to " + playerList.get(j).getCountries().get(k).getName());
+					int previousNumberOfArmiesLeft = playerList.get(j).getNumberOfArmiesLeft();
+					playerList.get(j).setNumberOfArmiesLeft(--previousNumberOfArmiesLeft);
+					System.out.println("No of armies left" + playerList.get(j).getNumberOfArmiesLeft());
+					Utilities.gameLog("No of armies left with " + playerList.get(j).getName() + " is "
+							+ playerList.get(j).getNumberOfArmiesLeft(), LogLevel.INFO);
+				}
+				int noOfArmiesLeft = playerList.get(j).getNumberOfArmiesLeft();
+				while (noOfArmiesLeft != 0) {
+					playerList.get(j).getCountries().get(random(playerList.get(j).getCountries().size())).setArmies(1);
+					noOfArmiesLeft--;
+				}
 			}
 		}
+	}
+
+	public int random(int maxNumber) {
+		ThreadLocalRandom random = ThreadLocalRandom.current();
+		int randomValue = random.nextInt(0, maxNumber);
+		return randomValue;
 	}
 
 	/**
@@ -307,7 +338,6 @@ public class StartUpPhase implements Serializable{
 			int noOfPlayers, ArrayList<Player> playerList) {
 		// Randomly assigning the countries to all the players
 
-
 		ArrayList<Integer> allCountryIndices = new ArrayList<Integer>();
 		for (Integer i = 0; i < listOfAllCountries.size(); i++) {
 			allCountryIndices.add(i);
@@ -331,7 +361,7 @@ public class StartUpPhase implements Serializable{
 				allCountryIndices.remove(randomCountry);
 				System.out.println("countries yet to be assigned - " + allCountryIndices.toString());
 				playerList.get(i).getCountries().add(listOfAllCountries.get(randomCountry));
-        listOfAllCountries.get(randomCountry).setOwner(playerList.get(i));
+				listOfAllCountries.get(randomCountry).setOwner(playerList.get(i));
 				// playerList.get(i).setCountries(playerList.get(i).getCountries());
 			}
 		}
@@ -342,7 +372,7 @@ public class StartUpPhase implements Serializable{
 			listOfAllCountries.get(allCountryIndices.get(i));
 			System.out.println("char");
 			playerList.get(randomPlayer).getCountries().add(listOfAllCountries.get(allCountryIndices.get(i)));
-      listOfAllCountries.get(allCountryIndices.get(i)).setOwner(playerList.get(randomPlayer));
+			listOfAllCountries.get(allCountryIndices.get(i)).setOwner(playerList.get(randomPlayer));
 			playerList.get(randomPlayer).setCountries(playerList.get(randomPlayer).getCountries());
 		}
 		Utilities.gameLog("Assigned countries randomly to all the players", LogLevel.INFO);
@@ -356,32 +386,30 @@ public class StartUpPhase implements Serializable{
 		}
 
 	}
-	
+
 	public void assignLeftOVerArmies(String countryName, int noOfArmies) {
-		for(int i=0;i<countryList.size();i++) {
-			if(countryName.equals(countryList.get(i).getName())){
-				countryList.get(i).setArmies(countryList.get(i).getArmies()+noOfArmies);
-				i=countryList.size();
+		for (int i = 0; i < countryList.size(); i++) {
+			if (countryName.equals(countryList.get(i).getName())) {
+				countryList.get(i).setArmies(countryList.get(i).getArmies() + noOfArmies);
+				i = countryList.size();
 			}
 		}
 	}
-	
+
 	/**
 	 * This method is used to assign armies during Game initialization
+	 * 
 	 * @return player army left
 	 */
-	
-	public int initialPhaseArmyAssignment(Player player)
-	{
-		if(player.getNumberOfArmiesLeft()>0)
-		{
-			return player.getNumberOfArmiesLeft()-1;
-		}
-		else
-		{
+
+	public int initialPhaseArmyAssignment(Player player) {
+		if (player.getNumberOfArmiesLeft() > 0) {
+			return player.getNumberOfArmiesLeft() - 1;
+		} else {
 			return 0;
 		}
 	}
+
 	/**
 	 * @param args
 	 */
@@ -389,21 +417,21 @@ public class StartUpPhase implements Serializable{
 		System.out.println("Start up phase started");
 		StartUpPhase start = new StartUpPhase();
 	}
-	
-	public ArrayList<Country> getMapCountries()
-	{
+
+	public ArrayList<Country> getMapCountries() {
 		return countryList;
 	}
-	
+
 	/**
-	 * This method is used to get all the neighbor enemy countries of the country passed
+	 * This method is used to get all the neighbor enemy countries of the country
+	 * passed
 	 * 
 	 * @param player
 	 * @param country
 	 * @return
 	 */
-	public ArrayList<Country> getEnemyList(Player player,Country country) {
-		//System.out.println(country.getName());
+	public ArrayList<Country> getEnemyList(Player player, Country country) {
+		// System.out.println(country.getName());
 		ArrayList<Country> neighborList = new ArrayList<>();
 		for (Country neighbor : country.getNeighborCounties()) {
 			if (!(neighbor.getOwner().equals(player))) {
@@ -414,8 +442,3 @@ public class StartUpPhase implements Serializable{
 	}
 
 }
-
-
-
-
-
