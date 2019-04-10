@@ -406,16 +406,15 @@ public class Player implements Serializable{
 				int leastArmies = 0;
 				Country weakestCountry = null;
 				for (int i = 0; i < enemyCountriesList.size() - 1; i++) {
-					if (enemyCountriesList.get(i).getArmies() <= enemyCountriesList.get(i + 1).getArmies()) {
-						leastArmies = enemyCountriesList.get(i).getArmies();
-						weakestCountry = enemyCountriesList.get(i);
-					}
+				
+					weakestCountry=enemyCountriesList.get(i).getArmies() <= enemyCountriesList.get(i + 1).getArmies()?enemyCountriesList.get(i):enemyCountriesList.get(i + 1);
+					leastArmies = weakestCountry.getArmies();
 				}
 				defendingCountry = weakestCountry;
 				System.out.println(
-						"The weakest among the enemies is " + weakestCountry.getName() + " with " + leastArmies);
+						"The weakest among the enemies is " + defendingCountry.getName() + " with " + leastArmies);
 				enemyCountriesList.clear();
-				attackRes = noOfDiceOnAllOut(strongestCountryToAttack, weakestCountry);
+				attackRes = noOfDiceOnAllOut(strongestCountryToAttack, defendingCountry);
 				System.out.println("Result after aggressive player attacks: " + attackRes);
 
 			} else if (action.equals("cheatingPlayerAttack")) {
@@ -854,11 +853,12 @@ public class Player implements Serializable{
 
 	public boolean reinforceArmies(Country country, int armies, String mode) {
 		//String gameMode=mode;
+		System.out.println("Printing mode "+mode);
 		Utilities.gameLog(
 				"Player: " + this.getName() + "|| Stage: Reinforcement",LogLevel.INFO);
 		ArrayList<Country> countries = this.getCountries();
 		if(countries!=null) {
-		if(Constants.HUMAN.equals(mode)) {
+		if(Constants.HUMAN.contentEquals(mode)) {
 			if (countries.contains(country)) {
 			int i = countries.indexOf(country);
 			Country country1 = countries.get(i);
@@ -869,7 +869,7 @@ public class Player implements Serializable{
 			this.setNumberOfArmiesLeft(this.getNumberOfArmiesLeft() - armies);
 			Utilities.gameLog("Player: " + this.getName() + "|| Country reinforced for human!!", LogLevel.INFO);
 		}
-		}else if(Constants.AGGRESSIVE.equals(mode)) {
+		}else if(Constants.AGGRESSIVE.contentEquals(mode)) {
 			ArrayList<Integer> cards=this.cardCount();
 			System.out.println(this.getCardType());
 			int armiesForReinforcement=0; 
@@ -907,7 +907,7 @@ public class Player implements Serializable{
 			
 			this.attack(countryToReinforce, null, 0, 0, "aggressivePlayerAttack");
 			
-		}else if(Constants.BENEVOLENT.equals(mode)) {
+		}else if(Constants.BENEVOLENT.contentEquals(mode)) {
 			ArrayList<Integer> cards=this.cardCount();
 			int armiesForReinforcement=0; 
 			 
@@ -941,7 +941,7 @@ public class Player implements Serializable{
 			Utilities.gameLog("Player: " + this.getName() + "|| Country reinforced for benevolent!!: "+countryToReinforce.getName(), LogLevel.INFO);
 			this.attack(null, null, 0, 0, "benevolentPlayerAttack");
 			//this.fortifyArmies(fromCountry, toCountry, minArmies);
-		}else if(Constants.RANDOM.equals(mode)) {
+		}else if(Constants.RANDOM.contentEquals(mode)) {
 			ArrayList<Integer> cards=this.cardCount();
 				int armiesForReinforcement=0; 
 				ThreadLocalRandom random = ThreadLocalRandom.current();
@@ -967,7 +967,7 @@ public class Player implements Serializable{
 				Utilities.gameLog("Player: " + this.getName() + "|| Country reinforced for Random!!: "+countryToReinforce.getName(), LogLevel.INFO);
 				this.attack(null, null, 0, 0, "randomPlayerAttack");
 			
-		}else if(Constants.CHEATER.equals(mode)) {
+		}else if(Constants.CHEATER.contentEquals(mode)) {
 			for(int i=0; i<countries.size();i++) {
 				int prevArmies=countries.get(i).getArmies();
 				countries.get(i).setArmies(prevArmies*2);

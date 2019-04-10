@@ -318,7 +318,7 @@ public class StartUpPhase implements Serializable {
 		int noOfArmies = 0;
 
 		if (noOfPlayers == 2)
-			noOfArmies = 10;
+			noOfArmies = 40;
 		else if (noOfPlayers == 3)
 			noOfArmies = 35;
 		else if (noOfPlayers == 4)
