@@ -1,4 +1,3 @@
-
 package gameEngine;
 
 import java.io.Serializable;
@@ -10,6 +9,7 @@ import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 import org.junit.Before;
+
 
 import constants.Constants;
 import constants.LogLevel;
@@ -26,7 +26,7 @@ import utilities.Utilities;
  * @version 1.0.0
  *
  */
-public class Player implements Serializable {
+public class Player implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	// Name of the player
@@ -66,7 +66,7 @@ public class Player implements Serializable {
 	int maxNoOfDiceForAttacker;
 	ArrayList<Card> cardTypeList = new ArrayList<Card>();
 	ArrayList<Country> lostCountries = new ArrayList<Country>();
-
+	
 	ArrayList<Country> europeCountryList = new ArrayList<Country>();
 	static ArrayList<Player> playerList = new ArrayList<Player>();
 	ArrayList<Continent> continentList = new ArrayList<Continent>();
@@ -76,10 +76,16 @@ public class Player implements Serializable {
 	static Country country1;
 	static Country country5;
 
-	StartUpPhase start = StartUpPhase.getInstance();
+	StartUpPhase start=StartUpPhase.getInstance();
+	
 
-	public Player() {
-	}
+
+	
+
+	public Player()
+	{
+			}
+
 
 	/**
 	 * This method gets the name of the player.
@@ -301,8 +307,8 @@ public class Player implements Serializable {
 			int noOFDiceForDefendingCountry, String action) {
 
 		int noOfArmiesInDefeatedCountry = 0;
-
-		// int noOfArmiesInAttackingCountry = 0;
+		
+		//int noOfArmiesInAttackingCountry = 0;
 
 		for (int i = 0; i < noOfDiceForAttackingCountry; i++) {
 			attackingCountryDiceValues.add(randomDiceValue());
@@ -328,7 +334,7 @@ public class Player implements Serializable {
 			if (attackingCountryDiceValues.get(i) > defendingCountryDiceValues.get(i)) {
 
 				noOfArmiesInDefeatedCountry = decreaseOneArmy(defendingCountry);
-				System.out.println("Armies left in defending country after atatck: " + noOfArmiesInDefeatedCountry);
+				System.out.println("Armies left in defending country after atatck: "+noOfArmiesInDefeatedCountry);
 			} else if (attackingCountryDiceValues.get(i) == defendingCountryDiceValues.get(i)) {
 				noOfArmiesInDefeatedCountry = decreaseOneArmy(attackingCountry);
 			} else {
@@ -475,7 +481,7 @@ public class Player implements Serializable {
 
 			}
 
-			System.out.println("Result of attacking : " + attackRes);
+			System.out.println("Result of attacking : "+attackRes);
 			if (attackRes.equals("defeated")) {
 
 				defendingCountry.setOwner(attackingCountry.getOwner());// change the defeated country owner to attacked
@@ -499,14 +505,14 @@ public class Player implements Serializable {
 					return "champion";
 				}
 				// can give this player a card
-				cardTypeList = attackingCountry.getOwner().getCardType();
+			    this.cardTypeList = attackingCountry.getOwner().getCardType();
 
-				cardTypeList.add(Utilities.giveCard());
-				attackingCountry.getOwner().setCardType(cardTypeList);
-				cardTypeList.clear();
+				this.cardTypeList.add(Utilities.giveCard());
 
+				this.setCardType(this.cardTypeList);
+	
 				// ASk player if wants to continue attacking
-
+				
 				System.out.println("Defeated the country");
 
 				if (action.equals("aggressivePlayerAttack")) {
@@ -520,7 +526,6 @@ public class Player implements Serializable {
 
 				}
 				return "The enemy has been defeated";
-
 				// If player do not want to continue, he must fortify
 			} else if (attackRes.equals("notDefeated")) {
 				// ASk player if wants to continue attacking
@@ -583,9 +588,9 @@ public class Player implements Serializable {
 																											// 2 dice
 																											// values
 	}
-
+	
 	/**
-	 * This function gives maximum number of dice for particular attacking country
+	 * This function gives maximum number of dice for particular attacking  country
 	 * 
 	 * @param attackingCountry
 	 *            attacking country object is sent from the user
@@ -594,7 +599,7 @@ public class Player implements Serializable {
 	 */
 	public int maxNoOfDiceForAttack(Country attackingCountry) {
 		int maxNoOfDiceForAttacking = 0;
-
+		
 		if (attackingCountry.getArmies() > 1) {
 			if (attackingCountry.getArmies() > 3) {
 				maxNoOfDiceForAttacking = 3;
@@ -604,7 +609,7 @@ public class Player implements Serializable {
 		}
 		return maxNoOfDiceForAttacking;
 	}
-
+	
 	/**
 	 * This function gives maximum number of dice for particular defending country
 	 * 
@@ -613,7 +618,7 @@ public class Player implements Serializable {
 	 * @return provides max number of dice for defender
 	 */
 	public int maxNoOfDiceForDefence(Country defendingCountry) {
-
+		
 		int maxNoOfDiceForDefending = 0;
 		if (defendingCountry.getArmies() > 1) {
 			maxNoOfDiceForDefending = 2;
@@ -644,20 +649,20 @@ public class Player implements Serializable {
 				|| (infantryCount == 3 && artilleryCount == 0 && cavalryCount == 0)
 				|| (cavalryCount == 3 && infantryCount == 0 && artilleryCount == 0))
 				|| (artilleryCount == 1 && infantryCount == 1 && cavalryCount == 1)) {
-
-			// ArrayList<Card> testList = new ArrayList();
-			// Card testCard1=new Card();
-			// Card testCard2=new Card();
-			// Card testCard3=new Card();
-			// testCard1.setType(Constants.ARTILLERY);
-			// testCard2.setType(Constants.CAVALRY);
-			// testCard3.setType(Constants.INFANTRY);
-			// testList.add(testCard1);
-			// testList.add(testCard1);
-			// testList.add(testCard1);
-			// testList.add(testCard2);
-			// testList.add(testCard3);
-			// this.setCardType(testList);
+			
+//			ArrayList<Card> testList = new ArrayList();
+//	        Card testCard1=new Card();
+//	        Card testCard2=new Card();
+//	        Card testCard3=new Card();
+//	        testCard1.setType(Constants.ARTILLERY);
+//	        testCard2.setType(Constants.CAVALRY);
+//	        testCard3.setType(Constants.INFANTRY);
+//	        testList.add(testCard1);
+//	        testList.add(testCard1);
+//	        testList.add(testCard1);
+//	        testList.add(testCard2);
+//	        testList.add(testCard3);
+//	        this.setCardType(testList);
 
 			playerCards = this.getCardType();
 		} else {
@@ -675,7 +680,7 @@ public class Player implements Serializable {
 				}
 			}
 			Arrays.sort(indexes);
-
+			
 			for (int i = 2; i >= 0; i--) {
 				playerCards.remove(indexes[i]);
 			}
@@ -699,12 +704,12 @@ public class Player implements Serializable {
 					j++;
 				}
 			}
-
+			
 			Arrays.sort(indexes);
-			for (int i = 2; i >= 0; i--) {
-
+			for (int i = 2; i >=0; i--) {
+				
 				playerCards.remove(indexes[i]);
-
+				
 			}
 			result = true;
 		}
@@ -729,7 +734,7 @@ public class Player implements Serializable {
 				}
 			}
 			Arrays.sort(indexes);
-			for (int i = 2; i >= 0; i--) {
+			for (int i = 2; i >=0; i--) {
 				playerCards.remove(indexes[i]);
 			}
 			result = true;
@@ -758,7 +763,7 @@ public class Player implements Serializable {
 			return 0;
 		}
 	}
-
+	
 	/**
 	 * This method gives the count of each type of card that the player has.
 	 * 
@@ -768,46 +773,18 @@ public class Player implements Serializable {
 	 */
 	public ArrayList<Integer> cardCount() {
 
-		// cardCount.add(1);
-		// cardCount.add(1);
-		// cardCount.add(3);
-
-		ArrayList<Card> testList = new ArrayList();
-		Card testCard1 = new Card();
-		Card testCard2 = new Card();
-		Card testCard3 = new Card();
-		testCard1.setType(Constants.ARTILLERY);
-		testCard2.setType(Constants.CAVALRY);
-		testCard3.setType(Constants.INFANTRY);
-		testList.add(testCard1);
-		testList.add(testCard1);
-		testList.add(testCard1);
-		testList.add(testCard2);
-		testList.add(testCard3);
-		this.setCardType(testList);
-		// if (this.getCardType() != null && this.getCardType().size() != 0) {
-		// cards = this.getCardType();
-		// } else {
-		// Utilities.gameLog("Player: " + this.getName() + " || Stage: Card count check
-		// || Player has no cards!! || Type:" + this.getCardType(),
-		// LogLevel.ERROR);
-		// ArrayList<Integer> myList = new ArrayList<Integer>(Collections.nCopies(3,
-		// 0));
-		// myList.set(0, 3);
-		// myList.set(1,3);
-		// myList.set(2, 1);
-		// return myList;
-		// }
-		// Count what type of cards does the player have
 		int artilleryCount = 0;
 		int cavalryCount = 0;
 		int infantryCount = 0;
 		ArrayList<Integer> cardCount = new ArrayList<Integer>();
-
-		if (this.cards != null && this.cards.size() != 0) {
+		System.out.println("Inside cardCount"+this.cards.toString());
+		if(this.cards != null && this.cards.size() != 0)
+		{
+			
 			System.out.println(this.cards);
-
-			for (Card card : this.cards) {
+			
+			for (Card card : this.cards)
+			{
 				if (card.getType().equals(Constants.ARTILLERY)) {
 					artilleryCount++;
 				} else if (card.getType().equals(Constants.INFANTRY)) {
@@ -816,17 +793,19 @@ public class Player implements Serializable {
 					cavalryCount++;
 				}
 			}
-
+			
 		}
 
 		cardCount.add(artilleryCount);
 		cardCount.add(infantryCount);
 		cardCount.add(cavalryCount);
-
-		return cardCount;
-
+			
+			return cardCount;
+		
+			
+		
 	}
-
+	
 	/**
 	 * This method returns the number of armies that the player will get in the
 	 * reinforcement phase of the game. The player gets (Number of countries
@@ -849,7 +828,7 @@ public class Player implements Serializable {
 				for (int i = 0; i < this.getContinents().size(); i++) {
 					controlValue = this.getContinents().get(i).getControlValue();
 					armies = armies + controlValue;
-					System.out.println("Control value sum+ :" + armies + "---" + i);
+					System.out.println("Control value sum+ :"+armies+"---"+i);
 				}
 			} else {
 				armies = this.getCountries().size() / 3;
@@ -865,7 +844,7 @@ public class Player implements Serializable {
 					+ " || Stage: Reinforcement Armies || Cannot give armies to reinforce!! ", LogLevel.ERROR);
 			return false;
 		}
-	}
+  }
 
 	/**
 	 * This method is used to make changes in the number of armies in a country when
@@ -881,41 +860,42 @@ public class Player implements Serializable {
 	 */
 
 	public boolean reinforceArmies(Country country, int armies, String mode) {
-		// String gameMode=mode;
-		Utilities.gameLog("Player: " + this.getName() + "|| Stage: Reinforcement", LogLevel.INFO);
+		//String gameMode=mode;
+		Utilities.gameLog(
+				"Player: " + this.getName() + "|| Stage: Reinforcement",LogLevel.INFO);
 		ArrayList<Country> countries = this.getCountries();
-		if (countries != null) {
-			if (Constants.HUMAN.equals(mode)) {
-				if (countries.contains(country)) {
-					int i = countries.indexOf(country);
-					Country country1 = countries.get(i);
-					country1.setArmies(country1.getArmies() + armies);
-					countries.remove(i);
-					countries.add(country1);
-					this.setCountries(countries);
-					this.setNumberOfArmiesLeft(this.getNumberOfArmiesLeft() - armies);
-					Utilities.gameLog("Player: " + this.getName() + "|| Country reinforced for human!!", LogLevel.INFO);
+		if(countries!=null) {
+		if(Constants.HUMAN.equals(mode)) {
+			if (countries.contains(country)) {
+			int i = countries.indexOf(country);
+			Country country1 = countries.get(i);
+			country1.setArmies(country1.getArmies() + armies);
+			countries.remove(i);
+			countries.add(country1);
+			this.setCountries(countries);
+			this.setNumberOfArmiesLeft(this.getNumberOfArmiesLeft() - armies);
+			Utilities.gameLog("Player: " + this.getName() + "|| Country reinforced for human!!", LogLevel.INFO);
+		}
+		}else if(Constants.AGGRESSIVE.equals(mode)) {
+			ArrayList<Integer> cards=this.cardCount();
+			System.out.println(this.getCardType());
+			int armiesForReinforcement=0; 
+			int maxArmies=0; 
+			int index=0;
+			//Country countryToReinforce=new Country(); 
+			if(cards.get(0)+cards.get(1)+cards.get(2)==5) {
+				if(cards.get(0)==3) {
+					armiesForReinforcement=this.armiesFromCardExchange(3,0,0);
+				}else if(cards.get(1)==3){
+					armiesForReinforcement=this.armiesFromCardExchange(0,3,0);
+				}else if(cards.get(2)==3){
+					armiesForReinforcement=this.armiesFromCardExchange(0,0,3);
+				}else {
+					armiesForReinforcement=this.armiesFromCardExchange(1,1,1);
 				}
-			} else if (Constants.AGGRESSIVE.equals(mode)) {
-				ArrayList<Integer> cards = this.cardCount();
-				System.out.println(this.getCardType());
-				int armiesForReinforcement = 0;
-				int maxArmies = 0;
-				int index = 0;
-				// Country countryToReinforce=new Country();
-				if (cards.get(0) + cards.get(1) + cards.get(2) == 5) {
-					if (cards.get(0) == 3) {
-						armiesForReinforcement = this.armiesFromCardExchange(3, 0, 0);
-					} else if (cards.get(1) == 3) {
-						armiesForReinforcement = this.armiesFromCardExchange(0, 3, 0);
-					} else if (cards.get(2) == 3) {
-						armiesForReinforcement = this.armiesFromCardExchange(0, 0, 3);
-					} else {
-						armiesForReinforcement = this.armiesFromCardExchange(1, 1, 1);
-					}
-				} else {
+				}else {
 					this.getReinforcementArmies();
-					armiesForReinforcement = this.getNumberOfArmiesLeft();
+					armiesForReinforcement=this.getNumberOfArmiesLeft();
 				}
 				for (int i = 0; i < countries.size(); i++) {
 					if (maxArmies < countries.get(i).getArmies()) {
@@ -954,7 +934,7 @@ public class Player implements Serializable {
 					}
 				} else {
 					this.getReinforcementArmies();
-					armiesForReinforcement = this.getNumberOfArmiesLeft();
+					armiesForReinforcement=this.getNumberOfArmiesLeft();
 				}
 				int minArmies = countries.get(0).getArmies();
 				countryToReinforce = countries.get(0);
@@ -976,16 +956,16 @@ public class Player implements Serializable {
 				ArrayList<Integer> cards = this.cardCount();
 				int armiesForReinforcement = 0;
 				ThreadLocalRandom random = ThreadLocalRandom.current();
-				int randomValue = random.nextInt(0, countries.size() - 1);
-				if (cards.get(0) + cards.get(1) + cards.get(2) == 5) {
-					if (cards.get(0) == 3) {
-						armiesForReinforcement = this.armiesFromCardExchange(3, 0, 0);
-					} else if (cards.get(1) == 3) {
-						armiesForReinforcement = this.armiesFromCardExchange(0, 3, 0);
-					} else if (cards.get(2) == 3) {
-						armiesForReinforcement = this.armiesFromCardExchange(0, 0, 3);
-					} else {
-						armiesForReinforcement = this.armiesFromCardExchange(1, 1, 1);
+				int randomValue = random.nextInt(0, countries.size()-1);
+				if(cards.get(0)+cards.get(1)+cards.get(2)==5) {
+					if(cards.get(0)==3) {
+						armiesForReinforcement=this.armiesFromCardExchange(3,0,0);
+					}else if(cards.get(1)==3){
+						armiesForReinforcement=this.armiesFromCardExchange(0,3,0);
+					}else if(cards.get(2)==3){
+						armiesForReinforcement=this.armiesFromCardExchange(0,0,3);
+					}else {
+						armiesForReinforcement=this.armiesFromCardExchange(1,1,1);
 					}
 				} else {
 					this.getReinforcementArmies();
@@ -1219,21 +1199,23 @@ public class Player implements Serializable {
 				}
 			}
 
-			this.setCountries(playerCountries);
-			return true;
-		}
-
-		Utilities.gameLog("Player: " + this.getName() + "|| Countries could not be fortified", LogLevel.WARN);
-
+				this.setCountries(playerCountries);
+				return true;
+			}
+									
+		
+		Utilities.gameLog("Player: "+this.getName()+"|| Countries could not be fortified",LogLevel.WARN);
+		
 		return false;
-
+		
 	}
-
+	
 	public static void main(String[] args) {
 		Player play = new Player();
-		// play.set();
+		//play.set();
 
 		StartUpPhase start = StartUpPhase.getInstance();
+
 
 		System.out.println("Attacking country armies: " + playerList.get(0).getCountries().get(0).getName() + " "
 				+ playerList.get(0).getCountries().get(0).getArmies());
