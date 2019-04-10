@@ -351,6 +351,10 @@ public class TournamentModeViewManager
 		
 	}
 	
+	/**
+	 * This method is a test method, need to be removed!.
+	 * 
+	 */
 	private HashMap<Integer, String> getResult()
 	{
 		HashMap<Integer, String> dummy = new HashMap<Integer, String>() ;
@@ -363,6 +367,10 @@ public class TournamentModeViewManager
 		
 	}
 	
+	/**
+	 * This method starts tournament simulation.
+	 * 
+	 */
 	private void startTournament()
 	{
 		mapsList.clear();
@@ -389,6 +397,10 @@ public class TournamentModeViewManager
 		System.out.println("Turn Count" + turnsCount);
 	}
 	
+	/**
+	 * This method is used to capture user selected maps.
+	 * 
+	 */
 	private void addMapComboBoxData(int val)
 	{
 		switch(val)
@@ -428,7 +440,10 @@ public class TournamentModeViewManager
 		}
 	}
 	
-	
+	/**
+	 * This method is used to capture user selected player behaviour.
+	 * 
+	 */
 	private void addPlayerComboBoxData(int val)
 	{
 		switch(val)
