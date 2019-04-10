@@ -448,9 +448,13 @@ public class Player implements Serializable {
 
 					return "champion";// Declared as winner of the game
 				}
-				fortifyArmies(null, null, 0, "cheater");
+
+				//fortifyArmies(null,null, 0,"cheater");
 				// Call fortification method for cheater
-			} else if (action.equals("randomPlayerAttack")) {
+				return "cheaterFortify";
+			}
+			else if(action.equals("randomPlayerAttack")) {
+				
 
 				int noOfPlayerCountries = this.getCountries().size();
 				int randomCountryIndex = random(noOfPlayerCountries);
@@ -465,7 +469,10 @@ public class Player implements Serializable {
 
 			} else if (action.equals("benevolentPlayerAttack")) {
 				// Call fortification method for benevolent player
-				fortifyArmies(null, null, 0, "benevolent");
+
+				//fortifyArmies(null,null, 0,"benevolent");
+				return "benevolentFortify";
+
 			}
 
 			System.out.println("Result of attacking : " + attackRes);
@@ -506,7 +513,10 @@ public class Player implements Serializable {
 					System.out.println(
 							"Defeated the country in Aggressive player mode and it continues attacking untill one army is left");
 					attack(attackingCountry, null, 0, 0, "aggressivePlayerAttack");
-				} else if (action.equals("randomPlayerAttack")) {
+
+				}
+				else if(action.equals("randomPlayerAttack")) {
+					return "randomFortify";
 
 				}
 				return "The enemy has been defeated";
@@ -524,10 +534,15 @@ public class Player implements Serializable {
 				// mode
 				if (action.equals("aggressivePlayerAttack")) {
 					// call fortification phase of aggressive player
-					fortifyArmies(null, null, 0, "aggressive");
-				} else if (action.equals("randomPlayerAttack")) {
+
+					//fortifyArmies(null,null, 0,"aggressive");
+					return "aggressiveFortify";
+				}
+				else if(action.equals("randomPlayerAttack")){
 					// call fortification phase of random player
-					fortifyArmies(null, null, 0, "random");
+					fortifyArmies(null,null, 0,"random");
+					return "randomFortify";
+
 				}
 				return "Only one army left" + "\n" + "in the attacking country." + "\n" + "Attack not possible";
 
