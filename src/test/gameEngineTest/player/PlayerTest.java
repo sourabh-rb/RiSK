@@ -22,6 +22,7 @@ import gameEngine.Player;
  */
 public class PlayerTest {
 
+	StartUpPhase initialize;
 	Country country1, country2, attackCountry1, attackCountry2, attackCountry3, attackCountry4, attackCountry5, attackCountry6, fromCountry, toCountry;
 	Player player1, player2, attackPlayer1, attackPlayer2, attackPlayer3, attackPlayer4, player;
 	Continent continent1, continent2, attackContinent1, attackContinent2;
@@ -32,7 +33,6 @@ public class PlayerTest {
 	ArrayList<Player> attackPlayerList;
 	Player p;
 	int armies;
-	StartUpPhase s;
 
 	/**
 	 * This method sets the value that are to be initialized before running each
@@ -40,6 +40,7 @@ public class PlayerTest {
 	 */
 	@Before
 	public void set() {
+		initialize= new StartUpPhase();
 		country1 = new Country();
 		country2 = new Country();
 		attackCountry1 = new Country();
@@ -102,15 +103,21 @@ public class PlayerTest {
 		attackCountry1.setName("India");
 		attackCountry1.setOwner(attackPlayer1);
 		attackCountry2.setName("china");
+		attackCountry2.setOwner(attackPlayer1);
 		attackCountry3.setName("pakistan");
+		attackCountry3.setOwner(attackPlayer1);
 		
 		attackCountry4.setName("France");
+		attackCountry4.setOwner(attackPlayer1);
 		attackCountry5.setName("Germany");
+		attackCountry5.setOwner(attackPlayer2);
 		attackCountry6.setName("Sweden");
+		attackCountry6.setOwner(attackPlayer1);
 		
-		attackCountryList.add(attackCountry1);
-		attackCountryList.add(attackCountry2);
-		attackCountryList.add(attackCountry3);
+		
+		
+		attackPlayer1.setCountries(attackCountryList);
+		attackPlayer2.setCountries(countries);
 		
 		
 		attackContinent1.setCountriesComprised(attackCountryList);
@@ -124,7 +131,7 @@ public class PlayerTest {
 		attackCountryListPlayer1.add(attackCountry4);
 		attackCountryListPlayer1.add(attackCountry6);
 		
-		attackCountryListPlayer2.add(attackCountry6);
+		attackCountryListPlayer2.add(attackCountry5);
 		
 		attackPlayer1.setCountries(attackCountryListPlayer1);
 		attackPlayer2.setCountries(attackCountryListPlayer2);
@@ -163,9 +170,9 @@ public class PlayerTest {
 		player1.setContinents(continents);
 
 		player2.setCountries(countries);
-		assertTrue(p.getReinforcementArmies(player1));
+		assertTrue(player1.getReinforcementArmies());
 
-		assertTrue(p.getReinforcementArmies(player2));
+		assertTrue(player2.getReinforcementArmies());
 	}
 
 	/**
@@ -173,7 +180,7 @@ public class PlayerTest {
 	 * countries correctly.
 	 */
 	@Test
-	public void positiveReinforceArmies() {
+	public void positiveReinforceArmiesHuman() {
 
 		country1.setArmies(10);
 		countries.add(country1);
@@ -190,7 +197,102 @@ public class PlayerTest {
 		player1.setContinents(continents);
 		int armies = 2;
 		// To test if the reinforceArmies() method returns correct number of armies.
-		assertTrue(p.reinforceArmies(player1, country1, armies));
+		assertTrue(player1.reinforceArmies(country1, armies,Constants.HUMAN));
+	}
+	
+	/**
+	 * This method tests the positive working of the aggressive mode for reinforcement phase.
+	 */
+	@Test
+	public void positiveReinforceArmiesAggressive() {
+		country1.setArmies(10);
+		countries.add(country1);
+
+		continent1.setControlValue(3);
+		continents.add(continent1);
+
+		continent2.setControlValue(1);
+		continents.add(continent2);
+
+		player1.setName("Shivani");
+		player1.setArmies(9);
+		player1.setCountries(countries);
+		player1.setContinents(continents);
+	
+		assertTrue(player1.reinforceArmies(null, 0, Constants.AGGRESSIVE));
+	}
+	
+	/**
+	 * This method tests the positive working of the benevolent mode for reinforcement phase.
+	 */
+	@Test
+	public void positiveReinforceArmiesBenevolent() {
+		country1.setArmies(10);
+		countries.add(country1);
+		
+		country2.setArmies(3);
+		countries.add(country2);
+
+		continent1.setControlValue(3);
+		continents.add(continent1);
+
+		continent2.setControlValue(1);
+		continents.add(continent2);
+
+		player1.setName("Shivani");
+		player1.setArmies(9);
+		player1.setCountries(countries);
+		player1.setContinents(continents);
+		
+		assertTrue(player1.reinforceArmies(null, 0, Constants.BENEVOLENT));
+	}
+	
+	@Test
+	public void positiveReinforceArmiesRandom() {
+		country1.setArmies(10);
+		countries.add(country1);
+		
+		country2.setArmies(3);
+		countries.add(country2);
+	
+		continent1.setControlValue(3);
+		continents.add(continent1);
+
+		continent2.setControlValue(1);
+		continents.add(continent2);
+
+		player1.setName("Shivani");
+		player1.setArmies(9);
+		player1.setCountries(countries);
+		player1.setContinents(continents);
+		
+		assertTrue(player1.reinforceArmies(null, 0, Constants.RANDOM));
+		
+		
+	}
+	
+	@Test
+	public void positiveReinforcementArmiesCheater() {
+		country1.setArmies(10);
+		countries.add(country1);
+		
+		country2.setArmies(3);
+		countries.add(country2);
+	
+		continent1.setControlValue(3);
+		continents.add(continent1);
+
+		continent2.setControlValue(1);
+		continents.add(continent2);
+
+		player1.setName("Shivani");
+		player1.setArmies(9);
+		player1.setCountries(countries);
+		player1.setContinents(continents);
+		
+		assertTrue(player1.reinforceArmies(null, 0, Constants.CHEATER));
+		
+
 	}
 
 	/**
@@ -207,8 +309,25 @@ public class PlayerTest {
 		cardTypes.add(card3);
 		player1.setCardExchangeCount(0);
 		player1.setCardType(cardTypes);
-		int armies = p.armiesFromCardExchange(3, 0, 0);
-		//assertEquals(0, armies);
+		int armies = player1.armiesFromCardExchange(3, 0, 0);
+		assertEquals(5, armies);
+	}
+	
+	/**
+	 * This method checks the incorrect input for card exchange by player.
+	 */
+	@Test
+	public void negativeFirstCardExchange() {
+		card1.setType(Constants.ARTILLERY);
+		cardTypes.add(card1);
+		card2.setType(Constants.ARTILLERY);
+		cardTypes.add(card2);
+		card3.setType(Constants.ARTILLERY);
+		cardTypes.add(card3);
+		player1.setCardExchangeCount(0);
+		player1.setCardType(cardTypes);
+		int armies = player1.armiesFromCardExchange(3, 1, 0);
+		assertEquals(0, armies);
 	}
 
 	/**
@@ -216,16 +335,17 @@ public class PlayerTest {
 	 */
 	@Test
 	public void positiveDifferentCardExchange() {
-		card1.setType(Constants.ARTILLERY);
+
+		card1.setType(Constants.CAVALRY);
 		cardTypes.add(card1);
 		card2.setType(Constants.INFANTRY);
 		cardTypes.add(card2);
-		card3.setType(Constants.CAVALRY);
+		card3.setType(Constants.ARTILLERY);
 		cardTypes.add(card3);
 		player1.setCardExchangeCount(2);
 		player1.setCardType(cardTypes);
-		int armies = p.armiesFromCardExchange(1, 1, 1);
-		assertEquals(0, armies);
+		int armies = player1.armiesFromCardExchange(1, 1, 1);
+		assertEquals(15, armies);
 	}
 
 	/**
@@ -246,7 +366,7 @@ public class PlayerTest {
 	public void positiveFortifyArmies() {
 
 		armies = 2;
-		boolean b = p.fortifyArmies(player, fromCountry, toCountry, armies);
+		boolean b = player.fortifyArmies(fromCountry, toCountry, armies,Constants.HUMAN);
 		assertTrue(b);
 	}
 
@@ -257,7 +377,7 @@ public class PlayerTest {
 	public void negativeFortifyArmies() {
 
 		armies = -2;
-		boolean b = p.fortifyArmies(player, fromCountry, toCountry, armies);
+		boolean b = player.fortifyArmies(fromCountry, toCountry, armies,Constants.HUMAN);
 		assertFalse(b);
 	}
 	
@@ -291,7 +411,7 @@ public class PlayerTest {
 			attackCountry1.setArmies(6);
 			attackCountry4.setArmies(1);
 			String atttackRes = p.attack(attackCountry1, attackCountry4, 3, 2, "allOutWinner");
-			String def = "defeated";
+			String def = "The enemy has been defeated";
 			assertEquals(atttackRes,def);
 			
 		}
@@ -302,14 +422,16 @@ public class PlayerTest {
 		public void attackWithOneArmy() {
 			attackCountry1.setArmies(1);
 			//country5.setArmies(4);
-			String atttackRes = p.attack(attackCountry1, attackCountry4, 1, 2, "attack");
-			assertEquals(atttackRes,"cannotAttack");
+			String atttackRes = p.attack(attackCountry1, attackCountry5, 1, 2, "attack");
+			String exp="Cannot attack. Attacking country must have atleast 2 countries to attack";
+			assertEquals(atttackRes,exp);
 		}
 		/**
 		 * This function is used to test if it is providing winner of the game properly or not
 		 */
 		@Test
 		public void gameWinner() {
+			StartUpPhase.getInstance().getCountryList().clear();
 			StartUpPhase.getInstance().getCountryList().add(attackCountry1);
 			StartUpPhase.getInstance().getCountryList().add(attackCountry2);
 			StartUpPhase.getInstance().getCountryList().add(attackCountry3);
@@ -325,5 +447,26 @@ public class PlayerTest {
 			attackCountry3.setArmies(1);
 			String atttackRes = p.attack(attackCountry1, attackCountry3, 3, 2, "allOutWinner");
 			assertEquals(atttackRes,"champion");
+		}
+		
+		/**
+		 * This function is to test if valid move(owner change) happened after attacking
+		 */
+		@Test
+		public void movingOwnerAfterAttack(){
+			attackCountry1.setArmies(6);
+			attackCountry5.setArmies(1);
+			p.attack(attackCountry1, attackCountry5, 3, 2, "allOutWinner");
+			assertEquals(attackCountry4.getOwner(),attackCountry1.getOwner());
+		}
+		/**
+		 * This function is to test if valid move(number of countries change under attacker) happened after winning through attack
+		 */
+		@Test
+		public void movingCountryAfterAttack() {
+			attackCountry1.setArmies(6);
+			attackCountry5.setArmies(1);
+			p.attack(attackCountry1, attackCountry5, 3, 2, "allOutWinner");
+			assertEquals(attackCountry1.getOwner().getCountries().size(),6);
 		}
 }

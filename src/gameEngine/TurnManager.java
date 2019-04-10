@@ -1,12 +1,15 @@
 package gameEngine;
 
+import java.io.Serializable;
 import java.util.*;
 import java.util.ArrayList;
 
 import javafx.collections.FXCollections;
 import utilities.Utilities;
 
-public class TurnManager {
+public class TurnManager implements Serializable{
+	
+	private static final long serialVersionUID = 1L;
 	private StartUpPhase startUpPhase;
 	private Player currentPlayerObj;
 	
@@ -14,6 +17,15 @@ public class TurnManager {
 	public TurnManager() {
 		startUpPhase=StartUpPhase.getInstance();
 		currentPlayerObj=startUpPhase.getPlayerList().get(0);
+	}
+	
+	
+	public TurnManager(StartUpPhase sObj)
+	{
+		startUpPhase=sObj;
+		System.out.println(startUpPhase.getPlayerList().size());
+		currentPlayerObj=startUpPhase.getPlayerList().get(0);
+		
 	}
 	
 	public  Player currentPlayer(String currentPlayer )

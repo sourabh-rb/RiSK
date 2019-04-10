@@ -9,6 +9,8 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.beans.binding.NumberBinding;
 import javafx.beans.binding.Bindings.*;
 import javafx.collections.FXCollections;
@@ -41,6 +43,7 @@ public class PlayerDominationViewManager
     private ScrollPane dominationPane;
     private Scene dominationScene;
     private Stage dominationStage;
+    private VBox mainLayout;
     
     
     
@@ -72,6 +75,7 @@ public class PlayerDominationViewManager
         dominationStage.setTitle("Player Domination View");
         dominationStage.setScene(dominationScene);
         dominationStage.setResizable(false);
+        mainLayout = new VBox();
     }
     
     /**
@@ -79,7 +83,8 @@ public class PlayerDominationViewManager
      */
     private void createDominationView()
     {
-        VBox mainLayout = new VBox();
+        
+        mainLayout.getChildren().clear();
         
         Image backgroundImage = new Image("view/resources/mainBackground.png", 256, 256, false, true);
         BackgroundImage background = new BackgroundImage(
@@ -100,8 +105,7 @@ public class PlayerDominationViewManager
             IntegerProperty continentOwned = new SimpleIntegerProperty();
             //continentOwned.set(playerList.get(i).getContinents().size());
             
-            IntegerProperty armies = new SimpleIntegerProperty();
-            armies.set(playerList.get(i).getArmies());
+            
             
             DoubleProperty totalCountries = new SimpleDoubleProperty();
             totalCountries.set(startObject.getMapCountries().size());
@@ -120,6 +124,8 @@ public class PlayerDominationViewManager
             RiskLabel countryCountLabel = new RiskLabel();
             countryCountLabel.textProperty().bind(countryOwned.asString());
             
+            IntegerProperty armies = new SimpleIntegerProperty();
+            
             ComboBox<Country> countryCombobox = new ComboBox<Country>();
             
             countryCombobox.setItems(observableCountries);
@@ -135,8 +141,20 @@ public class PlayerDominationViewManager
                  }
             };
             countryCombobox.setConverter(converter);
+            
+            countryCombobox.valueProperty().addListener(new ChangeListener<Country>()
+    		{
+
+    			@Override
+    			public void changed(ObservableValue<? extends Country> observable,
+    					Country oldValue, Country newValue)
+    			{
+    				armies.set(countryCombobox.getSelectionModel().getSelectedItem().getArmies());			
+    			}
+    		});
             countryCombobox.getSelectionModel().selectFirst();
             VBox countryBox = new VBox(20, countryHeader, countryCountLabel, countryCombobox);
+            
             
             RiskLabel continentsHeader = new RiskLabel("Continents");
             RiskLabel continentCountLabel = new RiskLabel();
@@ -220,6 +238,17 @@ public class PlayerDominationViewManager
             
     }
     
+    /**
+     * This method is used to update the domination view. 
+     */
+    public void updateDominationView()
+    {
+    	createDominationView();
+    }
+    
+    /**
+     * This method is used to show the main view. 
+     */
     public void showView()
     {
         dominationStage.show();
