@@ -1,11 +1,4 @@
 package test.viewTest;
-/**
- * This class is used to test the Save/Load functionality.
- * This class has a total of 8 test cases.
- * 
- * @author Sourabh Rajeev Badagandi
- * @version 1.0.0
- */
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -21,6 +14,13 @@ import org.junit.Test;
 
 import gameEngine.StartUpPhase;
 
+/**
+ * This class is used to test the Save/Load functionality.
+ * This class has a total of 5 test cases.
+ * 
+ * @author Sourabh Rajeev Badagandi
+ * @version 1.0.0
+ */
 public class MainMenuViewManagerTest
 {
 	private File test_file;
@@ -73,5 +73,39 @@ public class MainMenuViewManagerTest
 		assertNotNull(StartUpPhase.getInstance().getPlayerList());
 		
 	}
+	
+	/**
+	 * This method is used to test if the game has loaded map territories.
+	 */
+	@Test
+	public void testLoadedMapTerritories()
+	{
+
+		assertNotNull(StartUpPhase.getInstance().getCountryList());
+		
+	}
+	
+	/**
+	 * This method is used to test if the game has loaded map Continents.
+	 */
+	@Test
+	public void testLoadedMapContinents()
+	{
+
+		assertNotNull(StartUpPhase.getInstance().getContinentList());
+		
+	}
+	
+	/**
+	 * This method is used to test if the game has loaded Countries in Continents.
+	 */
+	@Test
+	public void testLoadedMapCountriesInContinents()
+	{
+
+		assertNotNull(StartUpPhase.getInstance().getCountriesInContinent());
+		
+	}
+
 
 }
