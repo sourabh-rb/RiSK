@@ -27,7 +27,7 @@ public class TournamentRunner {
 		this.playerStrategy=players;
 		this.gamesToPlay=gamesToPlay;
 		this.noOfTurns=noOfTurns;
-		this.noOfPlayers= 5-Collections.frequency(players, "null");
+		this.noOfPlayers=players.size();
 		
 		this.gameResults=new HashMap<String,String>();
 		
@@ -61,7 +61,9 @@ public class TournamentRunner {
 			continentHashMap = (HashMap<String,Integer>)mapValidation.get(1);
 			territoryHashMap = (HashMap<String,ArrayList<String>>)mapValidation.get(2);
 			StartUpPhase startPhase = StartUpPhase.getInstance();
-			//startPhase.mappingElements(continentHashMap, territoryHashMap, noOfPlayers);
+			System.out.println("printing player strategies");
+			System.out.println(playerStrategy);
+			startPhase.mappingElements(continentHashMap, territoryHashMap, noOfPlayers,playerStrategy);
 			return startPhase;
 			
 		}
@@ -108,16 +110,34 @@ public class TournamentRunner {
 	
 	public String playGame() 
 	{
-		
+
+        String strategy;
+        int countriesOwned=0;
+		int currentPlayerNumber;
+		String winner="";
+		Player currentPlayer;
 		for(int turnNo=0;turnNo<noOfTurns;turnNo++)
 		{
+			System.out.println("Turn number "+turnNo);
+			currentPlayerNumber=turnNo%noOfPlayers;
+			currentPlayer=currentStartUpPhase.getPlayerList().get(currentPlayerNumber);
+			strategy=playerStrategy.get(currentPlayerNumber);
+			currentPlayer.reinforceArmies(null,0,strategyDecider(strategy));
+			
 
-			
-			
-			
 		}
 		
-		return null;
+		for(Player player : currentStartUpPhase.getPlayerList())
+		{
+			if(player.getCountries().size()>countriesOwned) 
+				{
+				  countriesOwned=player.getCountries().size();
+				  winner=player.getStrategies();
+				}
+		}
+		System.out.println("Winner is "+winner);
+		
+		return winner;
 		
 	}
 
