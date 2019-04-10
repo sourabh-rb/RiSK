@@ -485,7 +485,6 @@ public class Player implements Serializable{
 				}
 				// can give this player a card
 				cardTypeList = attackingCountry.getOwner().getCardType();
-
 				cardTypeList.add(Utilities.giveCard());
 				attackingCountry.getOwner().setCardType(cardTypeList);
 				cardTypeList.clear();
@@ -1123,7 +1122,7 @@ public class Player implements Serializable{
 				this.setCountries(playerCountries);
 				Utilities.gameLog("Player: "+this.getName()+"|| Countries fortified!! || "
 						+ countryToFortify.getName() +" : "+countryToFortify.getArmies()+" || "+ countryFortifying.getName() +" : "+countryFortifying.getArmies(),LogLevel.INFO);
-				//this.attack(attackingCountry, defendingCountry, noOfDiceForAttackingCountry, noOFDiceForDefendingCountry, action);
+				//this.attack(null, null, 0, 0, "randomPlayerAttack");
 				return true;
 			}else if(Constants.CHEATER.equals(mode))
 			{
