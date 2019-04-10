@@ -23,7 +23,7 @@ import gameEngine.Player;
 public class PlayerTest {
 
 	StartUpPhase initialize;
-	Country country1, country2, attackCountry1, attackCountry2, attackCountry3, attackCountry4, attackCountry5, attackCountry6, fromCountry, toCountry;
+	Country country1, country2, attackCountry1, attackCountry2, attackCountry3, attackCountry4, attackCountry5, attackCountry6, extraCountry, fromCountry, toCountry;
 	Player player1, player2, attackPlayer1, attackPlayer2, attackPlayer3, attackPlayer4, player;
 	Continent continent1, continent2, attackContinent1, attackContinent2;
 	Card card1, card2, card3;
@@ -51,6 +51,7 @@ public class PlayerTest {
 		attackCountry6 = new Country();
 		fromCountry = new Country();
 		toCountry = new Country();
+		extraCountry= new Country();
 		
 		card1 = new Card();
 		card2 = new Card();
@@ -99,6 +100,15 @@ public class PlayerTest {
 		fromCountry.setName("Canada");
 		toCountry.setArmies(7);
 		toCountry.setName("Italy");
+		extraCountry.setName("Afganisthan");
+		ArrayList<Country> setNeighbor=new ArrayList();
+		setNeighbor.add(toCountry);
+		setNeighbor.add(extraCountry);
+		Country enemyCountry=new Country();
+		enemyCountry.setName("Turkey");
+		enemyCountry.setOwner(player1);
+		setNeighbor.add(enemyCountry);
+		fromCountry.setNeighborCounties(setNeighbor);
 		
 		attackCountry1.setName("India");
 		attackCountry1.setOwner(attackPlayer1);
@@ -298,7 +308,7 @@ public class PlayerTest {
 	/**
 	 * This method checks the number of armies returned to the player after he
 	 * exchanges the cards.
-	 */
+	 /*
 	@Test
 	public void positiveFirstCardExchange() {
 		card1.setType(Constants.ARTILLERY);
@@ -355,7 +365,7 @@ public class PlayerTest {
 	public void invalidCardSelection() {
 		player1.setCardExchangeCount(2);
 		player1.setCardType(cardTypes);
-		int armies = p.armiesFromCardExchange(0, 0, 0);
+		int armies = player1.armiesFromCardExchange(0, 0, 0);
 		assertEquals(0, armies);
 	}
 
@@ -382,14 +392,77 @@ public class PlayerTest {
 	}
 	
 	/**
+	 * This method is used to test the fortify armies method for aggressie strategy.
+	 */
+	@Test
+	public void positiveFortifyArmiesAggressive() {
+		
+		extraCountry.setArmies(9);
+		fortificationCountries.add(extraCountry);
+		player.setCountries(fortificationCountries);
+
+		boolean b=player.fortifyArmies(null, null, 0, Constants.AGGRESSIVE);
+		
+	}
+	
+	/**
+	 * This method is used to test the fortify armies method for aggressie strategy.
+	 */
+	@Test
+	public void positiveFortifyArmiesBenevolent() {
+		fromCountry.setArmies(3);
+		extraCountry.setArmies(5);
+		fortificationCountries.add(extraCountry);
+		player.setCountries(fortificationCountries);
+
+		boolean b=player.fortifyArmies(null, null, 0, Constants.BENEVOLENT);
+		
+	}
+	/**
+	 * This method is used to test the fortify armies method for aggressive strategy.
+	 */
+	@Test
+	public void positiveFortifyArmiesRandom() {
+		ArrayList<Country> setNeighbor=new ArrayList();
+		ArrayList<Country> setNeighbor1=new ArrayList();
+		setNeighbor.add(toCountry);
+		setNeighbor.add(fromCountry);
+		setNeighbor1.add(fromCountry);
+		setNeighbor1.add(extraCountry);
+		toCountry.setNeighborCounties(setNeighbor1);
+		extraCountry.setNeighborCounties(setNeighbor);
+		extraCountry.setArmies(6);
+		fortificationCountries.add(extraCountry);
+		player.setCountries(fortificationCountries);
+
+		boolean b=player.fortifyArmies(null, null, 0, Constants.RANDOM);
+		
+	}
+	/**
+	 * This method is used to test the fortify armies method for aggressie strategy.
+	 */
+	@Test
+	public void positiveFortifyArmiesCheater() {
+		
+		extraCountry.setArmies(8);
+		fortificationCountries.add(extraCountry);
+		player.setCountries(fortificationCountries);
+
+		boolean b=player.fortifyArmies(null, null, 0, Constants.CHEATER);
+		
+	}
+	
+	
+	/**
 	 * This function is to test if decrease army function is reducing number of armies by 1 or not
 	 */
 		@Test
 		public void decreaseOneArmy() {
 			attackCountry1.setArmies(6);
-			int noOfArmiesLeft = p.decreaseOneArmy(attackCountry1);
+			int noOfArmiesLeft = attackPlayer1.decreaseOneArmy(attackCountry1);
 			assertEquals(noOfArmiesLeft, 5);
 		}
+		
 	/**
 	 * This function tests maxNoOfDice method which gives maximum number of dice attacker and defender can have
 	 */
@@ -397,12 +470,12 @@ public class PlayerTest {
 		public void maxNoOfDice() {
 			attackCountry1.setArmies(6);
 			attackCountry4.setArmies(1);
-			String diceValues = p.maxNoOfDice(attackCountry1, attackCountry4);
+			String diceValues = attackPlayer1.maxNoOfDice(attackCountry1, attackCountry4);
 			System.out.println(diceValues);
 			String dice = "3 1";
 			assertEquals(diceValues,dice);
 		}
-		
+	
 	/**
 	 * This function tests the attack method result
 	 */
@@ -410,7 +483,7 @@ public class PlayerTest {
 		public void attack() {
 			attackCountry1.setArmies(6);
 			attackCountry4.setArmies(1);
-			String atttackRes = p.attack(attackCountry1, attackCountry4, 3, 2, "allOutWinner");
+			String atttackRes = attackPlayer1.attack(attackCountry1, attackCountry4, 3, 1, "allOutWinner");
 			String def = "The enemy has been defeated";
 			assertEquals(atttackRes,def);
 			
@@ -422,7 +495,7 @@ public class PlayerTest {
 		public void attackWithOneArmy() {
 			attackCountry1.setArmies(1);
 			//country5.setArmies(4);
-			String atttackRes = p.attack(attackCountry1, attackCountry5, 1, 2, "attack");
+			String atttackRes = attackPlayer1.attack(attackCountry1, attackCountry5, 1, 2, "attack");
 			String exp="Cannot attack. Attacking country must have atleast 2 countries to attack";
 			assertEquals(atttackRes,exp);
 		}
@@ -445,7 +518,7 @@ public class PlayerTest {
 			attackPlayer4.setCountries(attackCountryListPlayer4);
 			attackCountry1.setArmies(6);
 			attackCountry3.setArmies(1);
-			String atttackRes = p.attack(attackCountry1, attackCountry3, 3, 2, "allOutWinner");
+			String atttackRes = attackPlayer1.attack(attackCountry1, attackCountry3, 3, 2, "allOutWinner");
 			assertEquals(atttackRes,"champion");
 		}
 		
