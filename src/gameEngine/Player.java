@@ -1,4 +1,3 @@
-
 package gameEngine;
 
 import java.io.Serializable;
@@ -71,8 +70,8 @@ public class Player implements Serializable{
 	static ArrayList<Player> playerList = new ArrayList<Player>();
 	ArrayList<Continent> continentList = new ArrayList<Continent>();
 	ArrayList<Country> countryListPlayer1 = new ArrayList<Country>();
-	ArrayList<Country> countryListPlayer2 = new ArrayList<Country>();
-
+	ArrayList<Country> countryListPlayer2 = new ArrayList<Country>(); 
+	Country countryToReinforce=new Country();
 	static Country country1;
 	static Country country5;
 
@@ -875,7 +874,7 @@ public class Player implements Serializable{
 			int armiesForReinforcement=0; 
 			int maxArmies=0; 
 			int index=0;
-			Country countryToReinforce=new Country(); 
+			//Country countryToReinforce=new Country(); 
 			if(cards.get(0)+cards.get(1)+cards.get(2)==5) {
 				if(cards.get(0)==3) {
 					armiesForReinforcement=this.armiesFromCardExchange(3,0,0);
@@ -912,7 +911,7 @@ public class Player implements Serializable{
 			int armiesForReinforcement=0; 
 			 
 			int index=0;
-			Country countryToReinforce=new Country(); 
+			//Country countryToReinforce=new Country(); 
 			if(cards.get(0)+cards.get(1)+cards.get(2)==5) {
 				if(cards.get(0)==3) {
 					armiesForReinforcement=this.armiesFromCardExchange(3,0,0);
@@ -960,7 +959,7 @@ public class Player implements Serializable{
 						this.getReinforcementArmies();
 						armiesForReinforcement=this.getNumberOfArmiesLeft();
 					}
-				Country countryToReinforce = countries.get(randomValue);
+				countryToReinforce = countries.get(randomValue);
 				countries.remove(countryToReinforce);
 				countryToReinforce.setArmies(countryToReinforce.getArmies()+armiesForReinforcement);
 				countries.add(countryToReinforce);
@@ -1172,3 +1171,4 @@ public class Player implements Serializable{
 
 
 }
+
