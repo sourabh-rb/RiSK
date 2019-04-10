@@ -125,6 +125,12 @@ public class StartUpPhase implements Serializable {
 		}
 		return startPhaseObject;
 	}
+	public static synchronized StartUpPhase getNewInstance() {
+	
+			
+			startPhaseObject = new StartUpPhase();
+		return startPhaseObject;
+	}
 
 	/**
 	 * This function creates objects for all the map elements like country,

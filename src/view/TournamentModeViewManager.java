@@ -345,7 +345,22 @@ public class TournamentModeViewManager
 				resultArea.appendText("\nTurns Count : " + turnsCount + "\n");
 				
 				HashMap<String, ArrayList<String>> result = startTournmamentRunner.getGameResults();
-				result.forEach((k, v) -> resultArea.appendText("Game " + k + " : " + "Won by " + v + "\n"));
+					
+ 				for( String value : result.keySet())
+				{
+					int count = 1;
+					resultArea.appendText("-----------------------------------------\n");
+					resultArea.appendText("Map : " + value + "\n");
+					resultArea.appendText("-----------------------------------------\n");
+					for(String winner : result.get(value))
+					{
+						resultArea.appendText("Game" + count +  " : " + winner + "\n");
+						count++;
+					}
+
+ 				}
+
+				//result.forEach((k, v) -> resultArea.appendText("Game " + k + " : " + "Won by " + v + "\n"));
 				
 
 				

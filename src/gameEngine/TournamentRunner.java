@@ -19,6 +19,14 @@ public class TournamentRunner {
 	int noOfTurns;
 	int noOfPlayers;
 	static StartUpPhase currentStartUpPhase;
+	public static StartUpPhase getCurrentStartUpPhase() {
+		return currentStartUpPhase;
+	}
+
+	public static void setCurrentStartUpPhase(StartUpPhase currentStartUpPhase) {
+		TournamentRunner.currentStartUpPhase = currentStartUpPhase;
+	}
+
 	static PhaseManager currentPlayerPhase;
 	HashMap<String, ArrayList<String>> gameResults;
 
@@ -60,15 +68,22 @@ public class TournamentRunner {
 		ValidateGraph gt = new ValidateGraph();
 		mapValidation = gt.initiateCheck(fileContents.toString());
 		errorMessage = mapValidation.get(0).toString();
+		System.out.println("error message is "+errorMessage);
 		if (errorMessage.equals("Success")) {
 			continentHashMap = (HashMap<String, Integer>) mapValidation.get(1);
 			territoryHashMap = (HashMap<String, ArrayList<String>>) mapValidation.get(2);
-			StartUpPhase startPhase = StartUpPhase.getInstance();
+			StartUpPhase startPhase = null;
+			StartUpPhase.setStartPhaseObject(startPhase);
 			System.out.println("printing player strategies");
 			System.out.println(playerStrategy);
-			startPhase.mappingElements(continentHashMap, territoryHashMap, noOfPlayers, playerStrategy);
-			return startPhase;
+			StartUpPhase.getInstance().mappingElements(continentHashMap, territoryHashMap, noOfPlayers, playerStrategy);
+			return StartUpPhase.getInstance();
 
+		}
+		else
+		{
+			System.out.println("Map error");
+			
 		}
 		return null;
 

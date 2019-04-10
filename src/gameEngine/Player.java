@@ -83,6 +83,7 @@ public class Player implements Serializable{
 	static Country country1;
 	static Country country5;
 
+	//StartUpPhase start = TournamentRunner.getCurrentStartUpPhase();
 	StartUpPhase start = StartUpPhase.getInstance();
 	
 
@@ -428,7 +429,7 @@ public class Player implements Serializable{
 						noOFDiceForDefendingCountry, "attack");
 			} else if (action.equals("Agressive")) {
 				strongestCountryToAttack = attackingCountry;
-				enemyCountriesList = start.getEnemyList(strongestCountryToAttack.getOwner(), strongestCountryToAttack);
+				enemyCountriesList = StartUpPhase.getInstance().getEnemyList(strongestCountryToAttack.getOwner(), strongestCountryToAttack);
 				int leastArmies = 0;
 				Country weakestCountry = null;
 				System.out.println("No of enemy countires "+enemyCountriesList.size());
@@ -453,7 +454,7 @@ public class Player implements Serializable{
 				// Code to get the current player
 				
 				for (int i = 0; i < this.getCountries().size(); i++) {
-					enemyCountriesList = start.getEnemyList(this, this.getCountries().get(i));
+					enemyCountriesList = StartUpPhase.getInstance().getEnemyList(this, this.getCountries().get(i));
 					for (Country enemy : enemyCountriesList) {
 						enemy.setOwner(this);
 						this.getCountries().add(enemy);
@@ -463,7 +464,7 @@ public class Player implements Serializable{
 							"Number of countries attacker has after attacking one set of enemies under one country "
 									+ this.getCountries().size());
 				}
-				if (this.getCountries().size() == start.getCountryList().size()) {
+				if (this.getCountries().size() == StartUpPhase.getInstance().getCountryList().size()) {
 
 					return "champion";// Declared as winner of the game
 				}
@@ -476,7 +477,7 @@ public class Player implements Serializable{
 				int noOfPlayerCountries = this.getCountries().size();
 				int randomCountryIndex= random(noOfPlayerCountries);
 				Country randomCountryForAttacking=this.getCountries().get(randomCountryIndex);
-				enemyCountriesList = start.getEnemyList(this, randomCountryForAttacking);
+				enemyCountriesList = StartUpPhase.getInstance().getEnemyList(this, randomCountryForAttacking);
 				int noOfEnemyCountries = enemyCountriesList.size();
 				if(noOfEnemyCountries==0)
 					return "randomFortify";
@@ -514,9 +515,9 @@ public class Player implements Serializable{
 				
 				System.out.println("Number of countries attacker has after attacking: "
 						+ attackingCountry.getOwner().getCountries().size());
-				System.out.println("Number of total countries in the game: " + start.getCountryList().size());
+				System.out.println("Number of total countries in the game: " + StartUpPhase.getInstance().getCountryList().size());
 
-				if (attackingCountry.getOwner().getCountries().size() == start.getCountryList().size()) {
+				if (attackingCountry.getOwner().getCountries().size() == StartUpPhase.getInstance().getCountryList().size()) {
 
 					return "champion";
 				}
@@ -1162,31 +1163,33 @@ public class Player implements Serializable{
 	            }
 	            if (neighbours.size() - 1 > 0) {
 	                randomValue1 = ThreadLocalRandom.current().nextInt(0, neighbours.size() - 1);
+	                countryFortifying = neighbours.get(randomValue1);
+		            armiesForFortification = neighbours.get(randomValue1).getArmies();
+		            System.out.println("Before Random Fortification: Fortified Country-->" + countryToFortify.getName()
+		                    + " Armies : " + countryToFortify.getArmies() + " Fortifying Country-->"
+		                    + countryFortifying.getName() + " Armies : " + countryFortifying.getArmies());
+
+		            playerCountries.remove(countryToFortify);
+		            countryToFortify.setArmies(countryToFortify.getArmies() + armiesForFortification - 1);
+		            playerCountries.add(countryToFortify);
+
+		            playerCountries.remove(countryFortifying);
+		            countryFortifying.setArmies(1);
+		            playerCountries.add(countryFortifying);
+		            System.out.println("After Random Fortification: Fortified Country-->" + countryToFortify.getName()
+		                    + " Armies : " + countryToFortify.getArmies() + " Fortifying Country-->"
+		                    + countryFortifying.getName() + " Armies : " + countryFortifying.getArmies());
+
+		            this.setCountries(playerCountries);
+		            Utilities.gameLog("Player: " + this.getName() + "|| Countries fortified!! || " + countryToFortify.getName()
+		                    + " : " + countryToFortify.getArmies() + " || " + countryFortifying.getName() + " : "
+		                    + countryFortifying.getArmies(), LogLevel.INFO);
+		            // this.attack(attackingCountry, defendingCountry, noOfDiceForAttackingCountry,
+		            // noOFDiceForDefendingCountry, action);
+		            return true;
 	            }
-	            countryFortifying = neighbours.get(randomValue1);
-	            armiesForFortification = neighbours.get(randomValue1).getArmies();
-	            System.out.println("Before Random Fortification: Fortified Country-->" + countryToFortify.getName()
-	                    + " Armies : " + countryToFortify.getArmies() + " Fortifying Country-->"
-	                    + countryFortifying.getName() + " Armies : " + countryFortifying.getArmies());
-
-	            playerCountries.remove(countryToFortify);
-	            countryToFortify.setArmies(countryToFortify.getArmies() + armiesForFortification - 1);
-	            playerCountries.add(countryToFortify);
-
-	            playerCountries.remove(countryFortifying);
-	            countryFortifying.setArmies(1);
-	            playerCountries.add(countryFortifying);
-	            System.out.println("After Random Fortification: Fortified Country-->" + countryToFortify.getName()
-	                    + " Armies : " + countryToFortify.getArmies() + " Fortifying Country-->"
-	                    + countryFortifying.getName() + " Armies : " + countryFortifying.getArmies());
-
-	            this.setCountries(playerCountries);
-	            Utilities.gameLog("Player: " + this.getName() + "|| Countries fortified!! || " + countryToFortify.getName()
-	                    + " : " + countryToFortify.getArmies() + " || " + countryFortifying.getName() + " : "
-	                    + countryFortifying.getArmies(), LogLevel.INFO);
-	            // this.attack(attackingCountry, defendingCountry, noOfDiceForAttackingCountry,
-	            // noOFDiceForDefendingCountry, action);
-	            return true;
+	            else
+	            	return false;
 			}else if(Constants.CHEATER.equals(mode))
 			{
 				System.out.println("HERE cheater");
