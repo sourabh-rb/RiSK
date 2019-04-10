@@ -1,4 +1,3 @@
-
 package gameEngine;
 
 import java.io.Serializable;
@@ -455,9 +454,13 @@ public class Player implements Serializable{
 
 					return "champion";// Declared as winner of the game
 				}
-				fortifyArmies(null, null, 0, "cheater");
+
+				//fortifyArmies(null,null, 0,"cheater");
 				// Call fortification method for cheater
-			} else if (action.equals("randomPlayerAttack")) {
+				return "cheaterFortify";
+			}
+			else if(action.equals("randomPlayerAttack")) {
+				
 
 				int noOfPlayerCountries = this.getCountries().size();
 				int randomCountryIndex = random(noOfPlayerCountries);
@@ -472,7 +475,10 @@ public class Player implements Serializable{
 
 			} else if (action.equals("benevolentPlayerAttack")) {
 				// Call fortification method for benevolent player
-				fortifyArmies(null, null, 0, "benevolent");
+
+				//fortifyArmies(null,null, 0,"benevolent");
+				return "benevolentFortify";
+
 			}
 
 			System.out.println("Result of attacking : "+attackRes);
@@ -513,7 +519,10 @@ public class Player implements Serializable{
 					System.out.println(
 							"Defeated the country in Aggressive player mode and it continues attacking untill one army is left");
 					attack(attackingCountry, null, 0, 0, "aggressivePlayerAttack");
-				} else if (action.equals("randomPlayerAttack")) {
+
+				}
+				else if(action.equals("randomPlayerAttack")) {
+					return "randomFortify";
 
 				}
 				return "The enemy has been defeated";
@@ -530,10 +539,15 @@ public class Player implements Serializable{
 				// mode
 				if (action.equals("aggressivePlayerAttack")) {
 					// call fortification phase of aggressive player
-					fortifyArmies(null, null, 0, "aggressive");
-				} else if (action.equals("randomPlayerAttack")) {
+
+					//fortifyArmies(null,null, 0,"aggressive");
+					return "aggressiveFortify";
+				}
+				else if(action.equals("randomPlayerAttack")){
 					// call fortification phase of random player
-					fortifyArmies(null, null, 0, "random");
+					fortifyArmies(null,null, 0,"random");
+					return "randomFortify";
+
 				}
 				return "Only one army left" + "\n" + "in the attacking country." + "\n" + "Attack not possible";
 
@@ -766,20 +780,17 @@ public class Player implements Serializable{
 		System.out.println("Inside cardCount"+this.cards.toString());
 		if(this.cards != null && this.cards.size() != 0)
 		{
-			System.out.println("Inside cardCount");
+			
 			System.out.println(this.cards);
 			
 			for (Card card : this.cards)
 			{
 				if (card.getType().equals(Constants.ARTILLERY)) {
 					artilleryCount++;
-					System.out.println(artilleryCount);
 				} else if (card.getType().equals(Constants.INFANTRY)) {
 					infantryCount++;
-					System.out.println(infantryCount);
 				} else if (card.getType().equals(Constants.CAVALRY)) {
 					cavalryCount++;
-					System.out.println(cavalryCount);
 				}
 			}
 			
@@ -886,38 +897,42 @@ public class Player implements Serializable{
 					this.getReinforcementArmies();
 					armiesForReinforcement=this.getNumberOfArmiesLeft();
 				}
-			for(int i=0; i<countries.size();i++) {
-				if(maxArmies<countries.get(i).getArmies()) {
-				maxArmies= countries.get(i).getArmies();
-				countryToReinforce=countries.get(i);
-				index=i;
+				for (int i = 0; i < countries.size(); i++) {
+					if (maxArmies < countries.get(i).getArmies()) {
+						maxArmies = countries.get(i).getArmies();
+						countryToReinforce = countries.get(i);
+						index = i;
+					}
 				}
-			}
-			System.out.println("Before reinforcement Aggressive : "+countryToReinforce.getArmies());
-			countries.remove(countryToReinforce);
-			countryToReinforce.setArmies(countryToReinforce.getArmies()+armiesForReinforcement);
-			countries.add(countryToReinforce);
-			this.setCountries(countries);
-			System.out.println("After reinforcement Aggressive : "+countryToReinforce+"--"+countryToReinforce.getArmies());
-			Utilities.gameLog("Player: " + this.getName() + "|| Country reinforced for aggressive!!: "+countryToReinforce.getName(), LogLevel.INFO);
-			//this.attack(attackingCountry, defendingCountry, noOfDiceForAttackingCountry, noOFDiceForDefendingCountry, action);
-		}else if(Constants.BENEVOLENT.equals(mode)) {
-			ArrayList<Integer> cards=this.cardCount();
-			int armiesForReinforcement=0; 
-			 
-			int index=0;
-			Country countryToReinforce=new Country(); 
-			if(cards.get(0)+cards.get(1)+cards.get(2)==5) {
-				if(cards.get(0)==3) {
-					armiesForReinforcement=this.armiesFromCardExchange(3,0,0);
-				}else if(cards.get(1)==3){
-					armiesForReinforcement=this.armiesFromCardExchange(0,3,0);
-				}else if(cards.get(2)==3){
-					armiesForReinforcement=this.armiesFromCardExchange(0,0,3);
-				}else {
-					armiesForReinforcement=this.armiesFromCardExchange(1,1,1);
-				}
-				}else {
+				System.out.println("Before reinforcement Aggressive : " + countryToReinforce.getArmies());
+				countries.remove(countryToReinforce);
+				countryToReinforce.setArmies(countryToReinforce.getArmies() + armiesForReinforcement);
+				countries.add(countryToReinforce);
+				this.setCountries(countries);
+				System.out.println("After reinforcement Aggressive : " + countryToReinforce + "--"
+						+ countryToReinforce.getArmies());
+				Utilities.gameLog("Player: " + this.getName() + "|| Country reinforced for aggressive!!: "
+						+ countryToReinforce.getName(), LogLevel.INFO);
+
+				// this.attack(countryToReinforce, null, 0, 0, "aggressivePlayerAttack");
+
+			} else if (Constants.BENEVOLENT.equals(mode)) {
+				ArrayList<Integer> cards = this.cardCount();
+				int armiesForReinforcement = 0;
+
+				int index = 0;
+				// Country countryToReinforce=new Country();
+				if (cards.get(0) + cards.get(1) + cards.get(2) == 5) {
+					if (cards.get(0) == 3) {
+						armiesForReinforcement = this.armiesFromCardExchange(3, 0, 0);
+					} else if (cards.get(1) == 3) {
+						armiesForReinforcement = this.armiesFromCardExchange(0, 3, 0);
+					} else if (cards.get(2) == 3) {
+						armiesForReinforcement = this.armiesFromCardExchange(0, 0, 3);
+					} else {
+						armiesForReinforcement = this.armiesFromCardExchange(1, 1, 1);
+					}
+				} else {
 					this.getReinforcementArmies();
 					armiesForReinforcement=this.getNumberOfArmiesLeft();
 				}
