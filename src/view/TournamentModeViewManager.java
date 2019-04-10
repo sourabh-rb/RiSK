@@ -321,7 +321,12 @@ public class TournamentModeViewManager
 			public void handle(ActionEvent event)
 			{
 				// TODO Auto-generated method stub
-				startTournament();
+				try {
+					startTournament();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				resultArea.clear();
 				resultArea.appendText("Maps : ");
 				for(File map : mapsList)
@@ -371,9 +376,10 @@ public class TournamentModeViewManager
 	
 	/**
 	 * This method starts tournament simulation.
+	 * @throws IOException 
 	 * 
 	 */
-	private void startTournament()
+	private void startTournament() throws IOException
 	{
 		mapsList.clear();
 		playerList.clear();
