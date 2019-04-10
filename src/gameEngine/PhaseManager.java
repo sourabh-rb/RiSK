@@ -11,6 +11,7 @@ import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import view.GamePhaseViewManager;
+import gameEngine.Player;
 
 /**
 * <h1>PhaseManager</h1>

@@ -1,9 +1,11 @@
 package view;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 import constants.Constants;
 import gameEngine.Country;
@@ -163,7 +165,7 @@ public class TournamentModeViewManager
 	 */
 	private VBox createMapOptionsLayout()
 	{
-		File mapDir = new File("../Maps"); 
+		File mapDir = new File(".//maps"); 
 		ObservableList<File> mapsList =  FXCollections.observableArrayList();
 		if(mapDir.isDirectory())
 		{
@@ -322,12 +324,7 @@ public class TournamentModeViewManager
 			public void handle(ActionEvent event)
 			{
 				// TODO Auto-generated method stub
-				try {
-					startTournament();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				startTournament();
 				resultArea.clear();
 				resultArea.appendText("Maps : ");
 				for(File map : mapsList)
@@ -344,6 +341,7 @@ public class TournamentModeViewManager
 				resultArea.appendText("\nGames Count : " + gamesCount);
 				resultArea.appendText("\nTurns Count : " + turnsCount + "\n");
 				
+
 				HashMap<String, ArrayList<String>> result = startTournmamentRunner.getGameResults();
 					
  				for( String value : result.keySet())
@@ -360,9 +358,9 @@ public class TournamentModeViewManager
 
  				}
 
+
 				//result.forEach((k, v) -> resultArea.appendText("Game " + k + " : " + "Won by " + v + "\n"));
 				
-
 				
 			}
 		});
@@ -373,18 +371,20 @@ public class TournamentModeViewManager
 		tournamentPane.getChildren().add(startTournamentButton);
 		
 	}
-  
+	
 	/**
 	 * This method is a test method, need to be removed!.
 	 * 
 	 */
-	private HashMap<Integer, String> getResult()
+	private HashMap<String, ArrayList<String>> getResult()
 	{
-		HashMap<Integer, String> dummy = new HashMap<Integer, String>() ;
-		dummy.put(1, Constants.AGGRESSIVE);
-		dummy.put(2, Constants.CHEATER);
-		dummy.put(3, Constants.RANDOM);
-		dummy.put(4, Constants.BENEVOLENT);
+		HashMap<String, ArrayList<String>> dummy = new HashMap<String, ArrayList<String>>() ;
+		ArrayList<String> winners = new ArrayList<String>(Arrays.asList(Constants.RANDOM, 
+				Constants.BENEVOLENT, Constants.CHEATER, Constants.AGGRESSIVE));
+		dummy.put("Map 1", winners);
+		dummy.put("Map 2", winners);
+		dummy.put("Map 3", winners);
+		dummy.put("Map 4", winners);
 		
 		return dummy;
 		
@@ -392,10 +392,9 @@ public class TournamentModeViewManager
 	
 	/**
 	 * This method starts tournament simulation.
-	 * @throws IOException 
 	 * 
 	 */
-	private void startTournament() throws IOException
+	private void startTournament()
 	{
 		mapsList.clear();
 		playerList.clear();
@@ -415,12 +414,13 @@ public class TournamentModeViewManager
 		
 		startTournmamentRunner = new TournamentRunner(mapsList, playerList, gamesCount, turnsCount);
 		
-		
 		System.out.println("maps " + mapsList);
 		System.out.println("players " + playerList);
 		System.out.println("Game Count " + gamesCount);
 		System.out.println("Turn Count" + turnsCount);
+
 		startTournmamentRunner.run();
+
 	}
 	
 	/**
