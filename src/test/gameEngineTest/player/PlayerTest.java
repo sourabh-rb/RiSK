@@ -355,7 +355,7 @@ public class PlayerTest {
 	public void invalidCardSelection() {
 		player1.setCardExchangeCount(2);
 		player1.setCardType(cardTypes);
-		int armies = p.armiesFromCardExchange(0, 0, 0);
+		int armies = player1.armiesFromCardExchange(0, 0, 0);
 		assertEquals(0, armies);
 	}
 
@@ -387,7 +387,7 @@ public class PlayerTest {
 		@Test
 		public void decreaseOneArmy() {
 			attackCountry1.setArmies(6);
-			int noOfArmiesLeft = p.decreaseOneArmy(attackCountry1);
+			int noOfArmiesLeft = attackPlayer1.decreaseOneArmy(attackCountry1);
 			assertEquals(noOfArmiesLeft, 5);
 		}
 	/**
@@ -397,7 +397,7 @@ public class PlayerTest {
 		public void maxNoOfDice() {
 			attackCountry1.setArmies(6);
 			attackCountry4.setArmies(1);
-			String diceValues = p.maxNoOfDice(attackCountry1, attackCountry4);
+			String diceValues = attackPlayer1.maxNoOfDice(attackCountry1, attackCountry4);
 			System.out.println(diceValues);
 			String dice = "3 1";
 			assertEquals(diceValues,dice);
@@ -410,7 +410,7 @@ public class PlayerTest {
 		public void attack() {
 			attackCountry1.setArmies(6);
 			attackCountry4.setArmies(1);
-			String atttackRes = p.attack(attackCountry1, attackCountry4, 3, 2, "allOutWinner");
+			String atttackRes = attackPlayer1.attack(attackCountry1, attackCountry4, 3, 2, "allOutWinner");
 			String def = "The enemy has been defeated";
 			assertEquals(atttackRes,def);
 			
@@ -422,7 +422,7 @@ public class PlayerTest {
 		public void attackWithOneArmy() {
 			attackCountry1.setArmies(1);
 			//country5.setArmies(4);
-			String atttackRes = p.attack(attackCountry1, attackCountry5, 1, 2, "attack");
+			String atttackRes = attackPlayer1.attack(attackCountry1, attackCountry5, 1, 2, "attack");
 			String exp="Cannot attack. Attacking country must have atleast 2 countries to attack";
 			assertEquals(atttackRes,exp);
 		}
@@ -445,7 +445,7 @@ public class PlayerTest {
 			attackPlayer4.setCountries(attackCountryListPlayer4);
 			attackCountry1.setArmies(6);
 			attackCountry3.setArmies(1);
-			String atttackRes = p.attack(attackCountry1, attackCountry3, 3, 2, "allOutWinner");
+			String atttackRes = attackPlayer1.attack(attackCountry1, attackCountry3, 3, 2, "allOutWinner");
 			assertEquals(atttackRes,"champion");
 		}
 		
