@@ -504,8 +504,6 @@ public class Player implements Serializable{
 				this.cardTypeList.add(Utilities.giveCard());
 
 				this.setCardType(this.cardTypeList);
-
-
 	
 				// ASk player if wants to continue attacking
 				
