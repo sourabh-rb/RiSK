@@ -429,7 +429,7 @@ public class GamePhaseViewManager
 		SpinnerValueFactory<Integer> cavalaryValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, playerPhase.cavalryCardCountForSpinner(), 0);
 		cavalrySpinner.setValueFactory(cavalaryValueFactory);
 		
-		RiskLabel artilleryHeaderLabel = new RiskLabel("Artillery");
+		RiskLabel artilleryHeaderLabel = new RiskLabel("Artillery : ");
 		RiskLabel artilleryCountLabel = new RiskLabel();
 		artilleryCountLabel.textProperty().bind(playerPhase.artilleryCardCountProperty().asString());
 		HBox artilleryBox = new HBox(10, artilleryHeaderLabel, artilleryCountLabel);
@@ -457,7 +457,6 @@ public class GamePhaseViewManager
 			if(armyReceivedAfterExchange==0)
 				{
 					cardExchangeMessage.setText("Invalid user input. Please select 3 cards of same type or 3 cards of different type");
-				doneButton.setDisable(true);
 				}
 				else
 				{
@@ -721,7 +720,7 @@ public class GamePhaseViewManager
 				
 				armyCountLabel.setText("" + newValue.getArmies());
 				
-				armySpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0,newValue.getArmies() , 0));
+				armySpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0,newValue.getArmies()-1 , 0));
 				neighbourCombobox.setItems(FXCollections.observableArrayList(newValue.getNeighborCounties()));
 				neighbourCombobox.setConverter(converter);
 				
