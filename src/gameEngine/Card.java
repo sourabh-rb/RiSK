@@ -1,5 +1,6 @@
 package gameEngine;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -14,8 +15,9 @@ import utilities.Utilities;
  * @author shivani
  * @version 1.0.0
  */
-public class Card {
+public class Card implements Serializable{
 
+	private static final long serialVersionUID = 1L;
 	// Value of type of card : Infantry, Cavalry, Artillery
 	private String type;
 	
