@@ -75,6 +75,7 @@ public class TournamentModeViewManager
 	
 	private Spinner<Integer> gameCountSpinner;
 	private Spinner<Integer> turnCountSpinner;
+	TournamentRunner startTournmamentRunner;
 	
 	String borderStyle = "-fx-border-color: black;\n" +
             "-fx-border-insets: 5;\n" +
@@ -340,9 +341,10 @@ public class TournamentModeViewManager
 				resultArea.appendText("\nGames Count : " + gamesCount);
 				resultArea.appendText("\nTurns Count : " + turnsCount + "\n");
 				
-				HashMap<String, ArrayList<String>> result = getResult();
-				
-				for( String value : result.keySet())
+
+				HashMap<String, ArrayList<String>> result = startTournmamentRunner.getGameResults();
+					
+ 				for( String value : result.keySet())
 				{
 					int count = 1;
 					resultArea.appendText("-----------------------------------------\n");
@@ -353,11 +355,10 @@ public class TournamentModeViewManager
 						resultArea.appendText("Game" + count +  " : " + winner + "\n");
 						count++;
 					}
-					
-				}
-				
-		            
-		        
+
+ 				}
+
+
 				//result.forEach((k, v) -> resultArea.appendText("Game " + k + " : " + "Won by " + v + "\n"));
 				
 				
@@ -411,12 +412,15 @@ public class TournamentModeViewManager
 		gamesCount = gameCountSpinner.getValue();
 		turnsCount = turnCountSpinner.getValue();
 		
-		TournamentRunner startTournmament = new TournamentRunner(mapsList, playerList, gamesCount, turnsCount);
+		startTournmamentRunner = new TournamentRunner(mapsList, playerList, gamesCount, turnsCount);
 		
 		System.out.println("maps " + mapsList);
 		System.out.println("players " + playerList);
 		System.out.println("Game Count " + gamesCount);
 		System.out.println("Turn Count" + turnsCount);
+
+		startTournmamentRunner.run();
+
 	}
 	
 	/**
