@@ -650,22 +650,22 @@ public class MainMenuViewManager
                 	
                 	
                 	try {
-                	FileInputStream fi = new FileInputStream(file);
-        			ObjectInputStream oi = new ObjectInputStream(fi);
+                		FileInputStream fi = new FileInputStream(file);
+                		ObjectInputStream oi = new ObjectInputStream(fi);
 
-        			StartUpPhase.setStartPhaseObject((StartUpPhase) oi.readObject());
+                		StartUpPhase.setStartPhaseObject((StartUpPhase) oi.readObject());
 
-        			oi.close();
-        			fi.close();
+                		oi.close();
+                		fi.close();
 
-        		} catch (FileNotFoundException e) {
-        			System.out.println("File not found");
-        		} catch (IOException e) {
-        			System.out.println("Error initializing stream");
-        		} catch (ClassNotFoundException e) {
-        			// TODO Auto-generated catch block
-        			e.printStackTrace();
-        		}
+                	} catch (FileNotFoundException e) {
+                		System.out.println("File not found");
+                	} catch (IOException e) {
+                		System.out.println("Error initializing stream");
+                	} catch (ClassNotFoundException e) {
+                		// TODO Auto-generated catch block
+                		e.printStackTrace();
+                	}
         			
         			mainStage.hide();
     				GamePhaseViewManager gamePhase = new GamePhaseViewManager();
