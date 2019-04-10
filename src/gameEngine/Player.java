@@ -436,8 +436,9 @@ public class Player implements Serializable{
 
 					return "champion";// Declared as winner of the game
 				}
-				fortifyArmies(null,null, 0,"cheater");
+				//fortifyArmies(null,null, 0,"cheater");
 				// Call fortification method for cheater
+				return "cheaterFortify";
 			}
 			else if(action.equals("randomPlayerAttack")) {
 				
@@ -456,7 +457,8 @@ public class Player implements Serializable{
 			}
 			else if(action.equals("benevolentPlayerAttack")) {
 				// Call fortification method for benevolent player
-				fortifyArmies(null,null, 0,"benevolent");
+				//fortifyArmies(null,null, 0,"benevolent");
+				return "benevolentFortify";
 			}
 
 			System.out.println("Result of attacking : " + attackRes);
@@ -502,7 +504,7 @@ public class Player implements Serializable{
 					attack(attackingCountry, null, 0, 0, "aggressivePlayerAttack");
 				}
 				else if(action.equals("randomPlayerAttack")) {
-					
+					return "randomFortify";
 				}
 				return "The enemy has been defeated";
 
@@ -518,11 +520,13 @@ public class Player implements Serializable{
 				// mode
 				if (action.equals("aggressivePlayerAttack")) {
 					// call fortification phase of aggressive player
-					fortifyArmies(null,null, 0,"aggressive");
+					//fortifyArmies(null,null, 0,"aggressive");
+					return "aggressiveFortify";
 				}
 				else if(action.equals("randomPlayerAttack")){
 					// call fortification phase of random player
 					fortifyArmies(null,null, 0,"random");
+					return "randomFortify";
 				}
 				return "Only one army left"+"\n"+"in the attacking country."+"\n"+"Attack not possible";
 
