@@ -1,6 +1,7 @@
 package view;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import constants.Constants;
@@ -159,7 +160,7 @@ public class TournamentModeViewManager
 	 */
 	private VBox createMapOptionsLayout()
 	{
-		File mapDir = new File(".//maps"); 
+		File mapDir = new File("../Maps"); 
 		ObservableList<File> mapsList =  FXCollections.observableArrayList();
 		if(mapDir.isDirectory())
 		{
@@ -313,7 +314,12 @@ public class TournamentModeViewManager
 			public void handle(ActionEvent event)
 			{
 				// TODO Auto-generated method stub
-				startTournament();
+				try {
+					startTournament();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				
 			}
 		});
@@ -325,7 +331,7 @@ public class TournamentModeViewManager
 		
 	}
 	
-	private void startTournament()
+	private void startTournament() throws IOException
 	{
 		addMapComboBoxData(1);
 		addMapComboBoxData(2);
@@ -352,10 +358,12 @@ public class TournamentModeViewManager
 		
 		TournamentRunner startTournmament = new TournamentRunner(mapsList, playerList, gamesCount, turnsCount);
 		
+		
 		System.out.println("maps " + mapsList);
 		System.out.println("players " + playerList);
 		System.out.println("Game Count " + gamesCount);
 		System.out.println("Turn Count" + turnsCount);
+		startTournmament.run();
 	}
 	
 	private void addMapComboBoxData(int val)
