@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import constants.Constants;
@@ -19,7 +20,15 @@ public class TournamentRunner {
 	int noOfPlayers;
 	static StartUpPhase currentStartUpPhase;
 	static PhaseManager currentPlayerPhase;
-	HashMap<String, String> gameResults;
+	HashMap<String, ArrayList<String>> gameResults;
+
+	public HashMap<String, ArrayList<String>> getGameResults() {
+		return gameResults;
+	}
+
+	public void setGameResults(HashMap<String, ArrayList<String>> gameResults) {
+		this.gameResults = gameResults;
+	}
 
 	public TournamentRunner(ArrayList<File> maps, ArrayList<String> players, int gamesToPlay, int noOfTurns) {
 		this.maps = maps;
@@ -28,7 +37,7 @@ public class TournamentRunner {
 		this.noOfTurns = noOfTurns;
 		this.noOfPlayers = players.size();
 
-		this.gameResults = new HashMap<String, String>();
+		this.gameResults = new HashMap<String, ArrayList<String>>();
 
 	}
 
@@ -68,15 +77,24 @@ public class TournamentRunner {
 	public void run() throws IOException {
 
 		for (File map : maps) {
+			System.out.println("Map Creation Done");
 
 			if (map != null) {
 				currentStartUpPhase = mapDataLoader(map);
 				for (int gameNo = 0; gameNo < gamesToPlay; gameNo++) {
-					gameResults.put(map.getName(), playGame());
+					System.out.println("Starting game no "+gameNo);
+					if(gameResults.containsKey(map.getName()))
+							gameResults.get(map.getName()).add(playGame());
+					else 
+						gameResults.put(map.getName(), new ArrayList<String>(Arrays.asList(playGame())));
+					System.out.println("End of game no "+gameNo);
 				}
 			}
 
 		}
+		System.out.println("END OF TOURNAMENT");
+		System.out.println("RESULTS");
+		System.out.println(gameResults);
 
 	}
 
@@ -97,6 +115,7 @@ public class TournamentRunner {
 	public String playGame() {
 
 		String strategy;
+		
 		int countriesOwned = 0;
 		int currentPlayerNumber;
 		String winner = "";
@@ -108,7 +127,14 @@ public class TournamentRunner {
 			strategy = playerStrategy.get(currentPlayerNumber);
 			System.out.println("Player " + currentPlayerNumber + " Strategy " + strategy);
 			currentPlayer.reinforceArmies(null, 0, strategyDecider(strategy));
-
+			System.out.println(currentPlayer.getCountryToReinforce().getName()+" has armies "+currentPlayer.getCountryToReinforce().getArmies());
+			
+			currentPlayer.attack(currentPlayer.getCountryToReinforce(),null,0, 0,strategy);
+			
+			System.out.println("Attack control returned to tournament mode");
+			currentPlayer.fortifyArmies(null, null,0, strategy);
+			System.out.println("End of Player's turn");
+			
 		}
 
 		for (Player player : currentStartUpPhase.getPlayerList()) {
