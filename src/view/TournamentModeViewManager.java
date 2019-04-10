@@ -2,6 +2,7 @@ package view;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import constants.Constants;
 import gameEngine.Country;
@@ -14,6 +15,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
+import javafx.scene.control.TextArea;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -305,6 +307,11 @@ public class TournamentModeViewManager
 		mainLayout.add(createPlayerOptionsLayout(), 1, 0);
 		mainLayout.add(createGameOptionsLayout(), 2, 0);
 		
+		TextArea resultArea = new TextArea();
+		resultArea.setEditable(false);
+		mainLayout.add(resultArea, 0, 1,2,1);
+		
+		
 		RiskButton startTournamentButton = new RiskButton("START TOURNAMENT");
 		startTournamentButton.setOnAction(new EventHandler<ActionEvent>()
 		{
@@ -314,6 +321,25 @@ public class TournamentModeViewManager
 			{
 				// TODO Auto-generated method stub
 				startTournament();
+				resultArea.clear();
+				resultArea.appendText("Maps : ");
+				for(File map : mapsList)
+				{
+					resultArea.appendText(map.getName() + ", ");
+				}
+				
+				resultArea.appendText("\nPlayers : ");
+				for(String player : playerList)
+				{
+					resultArea.appendText(player + ", ");
+				}
+				
+				resultArea.appendText("\nGames Count : " + gamesCount);
+				resultArea.appendText("\nTurns Count : " + turnsCount + "\n");
+				
+				HashMap<Integer, String> result = getResult();
+				result.forEach((k, v) -> resultArea.appendText("Game " + k + " : " + "Won by " + v + "\n"));
+				
 				
 			}
 		});
@@ -325,28 +351,33 @@ public class TournamentModeViewManager
 		
 	}
 	
+	private HashMap<Integer, String> getResult()
+	{
+		HashMap<Integer, String> dummy = new HashMap<Integer, String>() ;
+		dummy.put(1, Constants.AGGRESSIVE);
+		dummy.put(2, Constants.CHEATER);
+		dummy.put(3, Constants.RANDOM);
+		dummy.put(4, Constants.BENEVOLENT);
+		
+		return dummy;
+		
+	}
+	
 	private void startTournament()
 	{
+		mapsList.clear();
+		playerList.clear();
 		addMapComboBoxData(1);
 		addMapComboBoxData(2);
 		addMapComboBoxData(3);
 		addMapComboBoxData(4);
 		addMapComboBoxData(5);
-//		mapsList.add(mapCombobox1.getSelectionModel().getSelectedItem());
-//		mapsList.add(mapCombobox2.getSelectionModel().getSelectedItem());
-//		mapsList.add(mapCombobox3.getSelectionModel().getSelectedItem());
-//		mapsList.add(mapCombobox4.getSelectionModel().getSelectedItem());
-//		mapsList.add(mapCombobox5.getSelectionModel().getSelectedItem());
 
 		addPlayerComboBoxData(1);
 		addPlayerComboBoxData(2);
 		addPlayerComboBoxData(3);
 		addPlayerComboBoxData(4);
-//		playerList.add(playerCombobox1.getSelectionModel().getSelectedItem());
-//		playerList.add(playerCombobox2.getSelectionModel().getSelectedItem());
-//		playerList.add(playerCombobox3.getSelectionModel().getSelectedItem());
-//		playerList.add(playerCombobox4.getSelectionModel().getSelectedItem());
-		
+
 		gamesCount = gameCountSpinner.getValue();
 		turnsCount = turnCountSpinner.getValue();
 		
